@@ -4,7 +4,7 @@
 #include "environ.h"
 #include "err.h"
 
-void	env_free(env_t *env)
+void	env_free(t_env *env)
 {
 	char	**ptr;
 
@@ -19,14 +19,13 @@ void	env_free(env_t *env)
 	free((void *)env);
 }
 
-env_t	*increase_env(env_t **env)
+void	increase_env(t_env *env)
 {
 	int		new_size;
-	env_t	*new;
+	char	**av;
 
-	new_size = (*env)->capacity;
-	new = malloc(sizeof(env_t));
-	new->av = malloc(sizeof(char **) * new_size);
-	new->capacity = new_size;
-	return (new);
+	new_size = env->capacity + ENV_BUFF_SIZE;
+	av = malloc(sizeof(char **) * new_size);
+
+	g_myenv->capacity = new_size;
 }

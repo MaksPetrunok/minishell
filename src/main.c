@@ -21,7 +21,11 @@ int	process_cmd_lst(char **cmd_lst)
 			set_var(*cmd_lst, p + 1);
 		}
 		else
-			ft_printf("%s\n", get_var(*cmd_lst));
+		{
+			char *s = get_var(*cmd_lst);
+			ft_printf("%s\n", s);
+			free(s);
+		}
 
 
 //		ft_printf("CMD: %s\n", *cmd_lst);
@@ -34,7 +38,11 @@ int	process_cmd_lst(char **cmd_lst)
 
 void	show_prompt(void)
 {
-	ft_putstr("maybash: ");
+	char	*usr;
+
+	usr = get_var("USER");
+	ft_printf("%s(%.*s): ", SHELL_NAME, (usr) ? 8 : 0, usr);
+	free((void *)usr);
 }
 
 void	sh_loop()
@@ -61,5 +69,6 @@ int		main(int ac, char **av, char **ev)
 	if (ev)
 		init_environment(ev);
 	sh_loop();
+	system("leaks minishell");
 	return (0);
 }

@@ -1,37 +1,37 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environ.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/23 18:19:35 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/11/23 19:04:40 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 #include "environ.h"
 #include "err.h"
 
-static env_t	*get_env_vector(env_t *vector)
-{
-	static env_t	*environ;
-
-	if (vector)
-	{
-		env_free(environ);
-		environ = vector;
-	}
-	return (environ);
-}
+t_env	*g_myenv = 0;
 
 void	init_environment(char **ev)
 {
-	env_t	*env;
 	char	**av;
 	int		size;
 
+	env_free(g_myenv);
 	size = ft_arrsize((void **)ev) + 1;
 	av = malloc(sizeof(char **) * size);
-	if (!av || (env = malloc(sizeof(env_t))) == 0)
+	if (!av || (g_myenv = malloc(sizeof(t_env))) == 0)
 	{
 		report_error(ERR_INITENV | ERR_MALLOC);
 		exit(1);
 	}
-	env->capacity = size;
-	env->av = av;
-	while (*ev)
+	g_myenv->capacity = size;
+	g_myenv->av = av;
+	while (size > 1 && *ev)
 	{
 		if ((*av = ft_strdup(*ev)) == 0)
 		{
@@ -42,7 +42,6 @@ void	init_environment(char **ev)
 		ev++;
 	}
 	*av = 0;
-	get_env_vector(env);
 }
 
 char	*get_var(const char *var_name)
@@ -51,7 +50,7 @@ char	*get_var(const char *var_name)
 	char	*value;
 	size_t	len;
 
-	ptr = get_env_vector(0)->av;
+	ptr = g_myenv->av;
 	value = 0;
 	len = ft_strlen(var_name);
 	while (*ptr)
@@ -72,14 +71,11 @@ int		set_var(const char *var_name, const char *var_value)
 	char	**ptr;
 	char	*value;
 	size_t	len;
-	env_t	*e;
 
-	e = get_env_vector(0);
-	ptr = e->av;
+	ptr = g_myenv->av;
 	value = 0;
 	len = ft_strlen(var_name);
 	while (*ptr)
-	{
 		if (ft_strncmp(var_name, *ptr, len) == 0)
 		{
 // MAKE IT SAFE
@@ -90,10 +86,9 @@ int		set_var(const char *var_name, const char *var_value)
 			*ptr = value;
 			return (1);
 		}
-		ptr++;
-	}
-	if (0 && ptr - get_env_vector(0)->av > get_env_vector(0)->capacity)
-		increase_env(&e);
-	
+		else
+			ptr++;
+	if (0 && ptr - g_myenv->av > g_myenv->capacity)
+		increase_env(g_myenv);
 	return (0);
 }

@@ -1,21 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environ.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/23 17:49:33 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/11/23 18:26:43 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-
-#ifndef ENV_H
-# define ENV_H
+#ifndef ENVIRON_H
+# define ENVIRON_H
 
 # define ENV_BUFF_SIZE	64
 
-typedef struct	env_s
+typedef struct	s_env
 {
 	char		**av;
 	int			capacity;
-}				env_t;
+}				t_env;
 
-void	init_environment(char **ev);
-env_t	*increase_env(env_t **env);
-void	env_free(env_t *env);
-char	*get_var(const char *name);
-int		set_var(const char *name, const char *value);
+extern t_env	*g_myenv;
+
+void			init_environment(char **ev);
+void			increase_env(t_env *env);
+void			env_free(t_env *env);
+char			*get_var(const char *name);
+int				set_var(const char *name, const char *value);
 
 #endif
