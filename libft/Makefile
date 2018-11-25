@@ -57,6 +57,7 @@ FUNC_LIST = memset \
 			toupper \
 			tolower \
 			memalloc \
+			realloc \
 			memdel \
 			strnew \
 			strdel \

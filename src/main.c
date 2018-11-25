@@ -1,5 +1,12 @@
 // header
 
+// BEFORE RELEASE:
+// Make output buffer in ft_printf from static to dynamic.
+// Instead of flushing buffer to fd when it's full - reallocate new buffer
+// and copy old buffer to new, continue filling increased buffer.
+// Output should be printed only one time.
+// Think about flushing the buffer when its size reaches some value, i.e. 10kB.
+
 #include "minishell.h"
 
 int	process_cmd_lst(char **cmd_lst)
@@ -14,11 +21,15 @@ int	process_cmd_lst(char **cmd_lst)
 		if (ft_strcmp("exit", *cmd_lst) == 0)
 			ret = 0;
 		// run current command
-		if (ft_strchr(*cmd_lst, '='))
+		else if (ft_strchr(*cmd_lst, '='))
 		{
 			char *p = ft_strchr(*cmd_lst, '=');
 			*p = '\0';
 			set_var(*cmd_lst, p + 1);
+		}
+		else if (**cmd_lst == '!')
+		{
+			unset_var(*cmd_lst + 1);
 		}
 		else
 		{
@@ -26,6 +37,7 @@ int	process_cmd_lst(char **cmd_lst)
 			ft_printf("%s\n", s);
 			free(s);
 		}
+		
 
 
 //		ft_printf("CMD: %s\n", *cmd_lst);
@@ -69,6 +81,5 @@ int		main(int ac, char **av, char **ev)
 	if (ev)
 		init_environment(ev);
 	sh_loop();
-	system("leaks minishell");
 	return (0);
 }

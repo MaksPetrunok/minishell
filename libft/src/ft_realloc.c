@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/31 17:22:28 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/05 18:22:49 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/06/05 19:53:39 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/06/27 17:08:23 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-// modify to use char *ptr instead index and avoid type cast at each cycle
+/*
+ * Frees initial *ptr, allocates size bytes and returns pointer to allocated
+ * memory. All data from *ptr copied to newly allocated memory.
+*/
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	size_t	i;
+	void	*tmp;
 
-	i = 0;
-	while (i < n)
+	if (new_size == 0)
 	{
-		*(char *)(dst + i) = *(char *)(src + i);
-		i++;
+		free(ptr);
+		return (0);
 	}
-	return (dst);
+	if (new_size <= old_size && ptr != 0)
+		return (ptr);
+	if ((tmp = malloc(new_size)) == 0)
+		return (0);
+	ft_memcpy(tmp, ptr, old_size);
+	free(ptr);
+	return (tmp);
 }

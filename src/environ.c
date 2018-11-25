@@ -55,7 +55,7 @@ char	*get_var(const char *var_name)
 	len = ft_strlen(var_name);
 	while (*ptr)
 	{
-		if (ft_strncmp(var_name, *ptr, len) == 0)
+		if (equals(var_name, *ptr))
 		{
 			if ((value = ft_strdup(*ptr + len + 1)) == 0)
 				report_error(ERR_MALLOC);
@@ -66,29 +66,53 @@ char	*get_var(const char *var_name)
 	return (value);
 }
 
+int		unset_var(const char *name)
+{
+	char	**ptr;
+
+	ptr = g_myenv->av;
+	while (*ptr)
+	{
+		if (equals(name, *ptr))
+		{
+			free((void *)(*ptr));
+			*ptr++ = 0;
+			break ;
+		}
+		ptr++;
+	}
+	while (*ptr)
+	{
+		*(ptr - 1) = *ptr;
+		*ptr++ = 0;
+	}
+	return (1);
+}
+
 int		set_var(const char *var_name, const char *var_value)
 {
 	char	**ptr;
-	char	*value;
-	size_t	len;
+	int		index;
 
 	ptr = g_myenv->av;
-	value = 0;
-	len = ft_strlen(var_name);
 	while (*ptr)
-		if (ft_strncmp(var_name, *ptr, len) == 0)
+		if (ft_strncmp(var_name, *ptr, ft_strlen(var_name)) == 0)
 		{
 // MAKE IT SAFE
-			if ((value = ft_strjoin3(var_name, "=", var_value)) == 0)
-				report_error(ERR_SETVAR | ERR_MALLOC);
-			else
-				free((void *)(*ptr));
-			*ptr = value;
+			*ptr = make_var_line(var_name, var_value, *ptr);
 			return (1);
 		}
 		else
 			ptr++;
-	if (0 && ptr - g_myenv->av > g_myenv->capacity)
-		increase_env(g_myenv);
-	return (0);
+	index = ptr - g_myenv->av;
+	if (index >= g_myenv->capacity - 1)
+		if (increase_env(g_myenv) == 0)
+		{
+			report_error(ERR_SETVAR | ERR_MALLOC);
+			return (0);
+		}
+	ptr = g_myenv->av;
+	ptr[index] = make_var_line(var_name, var_value, ptr[index]);
+	ptr[++index] = 0;
+	return (1);
 }
