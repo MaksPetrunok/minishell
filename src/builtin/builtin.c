@@ -1,8 +1,17 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/28 18:40:12 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/11/28 20:14:20 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin.h"
-
 
 static char	**get_builtin_list(char **list)
 {
@@ -20,7 +29,7 @@ static char	**get_builtin_list(char **list)
 	return (list);
 }
 
-static void	set_builtin_funcs(func_type *list)
+static void	set_builtin_funcs(t_func *list)
 {
 	short	i;
 
@@ -36,7 +45,7 @@ static void	set_builtin_funcs(func_type *list)
 
 static int	get_builtin_index(const char *s)
 {
-	int	i;
+	int		i;
 	char	*names[10];
 
 	get_builtin_list(names);
@@ -50,16 +59,16 @@ static int	get_builtin_index(const char *s)
 	return (-1);
 }
 
-func_type	get_builtin(const char *name)
+t_func	get_builtin(const char *name)
 {
-	int	index;
-	func_type	list[10];
+	int			index;
+	t_func	list[10];
 
 	if (name == 0)
 		return (0);
 	set_builtin_funcs(list);
 	index = get_builtin_index(name);
-ft_printf("<debug>requested cmd: %s, builtin index=%d\n", name, index); // DELETE
+ft_printf("<dbg>requested cmd: %s, builtin index=%d\n", name, index); // DELETE
 	if (index == -1)
 		return (0);
 	return (list[index]);

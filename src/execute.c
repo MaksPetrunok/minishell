@@ -1,4 +1,14 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/11/28 20:33:55 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 // BEFORE RELEASE:
 // Make output buffer in ft_printf from static to dynamic.
@@ -41,7 +51,6 @@ char	*get_exec_path(const char *name)
 	}
 	if ((path = get_var("PATH")) == 0) /////// here
 	{
-		report_error(ERR_MALLOC);
 		return (0);
 	}
 	dirs = tokenize(path, ":");
@@ -79,6 +88,7 @@ int	execute(char **av)
 	{
 //check for leaks in child process
 		cmd = get_exec_path(av[0]);
+		launch = 0;
 		if (cmd)
 			launch = execve(cmd, av, get_env());
 		else

@@ -1,4 +1,14 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/28 18:38:47 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/11/28 20:13:43 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 // BEFORE RELEASE:
 // Make output buffer in ft_printf from static to dynamic.
@@ -16,7 +26,7 @@ int	process_cmd_lst(char **cmd_lst)
 	char	**tmp;
 	char	**tokens;
 	int		ret;
-	func_type	bf;
+	t_func	bf;
 
 	ret = 1;
 	tmp = cmd_lst;

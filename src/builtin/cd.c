@@ -1,4 +1,14 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/28 18:40:21 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/11/28 18:45:33 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -24,7 +34,7 @@ static int	is_dir(char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-int	builtin_cd(char **av)
+int			builtin_cd(char **av)
 {
 	char	*path;
 	char	cwd[4100];
@@ -33,7 +43,7 @@ int	builtin_cd(char **av)
 	if (ft_arrsize((void **)av) > 2)
 		ft_putstr_fd("cd: too many arguments\n", 2);
 	else
-	{	
+	{
 		if ((path = get_path(av[1])) == 0)
 		{
 			report_error(ERR_MALLOC);
