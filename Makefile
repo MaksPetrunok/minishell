@@ -20,14 +20,29 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 INC_DIR = ./includes/
 LIB_DIR = ./libft/
+BUILTIN_DIR = builtin/
 LIB_INC_DIR = $(LIB_DIR)includes/
 LIB = $(LIB_DIR)libft.a
 
-SRC_LIST = main.c \
-		   input.c \
-		   environ.c \
-		   environ_util.c \
-		   err.c
+MAIN_FILES = main.c \
+			execute.c \
+			signal.c \
+			input.c \
+			environ.c \
+			environ_util.c \
+			err.c
+
+BUILTIN = builtin.c \
+			exit.c \
+			pwd.c \
+			cd.c \
+			env.c \
+			setenv.c \
+			unsetenv.c \
+			echo.c
+
+SRC_LIST = $(MAIN_FILES) \
+			$(addprefix $(BUILTIN_DIR), $(BUILTIN))
 
 OBJ_LIST = $(addprefix $(OBJ_DIR), $(SRC_LIST:.c=.o))
 
@@ -42,6 +57,7 @@ $(LIB):
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
 	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
 
 clean:

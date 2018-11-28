@@ -3,6 +3,34 @@
 
 #include "minishell.h"
 
+char	**tokenize(char *s, char *delim)
+{
+	char	**tokens = malloc(sizeof(char **) * 10);
+	int		i;
+	int		state;
+
+	i = 0;
+	state = 0;
+	while (*s)
+	{
+		if (ft_strchr(delim, *s) == 0)
+		{
+			if (!state)
+				tokens[i++] = s;
+			state = 1;
+		}
+		else
+		{
+			if (state)
+				*s = '\0';
+			state = 0;
+		}
+		s++;
+	}
+	tokens[i] = 0;
+	return (tokens);
+}
+
 char	**get_input(void)
 {
 	char	*inp;

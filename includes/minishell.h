@@ -16,11 +16,25 @@
 # include "libft.h"
 # include "environ.h"
 # include "err.h"
+# include "builtin.h"
 
-# define SHELL_NAME	"smashmaybash"
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <signal.h>
+
+# define SHELL_NAME	"SmashMyBashUp"
 # define CMD_DELIM	';'
 
+extern pid_t	g_child;
+
+void	show_prompt(void);
 char	**get_input(void);
+char	**tokenize(char *s, char *delim);
+
 void	free_cmdlst(char **lst);
+
+int		execute(char **av);
+void	sh_sig_handler(int sig);
 
 #endif

@@ -44,6 +44,11 @@ void	init_environment(char **ev)
 	*av = 0;
 }
 
+char	**get_env(void)
+{
+	return (g_myenv->av);
+}
+
 char	*get_var(const char *var_name)
 {
 	char	**ptr;
@@ -70,6 +75,8 @@ int		unset_var(const char *name)
 {
 	char	**ptr;
 
+	if (!name)
+		return (-1);
 	ptr = g_myenv->av;
 	while (*ptr)
 	{
@@ -94,9 +101,10 @@ int		set_var(const char *var_name, const char *var_value)
 	char	**ptr;
 	int		index;
 
+	var_value = (var_value == 0) ? "" : var_value;
 	ptr = g_myenv->av;
 	while (*ptr)
-		if (ft_strncmp(var_name, *ptr, ft_strlen(var_name)) == 0)
+		if (equals(var_name, *ptr))
 		{
 // MAKE IT SAFE
 			*ptr = make_var_line(var_name, var_value, *ptr);

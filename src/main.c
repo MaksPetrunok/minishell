@@ -9,39 +9,30 @@
 
 #include "minishell.h"
 
+pid_t	g_child = 0;
+
 int	process_cmd_lst(char **cmd_lst)
 {
 	char	**tmp;
+	char	**tokens;
 	int		ret;
+	func_type	bf;
 
 	ret = 1;
 	tmp = cmd_lst;
 	while (*cmd_lst && ret)
 	{
-		if (ft_strcmp("exit", *cmd_lst) == 0)
-			ret = 0;
-		// run current command
-		else if (ft_strchr(*cmd_lst, '='))
+		tokens = tokenize(*cmd_lst, " \t");
+//		if (*tokens == 0)
+//			continue ;
+		if (*tokens)
 		{
-			char *p = ft_strchr(*cmd_lst, '=');
-			*p = '\0';
-			set_var(*cmd_lst, p + 1);
+			if ((bf = get_builtin(*tokens)) != 0)
+				ret = bf(tokens);
+			else
+				ret = execute(tokens);
 		}
-		else if (**cmd_lst == '!')
-		{
-			unset_var(*cmd_lst + 1);
-		}
-		else
-		{
-			char *s = get_var(*cmd_lst);
-			ft_printf("%s\n", s);
-			free(s);
-		}
-		
-
-
-//		ft_printf("CMD: %s\n", *cmd_lst);
-		// wait till command is completed
+		free((void *)tokens);
 		cmd_lst++;
 	}
 	free_cmdlst(tmp);
@@ -50,11 +41,26 @@ int	process_cmd_lst(char **cmd_lst)
 
 void	show_prompt(void)
 {
-	char	*usr;
+	char	*tmp;
+	char	cwd[5000];
+	char	*is_wd;
 
-	usr = get_var("USER");
-	ft_printf("%s(%.*s): ", SHELL_NAME, (usr) ? 8 : 0, usr);
-	free((void *)usr);
+	cwd[0] = '\0';
+	is_wd = getcwd(cwd, 5000);
+	if ((tmp = get_var("HOME")) == 0)
+	{
+		if (!is_wd)
+			ft_printf("%s: ", SHELL_NAME);
+		else
+			ft_printf("%s:%s$", SHELL_NAME, cwd);
+		free((void *)tmp);
+		return ;
+	}
+	if (ft_strstr(cwd, tmp) == cwd)
+		ft_printf("\x1b[1m%s:\x1b[94m~%s\x1b[0m$ ", SHELL_NAME, cwd + ft_strlen(tmp));
+	else
+		ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ", SHELL_NAME, cwd);
+	free((void *)tmp);
 }
 
 void	sh_loop()
@@ -78,6 +84,7 @@ int		main(int ac, char **av, char **ev)
 	if (av)
 		av = 0;
 
+	signal(SIGINT, sh_sig_handler);
 	if (ev)
 		init_environment(ev);
 	sh_loop();

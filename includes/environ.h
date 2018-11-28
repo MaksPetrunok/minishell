@@ -24,12 +24,13 @@ typedef struct	s_env
 extern t_env	*g_myenv;
 
 void			init_environment(char **ev);
-int				increase_env(t_env *env);
-void			env_free(t_env *env);
+char			**get_env(void);
 char			*get_var(const char *name);
 int				set_var(const char *name, const char *value);
 int				unset_var(const char *name);
 
+int				increase_env(t_env *env);
+void			env_free(t_env *env);
 int				equals(const char *name, const char *entry);
 char			*make_var_line(const char *name, const char *value, char *old);
 

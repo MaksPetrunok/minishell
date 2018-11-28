@@ -26,9 +26,9 @@ char	*get_aux_err(int code)
 void	report_error(int code)
 {
 	if (IS_ALL_ERR(code))
-		ft_printf("%s %s\n", get_main_err(code), get_aux_err(code));
+		ft_dprintf(2, "%s %s\n", get_main_err(code), get_aux_err(code));
 	else if (IS_MAIN_ERR_ONLY(code))
-		ft_printf("%s\n", get_main_err(code));
+		ft_dprintf(2, "%s\n", get_main_err(code));
 	else
-		ft_printf("%s\n", get_aux_err(code));
+		ft_dprintf(2, "%s\n", get_aux_err(code));
 }

@@ -66,8 +66,10 @@ char	*make_var_line(const char *name, const char *value, char *old)
 	char *tmp;
 
 	if ((tmp = ft_strjoin3(name, "=", value)) == 0)
+	{
 		report_error(ERR_SETVAR | ERR_MALLOC);
-	else
-		free((void *)(old));
+		return (old);
+	}
+	free((void *)(old));
 	return (tmp);
 }
