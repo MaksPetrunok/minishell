@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/23 18:35:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/11/30 21:38:10 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "environ.h"
 # include "err.h"
 # include "builtin.h"
+# include "lexer.h"
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -30,7 +31,9 @@ extern pid_t	g_child;
 
 void	show_prompt(void);
 char	**get_input(void);
-char	**tokenize(char *s, char *delim);
+char	**tokenize_split(char *s, char *delim);
+t_token	*tokenize(char *s, int len);
+t_list	*parse(t_token *lst);
 
 void	free_cmdlst(char **lst);
 

@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/11/09 15:43:40 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/11/30 21:38:30 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ MAIN_FILES = main.c \
 			input.c \
 			environ.c \
 			environ_util.c \
+			lexer.c \
+			parser.c \
 			err.c
 
 BUILTIN = builtin.c \

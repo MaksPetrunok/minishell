@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/28 20:33:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/11/30 21:45:55 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_exec_path(const char *name)
 	{
 		return (0);
 	}
-	dirs = tokenize(path, ":");
+	dirs = tokenize_split(path, ":");
 	while (*dirs)
 	{
 		ret = ft_strjoin3(*dirs, "/", name);

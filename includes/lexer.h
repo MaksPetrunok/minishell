@@ -6,15 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/28 23:13:53 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/11/30 20:38:38 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-//# include <unistd.h> //remove if libft usded
-//# include <stdlib.h>
 # include "libft.h"
 # include "err.h"
 
@@ -23,7 +21,7 @@
 enum	e_state
 {
 	S_GENERAL,
-	S_HOME,
+	S_EXPR,
 	S_ESCAPE,
 	S_QUOTE,
 	S_DQUOTE,
@@ -34,8 +32,8 @@ enum	e_state
 enum	e_signal
 {
 	CH_GENERAL,
+	CH_VARNAME,
 	CH_EXPR,
-	CH_HOME,
 	CH_ESCAPE,
 	CH_QUOTE,
 	CH_DQUOTE,
@@ -47,57 +45,61 @@ enum	e_signal
 
 typedef struct s_token	t_token;
 
-struct		s_token
+struct				s_token
 {
-	char	*data;
-	int		pos;
-	char	type;
-	t_token	*next;
+	char			*data;
+	int				pos;
+	int				complete;
+	char			type;
+	t_token			*next;
 };
 
-typedef	int		(*t_lex_func)(t_token **tkn, char **str);
+typedef	int			(*t_lex_func)(t_token **tkn, char **str);
 
-typedef struct	s_state_trans
+typedef struct		s_state_trans
 {
 	enum e_state	state;
 	t_lex_func		func;
-}				t_state_trans;
-
-/* Transition functions: */
-int		new_tkn(t_token **tkn, char **s);
-int		new_emp_tkn(t_token **tkn, char **s);
-int		append_tkn(t_token **tkn, char **s);
-int		add_space(t_token **tkn, char **s);
-int		unexpected_tkn(t_token **tkn, char **s);
-int		getexp(t_token **tkn, char **s);
+}					t_state_trans;
 
 /*
- * Finite State Machine's state transition table definition.
- */
+** Transition functions:
+*/
 
-t_state_trans	g_fsm_table[7][8] =
-{
+int					new_emp_tkn(t_token **tkn, char **s);
+int					new_exp_tkn(t_token **tkn, char **s);
+int					append_tkn(t_token **tkn, char **s);
+int					add_space(t_token **tkn, char **s);
+int					unexpected_tkn(t_token **tkn, char **s);
+int					getexp(t_token **tkn, char **s);
+
+/*
+** Finite State Machine's state transition table definition.
+*/
+	
+extern t_state_trans	g_fsm_table[7][8];
+/*{
 	[S_GENERAL][CH_GENERAL] = {S_GENERAL, &append_tkn},
-	[S_GENERAL][CH_EXPR] = {S_GENERAL, &getexp}, //&getexpr
-	[S_GENERAL][CH_HOME] = {S_HOME, &new_emp_tkn},
+	[S_GENERAL][CH_VARNAME] = {S_GENERAL, &append_tkn},
+	[S_GENERAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
 	[S_GENERAL][CH_ESCAPE] = {S_ESCAPE, 0},
 	[S_GENERAL][CH_QUOTE] = {S_QUOTE, 0},
 	[S_GENERAL][CH_DQUOTE] = {S_DQUOTE, 0},
 	[S_GENERAL][CH_SPACE] = {S_SPACE, &add_space},
 	[S_GENERAL][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
 
-	[S_HOME][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
-	[S_HOME][CH_EXPR] = {S_GENERAL, &getexp}, //&getexpr
-	[S_HOME][CH_HOME] = {S_HOME, 0},
-	[S_HOME][CH_ESCAPE] = {S_GENERAL, &new_emp_tkn},
-	[S_HOME][CH_QUOTE] = {S_GENERAL, &new_emp_tkn},
-	[S_HOME][CH_DQUOTE] = {S_GENERAL, &new_emp_tkn},
-	[S_HOME][CH_SPACE] = {S_SPACE, &add_space},
-	[S_HOME][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
+	[S_EXPR][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
+	[S_EXPR][CH_VARNAME] = {S_EXPR, &append_tkn},
+	[S_EXPR][CH_EXPR] = {S_EXPR, &append_tkn},
+	[S_EXPR][CH_ESCAPE] = {S_GENERAL, &new_emp_tkn},
+	[S_EXPR][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
+	[S_EXPR][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
+	[S_EXPR][CH_SPACE] = {S_SPACE, &add_space},
+	[S_EXPR][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
 
 	[S_ESCAPE][CH_GENERAL] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_VARNAME] = {S_GENERAL, &append_tkn},
 	[S_ESCAPE][CH_EXPR] = {S_GENERAL, &append_tkn},
-	[S_ESCAPE][CH_HOME] = {S_HOME, &new_emp_tkn},
 	[S_ESCAPE][CH_ESCAPE] = {S_GENERAL, &append_tkn},
 	[S_ESCAPE][CH_QUOTE] = {S_GENERAL, &append_tkn},
 	[S_ESCAPE][CH_DQUOTE] = {S_GENERAL, &append_tkn},
@@ -105,8 +107,8 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_ESCAPE][CH_SEMICOLON] = {S_GENERAL, &append_tkn},
 
 	[S_QUOTE][CH_GENERAL] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_VARNAME] = {S_QUOTE, &append_tkn},
 	[S_QUOTE][CH_EXPR] = {S_QUOTE, &append_tkn},
-	[S_QUOTE][CH_HOME] = {S_QUOTE, &append_tkn},
 	[S_QUOTE][CH_ESCAPE] = {S_QUOTE, &append_tkn},
 	[S_QUOTE][CH_QUOTE] = {S_GENERAL, 0},
 	[S_QUOTE][CH_DQUOTE] = {S_QUOTE, &append_tkn},
@@ -114,17 +116,17 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_QUOTE][CH_SEMICOLON] = {S_QUOTE, &append_tkn},
 
 	[S_DQUOTE][CH_GENERAL] = {S_DQUOTE, &append_tkn},
-	[S_DQUOTE][CH_EXPR] = {S_DQUOTE, &getexp}, // getexpr
-	[S_DQUOTE][CH_HOME] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_VARNAME] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_EXPR] = {S_DQUOTE, &append_tkn},
 	[S_DQUOTE][CH_ESCAPE] = {S_ESCAPE, 0},
 	[S_DQUOTE][CH_QUOTE] = {S_DQUOTE, &append_tkn},
 	[S_DQUOTE][CH_DQUOTE] = {S_GENERAL, 0},
 	[S_DQUOTE][CH_SPACE] = {S_DQUOTE, &append_tkn},
 	[S_DQUOTE][CH_SEMICOLON] = {S_DQUOTE, &append_tkn},
-	
+
 	[S_SPACE][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
-	[S_SPACE][CH_EXPR] = {S_GENERAL, &getexp}, //getexpr
-	[S_SPACE][CH_HOME] = {S_HOME, &new_emp_tkn},
+	[S_SPACE][CH_VARNAME] = {S_GENERAL, &new_emp_tkn},
+	[S_SPACE][CH_EXPR] = {S_EXPR, &new_exp_tkn},
 	[S_SPACE][CH_ESCAPE] = {S_ESCAPE, &new_emp_tkn},
 	[S_SPACE][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_SPACE][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
@@ -132,13 +134,13 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_SPACE][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
 
 	[S_SPECIAL][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
-	[S_SPECIAL][CH_EXPR] = {S_GENERAL, &getexp}, //getexpr
-	[S_SPECIAL][CH_HOME] = {S_HOME, &new_emp_tkn},
+	[S_SPECIAL][CH_VARNAME] = {S_GENERAL, &new_emp_tkn},
+	[S_SPECIAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
 	[S_SPECIAL][CH_ESCAPE] = {S_ESCAPE, &new_emp_tkn},
 	[S_SPECIAL][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_SPECIAL][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
 	[S_SPECIAL][CH_SPACE] = {S_SPECIAL, 0},
 	[S_SPECIAL][CH_SEMICOLON] = {S_SPECIAL, &unexpected_tkn}
 };
-
+*/
 #endif

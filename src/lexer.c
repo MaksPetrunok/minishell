@@ -6,13 +6,79 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/28 23:16:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/11/30 23:19:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-enum e_signal   get_signal(char c)
+t_state_trans	g_fsm_table[7][8] =
+{
+	[S_GENERAL][CH_GENERAL] = {S_GENERAL, &append_tkn},
+	[S_GENERAL][CH_VARNAME] = {S_GENERAL, &append_tkn},
+	[S_GENERAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
+	[S_GENERAL][CH_ESCAPE] = {S_ESCAPE, 0},
+	[S_GENERAL][CH_QUOTE] = {S_QUOTE, 0},
+	[S_GENERAL][CH_DQUOTE] = {S_DQUOTE, 0},
+	[S_GENERAL][CH_SPACE] = {S_SPACE, &add_space},
+	[S_GENERAL][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
+
+	[S_EXPR][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
+	[S_EXPR][CH_VARNAME] = {S_EXPR, &append_tkn},
+	[S_EXPR][CH_EXPR] = {S_EXPR, &append_tkn},
+	[S_EXPR][CH_ESCAPE] = {S_ESCAPE, 0},
+	[S_EXPR][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
+	[S_EXPR][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
+	[S_EXPR][CH_SPACE] = {S_SPACE, &add_space},
+	[S_EXPR][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
+
+	[S_ESCAPE][CH_GENERAL] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_VARNAME] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_EXPR] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_ESCAPE] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_QUOTE] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_DQUOTE] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_SPACE] = {S_GENERAL, &append_tkn},
+	[S_ESCAPE][CH_SEMICOLON] = {S_GENERAL, &append_tkn},
+
+	[S_QUOTE][CH_GENERAL] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_VARNAME] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_EXPR] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_ESCAPE] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_QUOTE] = {S_GENERAL, 0},
+	[S_QUOTE][CH_DQUOTE] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_SPACE] = {S_QUOTE, &append_tkn},
+	[S_QUOTE][CH_SEMICOLON] = {S_QUOTE, &append_tkn},
+
+	[S_DQUOTE][CH_GENERAL] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_VARNAME] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_EXPR] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_ESCAPE] = {S_ESCAPE, 0},
+	[S_DQUOTE][CH_QUOTE] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_DQUOTE] = {S_GENERAL, 0},
+	[S_DQUOTE][CH_SPACE] = {S_DQUOTE, &append_tkn},
+	[S_DQUOTE][CH_SEMICOLON] = {S_DQUOTE, &append_tkn},
+
+	[S_SPACE][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
+	[S_SPACE][CH_VARNAME] = {S_GENERAL, &new_emp_tkn},
+	[S_SPACE][CH_EXPR] = {S_EXPR, &new_exp_tkn},
+	[S_SPACE][CH_ESCAPE] = {S_ESCAPE, &new_emp_tkn},
+	[S_SPACE][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
+	[S_SPACE][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
+	[S_SPACE][CH_SPACE] = {S_SPACE, 0},
+	[S_SPACE][CH_SEMICOLON] = {S_SPECIAL, &new_emp_tkn},
+
+	[S_SPECIAL][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
+	[S_SPECIAL][CH_VARNAME] = {S_GENERAL, &new_emp_tkn},
+	[S_SPECIAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
+	[S_SPECIAL][CH_ESCAPE] = {S_ESCAPE, &new_emp_tkn},
+	[S_SPECIAL][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
+	[S_SPECIAL][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
+	[S_SPECIAL][CH_SPACE] = {S_SPECIAL, 0},
+	[S_SPECIAL][CH_SEMICOLON] = {S_SPECIAL, &unexpected_tkn}
+};
+
+enum e_signal	get_signal(char c)
 {
 	if (c == '\\')
 		return (CH_ESCAPE);
@@ -20,14 +86,14 @@ enum e_signal   get_signal(char c)
 		return (CH_QUOTE);
 	else if (c == '\"')
 		return (CH_DQUOTE);
-	else if (c == '$')
+	else if (c == '$' || c == '~')
 		return (CH_EXPR);
-	else if (c == '~')
-		return (CH_HOME);
 	else if (c == ' ' || c == '\t')
 		return (CH_SPACE);
 	else if (c == ';')
 		return (CH_SEMICOLON);
+	else if (c == '_' || ft_isalnum(c))
+		return (CH_VARNAME);
 	else if (c != '\0')
 		return (CH_GENERAL);
 	else
@@ -49,39 +115,10 @@ t_token			*init_token(int size)
 	*str = '\0';
 	tkn->data = str;
 	tkn->pos = 0;
+	tkn->complete = 0;
 	tkn->type = -1;
 	tkn->next = 0;
 	return (tkn);
-}
-/*
-int		new_tkn(t_token **tkn, char **s)
-{
-	t_token	*new;
-
-	if ((new = init_token(
-		(get_signal(**s) != CH_SEMICOLON) ? ft_strlen(*s) : 2)) == 0)
-		return (-1);
-	if (get_signal(**s) == CH_ESCAPE)
-		new->data[new->pos] = '\0';
-	else
-	{
-		new->data[new->pos++] = **s;
-		new->data[new->pos] = '\0';
-		new->type = get_signal(**s);
-	}
-	if (*tkn == 0)
-		*tkn = new;
-	else
-	{
-		(*tkn)->next = new;
-		*tkn = new;
-	}
-	return (0);
-}
-*/
-int		new_tkn(t_token **tkn, char **s)
-{
-	return (new_emp_tkn(tkn, s));
 }
 
 int		append_tkn(t_token **tkn, char **s)
@@ -91,6 +128,11 @@ int		append_tkn(t_token **tkn, char **s)
 	return (0);
 }
 
+int		new_exp_tkn(t_token **tkn, char **s)
+{
+	return (new_emp_tkn(tkn, s));
+}
+
 int		new_emp_tkn(t_token **tkn, char **s)
 {
 	t_token			*new;
@@ -98,13 +140,13 @@ int		new_emp_tkn(t_token **tkn, char **s)
 
 	sig = get_signal(**s);
 	if (**s && (new = init_token(
-		(sig == CH_SEMICOLON || sig == CH_HOME) ? 2 : ft_strlen(*s))) == 0)
+		(sig == CH_SEMICOLON) ? 2 : ft_strlen(*s))) == 0)
 		return (-1);
-	if (sig == CH_EXPR || sig == CH_HOME)
+	if (sig == CH_EXPR || sig == CH_SEMICOLON)
 		new->type = sig;
 	else
 		new->type = CH_GENERAL;
-	if (sig == CH_GENERAL)
+	if (sig == CH_GENERAL || sig == CH_VARNAME || sig == CH_EXPR)
 		append_tkn(&new, s);
 	else
 		new->data[new->pos] = '\0';
@@ -118,67 +160,19 @@ int		new_emp_tkn(t_token **tkn, char **s)
 	return (0);
 }
 
-static int	is_name(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
-
-int		getexp(t_token **tkn, char **s)
-{
-	t_token	*new;
-	int		isname;
-
-	if (*(++(*s)) == '\0')
-		return (0);
-	if ((new = init_token(ft_strlen(*s))) == 0)
-		return (-1);
-	new->type = CH_EXPR;
-	isname = is_name(**s);
-	if (!isname && **s != '{')
-	{
-//		tkn_free(new);
-		return (0);
-	}
-	while (**s)
-	{
-		if (isname ? !is_name(**s) : **s == '}')
-		{
-			*s = (**s == ' ' || **s == '\t') ? *s -1 : *s;
-			if (*tkn == 0)
-				*tkn = new;
-			else
-			{
-				(*tkn)->next = new;
-				*tkn = new;
-			}
-
-			return (0);
-		}
-		new->data[new->pos++] = *(*s)++;
-		new->data[new->pos] = '\0';
-	}
-	*s = (**s == 0) ? *s - 1 : *s; 
-	if (*tkn == 0)
-		*tkn = new;
-	else
-	{
-		(*tkn)->next = new;
-		*tkn = new;
-	}
-	return (0);
-}
-
-int		add_space(t_token **tkn, char **s)
+int		add_space(t_token **tkn, char __attribute__((unused)) **s)
 {
 //	if ((*tkn)->type == -1)
 //		(*tkn)->type = get_signal(**s);
-	(*tkn)->data[(*tkn)->pos++] = '\n';
-	(*tkn)->data[(*tkn)->pos] = '\0';
+	(*tkn)->complete = 1;
+//	(*tkn)->data[(*tkn)->pos++] = '\n';
+//	(*tkn)->data[(*tkn)->pos] = '\0';
 	return (0);
 }
 
 #define SHELL_NAME "SHELL"
-int		unexpected_tkn(t_token **tkn, char **s)
+
+int		unexpected_tkn(t_token __attribute__((unused)) **tkn, char **s)
 {
 	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n", SHELL_NAME, **s);
 	return (-2);
@@ -186,41 +180,45 @@ int		unexpected_tkn(t_token **tkn, char **s)
 
 t_token			*tokenize(char *input, long len)
 {
+// ATTENTION!!! NEED TO USE PREVIOUS STATE!! to track previous condition
+// when returning from S_ESCAPE or S_EXPR
 	t_token			*head;
 	t_token			*token;
-	enum e_state	st; // make this var an array if multiple states required
+	enum e_state	st[2]; // make this var an array if multiple states required
 	enum e_signal	sig;
 	t_lex_func		do_action;
-   
+
 	if (!input || !len)
 		return (0);
 	token = 0;
 	head = 0;
-	st = S_SPECIAL;
+	st[0] = S_SPECIAL;
 	while (*input)
 	{
 		sig = get_signal(*input);
-		if ((do_action = g_fsm_table[st][sig].func) != 0)
+		if ((do_action = g_fsm_table[st[0]][sig].func) != 0)
 			if (do_action(&token, &input) < 0)
 			{
 				ft_putstr("FAILED TO ALLOCATE TOKEN LIST!!!\n");
 				return (0);
 			}
-		st = g_fsm_table[st][sig].state;
+		st[1] = st[0];
+		st[0] = g_fsm_table[st[0]][sig].state;
 		head = (head == 0 && token != 0) ? token : head;
 		input++;
 	}
-	if (st == S_QUOTE || st == S_DQUOTE)
+	if (st[0] == S_QUOTE || st[0] == S_DQUOTE)
 		ft_printf("Quotes does not match!\n");
 	return (head);
 }
 
+/*
 char *type(enum e_signal sig) // for tests
 {
 	char *type[8] = {
 		"GEN ",
+		"VARN",
 		"EXPR",
-		"HOME",
 		"ESC ",
 		"QUO ",
 		"DQUO",
@@ -248,3 +246,4 @@ ft_printf("lst: %p\n\n", lst);
 	}
 	return (0);
 }
+*/

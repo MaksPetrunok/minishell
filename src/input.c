@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:42 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/28 18:39:47 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/11/30 18:02:15 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**tokenize(char *s, char *delim)
+char	**tokenize_split(char *s, char *delim)
 {
 	char	**tokens = malloc(sizeof(char **) * 10);
 	int		i;
