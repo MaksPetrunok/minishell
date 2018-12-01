@@ -17,7 +17,7 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_GENERAL][CH_GENERAL] = {S_GENERAL, &append_tkn},
 	[S_GENERAL][CH_VARNAME] = {S_GENERAL, &append_tkn},
 	[S_GENERAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
-	[S_GENERAL][CH_ESCAPE] = {S_ESCAPE, 0},
+	[S_GENERAL][CH_ESCAPE] = {S_GENERAL, &escape},
 	[S_GENERAL][CH_QUOTE] = {S_QUOTE, 0},
 	[S_GENERAL][CH_DQUOTE] = {S_DQUOTE, 0},
 	[S_GENERAL][CH_SPACE] = {S_SPACE, &add_space},
@@ -26,7 +26,7 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_EXPR][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
 	[S_EXPR][CH_VARNAME] = {S_EXPR, &append_tkn},
 	[S_EXPR][CH_EXPR] = {S_EXPR, &append_tkn},
-	[S_EXPR][CH_ESCAPE] = {S_ESCAPE, 0},
+	[S_EXPR][CH_ESCAPE] = {S_ESCAPE, 0}, // make S_ESCAPE unused
 	[S_EXPR][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_EXPR][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
 	[S_EXPR][CH_SPACE] = {S_SPACE, &add_space},
@@ -53,7 +53,7 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_DQUOTE][CH_GENERAL] = {S_DQUOTE, &append_tkn},
 	[S_DQUOTE][CH_VARNAME] = {S_DQUOTE, &append_tkn},
 	[S_DQUOTE][CH_EXPR] = {S_DQUOTE, &append_tkn},
-	[S_DQUOTE][CH_ESCAPE] = {S_ESCAPE, 0},
+	[S_DQUOTE][CH_ESCAPE] = {S_DQUOTE, &escape},
 	[S_DQUOTE][CH_QUOTE] = {S_DQUOTE, &append_tkn},
 	[S_DQUOTE][CH_DQUOTE] = {S_GENERAL, 0},
 	[S_DQUOTE][CH_SPACE] = {S_DQUOTE, &append_tkn},
@@ -160,13 +160,15 @@ int		new_emp_tkn(t_token **tkn, char **s)
 	return (0);
 }
 
+int		escape(t_token **tkn, char **s)
+{
+	(*s)++;
+	return (append_tkn(tkn, s));
+}
+
 int		add_space(t_token **tkn, char __attribute__((unused)) **s)
 {
-//	if ((*tkn)->type == -1)
-//		(*tkn)->type = get_signal(**s);
 	(*tkn)->complete = 1;
-//	(*tkn)->data[(*tkn)->pos++] = '\n';
-//	(*tkn)->data[(*tkn)->pos] = '\0';
 	return (0);
 }
 
@@ -180,11 +182,9 @@ int		unexpected_tkn(t_token __attribute__((unused)) **tkn, char **s)
 
 t_token			*tokenize(char *input, long len)
 {
-// ATTENTION!!! NEED TO USE PREVIOUS STATE!! to track previous condition
-// when returning from S_ESCAPE or S_EXPR
 	t_token			*head;
 	t_token			*token;
-	enum e_state	st[2]; // make this var an array if multiple states required
+	enum e_state	st; // make this var an array if multiple states required
 	enum e_signal	sig;
 	t_lex_func		do_action;
 
@@ -192,23 +192,22 @@ t_token			*tokenize(char *input, long len)
 		return (0);
 	token = 0;
 	head = 0;
-	st[0] = S_SPECIAL;
+	st = S_SPECIAL;
 	while (*input)
 	{
 		sig = get_signal(*input);
-		if ((do_action = g_fsm_table[st[0]][sig].func) != 0)
+		if ((do_action = g_fsm_table[st][sig].func) != 0)
 			if (do_action(&token, &input) < 0)
 			{
 				ft_putstr("FAILED TO ALLOCATE TOKEN LIST!!!\n");
 				return (0);
 			}
-		st[1] = st[0];
-		st[0] = g_fsm_table[st[0]][sig].state;
+		st = g_fsm_table[st][sig].state;
 		head = (head == 0 && token != 0) ? token : head;
 		input++;
 	}
-	if (st[0] == S_QUOTE || st[0] == S_DQUOTE)
-		ft_printf("Quotes does not match!\n");
+	if (st == S_QUOTE || st == S_DQUOTE)
+		ft_dprintf(2, "Quotes does not match!\n");
 	return (head);
 }
 

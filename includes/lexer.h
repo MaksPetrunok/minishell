@@ -72,6 +72,7 @@ int					append_tkn(t_token **tkn, char **s);
 int					add_space(t_token **tkn, char **s);
 int					unexpected_tkn(t_token **tkn, char **s);
 int					getexp(t_token **tkn, char **s);
+int					escape(t_token **tkn, char **s);
 
 /*
 ** Finite State Machine's state transition table definition.
