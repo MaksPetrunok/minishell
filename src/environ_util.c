@@ -14,27 +14,6 @@
 #include "environ.h"
 #include "err.h"
 
-static void	arr_free(void **arr)
-{
-	void	**ptr;
-
-	if (arr == 0)
-		return ;
-	ptr = arr;
-	while (*ptr)
-		free((void *)(*ptr));
-	free((void *)arr);
-}
-
-void	env_free(t_env *env)
-{
-	if (!env)
-		return ;
-
-	arr_free((void *)env->av);
-	free((void *)env);
-}
-
 /*
  * Increases size of environment buffer.
  * Returns 1 on success or 0 on failure.

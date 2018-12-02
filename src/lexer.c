@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
 t_state_trans	g_fsm_table[7][8] =
 {
 	[S_GENERAL][CH_GENERAL] = {S_GENERAL, &append_tkn},
 	[S_GENERAL][CH_VARNAME] = {S_GENERAL, &append_tkn},
-	[S_GENERAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
+	[S_GENERAL][CH_EXPR] = {S_EXPR, &new_emp_tkn},
 	[S_GENERAL][CH_ESCAPE] = {S_GENERAL, &escape},
 	[S_GENERAL][CH_QUOTE] = {S_QUOTE, 0},
 	[S_GENERAL][CH_DQUOTE] = {S_DQUOTE, 0},
@@ -26,7 +26,7 @@ t_state_trans	g_fsm_table[7][8] =
 	[S_EXPR][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
 	[S_EXPR][CH_VARNAME] = {S_EXPR, &append_tkn},
 	[S_EXPR][CH_EXPR] = {S_EXPR, &append_tkn},
-	[S_EXPR][CH_ESCAPE] = {S_ESCAPE, 0}, // make S_ESCAPE unused
+	[S_EXPR][CH_ESCAPE] = {S_ESCAPE, 0},
 	[S_EXPR][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_EXPR][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
 	[S_EXPR][CH_SPACE] = {S_SPACE, &add_space},
@@ -61,7 +61,7 @@ t_state_trans	g_fsm_table[7][8] =
 
 	[S_SPACE][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
 	[S_SPACE][CH_VARNAME] = {S_GENERAL, &new_emp_tkn},
-	[S_SPACE][CH_EXPR] = {S_EXPR, &new_exp_tkn},
+	[S_SPACE][CH_EXPR] = {S_EXPR, &new_emp_tkn},
 	[S_SPACE][CH_ESCAPE] = {S_ESCAPE, &new_emp_tkn},
 	[S_SPACE][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_SPACE][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
@@ -70,7 +70,7 @@ t_state_trans	g_fsm_table[7][8] =
 
 	[S_SPECIAL][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
 	[S_SPECIAL][CH_VARNAME] = {S_GENERAL, &new_emp_tkn},
-	[S_SPECIAL][CH_EXPR] = {S_EXPR, &new_exp_tkn},
+	[S_SPECIAL][CH_EXPR] = {S_EXPR, &new_emp_tkn},
 	[S_SPECIAL][CH_ESCAPE] = {S_ESCAPE, &new_emp_tkn},
 	[S_SPECIAL][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_SPECIAL][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},
@@ -109,7 +109,7 @@ t_token			*init_token(int size)
 	str = malloc(size + 1);
 	if (!tkn || !str)
 	{
-//		report_error(ERR_MALLOC); //uncomment for using with minishell
+		report_error(ERR_MALLOC);
 		return (0);
 	}
 	*str = '\0';
@@ -121,128 +121,49 @@ t_token			*init_token(int size)
 	return (tkn);
 }
 
-int		append_tkn(t_token **tkn, char **s)
-{
-	(*tkn)->data[(*tkn)->pos++] = **s;
-	(*tkn)->data[(*tkn)->pos] = '\0';
-	return (0);
-}
-
-int		new_exp_tkn(t_token **tkn, char **s)
-{
-	return (new_emp_tkn(tkn, s));
-}
-
-int		new_emp_tkn(t_token **tkn, char **s)
-{
-	t_token			*new;
-	enum e_signal	sig;
-
-	sig = get_signal(**s);
-	if (**s && (new = init_token(
-		(sig == CH_SEMICOLON) ? 2 : ft_strlen(*s))) == 0)
-		return (-1);
-	if (sig == CH_EXPR || sig == CH_SEMICOLON)
-		new->type = sig;
-	else
-		new->type = CH_GENERAL;
-	if (sig == CH_GENERAL || sig == CH_VARNAME || sig == CH_EXPR)
-		append_tkn(&new, s);
-	else
-		new->data[new->pos] = '\0';
-	if (*tkn == 0)
-		*tkn = new;
-	else
-	{
-		(*tkn)->next = new;
-		*tkn = new;
-	}
-	return (0);
-}
-
-int		escape(t_token **tkn, char **s)
-{
-	(*s)++;
-	return (append_tkn(tkn, s));
-}
-
-int		add_space(t_token **tkn, char __attribute__((unused)) **s)
-{
-	(*tkn)->complete = 1;
-	return (0);
-}
-
-#define SHELL_NAME "SHELL"
-
-int		unexpected_tkn(t_token __attribute__((unused)) **tkn, char **s)
-{
-	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n", SHELL_NAME, **s);
-	return (-2);
-}
-
-t_token			*tokenize(char *input, long len)
+static int	iterate(char *input, t_token **lst, enum e_state st)
 {
 	t_token			*head;
 	t_token			*token;
-	enum e_state	st; // make this var an array if multiple states required
 	enum e_signal	sig;
 	t_lex_func		do_action;
 
-	if (!input || !len)
-		return (0);
-	token = 0;
 	head = 0;
-	st = S_SPECIAL;
+	token = *lst;
 	while (*input)
 	{
 		sig = get_signal(*input);
 		if ((do_action = g_fsm_table[st][sig].func) != 0)
 			if (do_action(&token, &input) < 0)
 			{
-				ft_putstr("FAILED TO ALLOCATE TOKEN LIST!!!\n");
-				return (0);
+				tknlst_free(head);
+				ft_dprintf(2, "%s: error while making token list\n", SHELL_NAME);
+				return (-1);
 			}
+		head = (!head && token) ? token : head;
 		st = g_fsm_table[st][sig].state;
-		head = (head == 0 && token != 0) ? token : head;
 		input++;
 	}
-	if (st == S_QUOTE || st == S_DQUOTE)
-		ft_dprintf(2, "Quotes does not match!\n");
-	return (head);
-}
-
-/*
-char *type(enum e_signal sig) // for tests
-{
-	char *type[8] = {
-		"GEN ",
-		"VARN",
-		"EXPR",
-		"ESC ",
-		"QUO ",
-		"DQUO",
-		"SPA ",
-		"SEMI"
-	};
-	return (type[sig]);
-}
-
-#include <stdio.h>
-int	main(int ac, char **av)
-{
-	t_token *lst;
-
-	if (ac == 2)
-		lst = tokenize(av[1], ft_strlen(av[1]));
-	else
-		return (printf("No input\n"));
-ft_printf("passed string: %s\n", av[1]);
-ft_printf("lst: %p\n\n", lst);
-	while (lst)
-	{
-		printf(">>> type: %s, data: %s\n", type(lst->type), lst->data);
-		lst = lst->next;
-	}
+	*lst = head;
 	return (0);
 }
-*/
+
+t_token		*tokenize(char *input)
+{
+	t_token			*token;
+	enum e_state	st;
+
+	if (!input)
+		return (0);
+	token = 0;
+	st = S_SPECIAL;
+	if (iterate(input, &token, st) == -1)
+		return (0);
+	if (st == S_QUOTE || st == S_DQUOTE)
+	{
+		ft_dprintf(2, "%s: unmatched quotes found\n", SHELL_NAME);
+		tknlst_free(token);
+		return (0);
+	}
+	return (token);
+}

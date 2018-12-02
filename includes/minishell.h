@@ -31,13 +31,20 @@ extern pid_t	g_child;
 
 void	show_prompt(void);
 char	**get_input(void);
-char	**tokenize_split(char *s, char *delim);
-t_token	*tokenize(char *s, int len);
-t_list	*parse(t_token *lst);
+t_token	*tokenize(char *s);
+char	**parse_cmd(t_token **tkn);
 
-void	free_cmdlst(char **lst);
+/*
+** Freeing allocated data.
+*/
+
+void	tknlst_free(t_token *lst);
+void	arr_free(void **av);
+void	env_free(t_env *env);
 
 int		execute(char **av);
+
+void	setup_signals(void);
 void	sh_sig_handler(int sig);
 
 #endif

@@ -14,7 +14,7 @@
 
 int	builtin_echo(char **av)
 {
-	av[1] = (av[1] == 0) ? "" : av[1];
+//	av[1] = (av[1] == 0) ? "" : av[1];
 	while (*(++av))
 	{
 		if (*(av + 1))

@@ -14,8 +14,17 @@
 
 pid_t	g_child;
 
-void	sh_sig_handler(int __attribute__((unused))sig)
+void	setup_signals(void)
 {
+	signal(SIGINT, &sh_sig_handler);
+}
+
+//void	sh_sig_handler(int __attribute__((unused)) sig)
+void	sh_sig_handler(int sig)
+{
+
+ft_printf("sig=%d\n", sig);
+
 	if (g_child)
 	{
 		kill(g_child, SIGINT);

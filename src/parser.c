@@ -48,12 +48,22 @@ static int	vector_size(t_token *tkn)
 
 static char	*get_value(t_token *tkn)
 {
+	char	*tmp;
+
 	if (tkn->type == CH_GENERAL)
 		return (ft_strdup(tkn->data));
 	if (tkn->data[0] == '~')
-		return (get_var("HOME"));
+	{
+		if (tkn->data[1] == '\0')
+			tmp = get_var("HOME");
+		else
+			return (ft_strdup(tkn->data));
+	}
 	else
-		return (get_var(tkn->data + 1));
+		tmp = get_var(tkn->data + 1);
+	if (tmp == 0)
+		tmp = ft_strnew(0);
+	return (tmp);
 }
 
 static char	*join(char *s1, char *s2)
@@ -63,9 +73,9 @@ static char	*join(char *s1, char *s2)
 	if (s1 == 0 && s2 == 0)
 		return (0);
 	else if (s1 == 0)
-		return (ft_strdup(s2));
+		tmp = ft_strdup(s2);
 	else if (s2 == 0)
-		return (ft_strdup(s1));
+		tmp = ft_strdup(s1);
 	else
 		tmp = ft_strjoin(s1, s2);
 	free((void *)s1);
@@ -73,7 +83,7 @@ static char	*join(char *s1, char *s2)
 	return (tmp);
 }
 
-static char	**get_cmd(t_token **tkn)
+char	**parse_cmd(t_token **tkn)
 {
 	char	**av;
 	char	*buff;
@@ -81,49 +91,20 @@ static char	**get_cmd(t_token **tkn)
 	char	**ref;
 
 	size = vector_size(*tkn);
-	if (size == 0 || (av = malloc(sizeof(char **) * (size + 1))) == 0)
+	if (size == 0 || (av = ft_memalloc(sizeof(char **) * (size + 1))) == 0)
 		return (0);
 	ref = av;
-	*av = 0;
 	while (*tkn && size-- > 0)
 	{
 		buff = get_value(*tkn);
 		if ((*tkn)->complete)
 		{
-			*av++ = ft_strdup(buff);
-			*av = 0;
-			free((void *)buff);
+			*av = join(*av, buff);
+			av++;
 		}
 		else
-		{
 			*av = join(*av, buff);
-			*(av + 1) = 0;
-		}
 		*tkn = (*tkn)->next;
 	}
 	return (ref);
-}
-
-t_list	*parse(t_token *tok_lst)
-{
-	t_list	*cmd_lst;
-
-	if (tok_lst == 0)
-		return (0);
-	if ((cmd_lst = malloc(sizeof(t_list))) == 0)
-		return (0);
-	cmd_lst->content = 0;
-	cmd_lst->next = 0;
-	while (tok_lst)
-	{
-		if (tok_lst->type == CH_SEMICOLON)
-		{
-			cmd_lst->next = parse(tok_lst->next);
-			return (cmd_lst);
-		}
-		cmd_lst->content = (void *)get_cmd(&tok_lst);
-		if (tok_lst && tok_lst->type != CH_SEMICOLON)
-			tok_lst = tok_lst->next;
-	}
-	return (cmd_lst);
 }

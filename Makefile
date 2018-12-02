@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g #debug
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -27,11 +27,12 @@ LIB = $(LIB_DIR)libft.a
 MAIN_FILES = main.c \
 			execute.c \
 			signal.c \
-			input.c \
 			environ.c \
 			environ_util.c \
 			lexer.c \
+			lexer_util.c \
 			parser.c \
+			free_util.c \
 			err.c
 
 BUILTIN = builtin.c \

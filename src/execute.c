@@ -21,60 +21,100 @@
 
 pid_t	g_child;
 
-int		is_executable(const char *path)
+static char	**tokenize_split(char *s, char *delim)
 {
-	struct stat	st;
+	char	**tokens = malloc(sizeof(char **) * 10);
+	int		i;
+	int		state;
 
-	if (stat(path, &st) == -1)
-		return (0);
-	if (S_ISREG(st.st_mode) && (S_IXUSR & st.st_mode))
-		return (1);
+	i = 0;
+	state = 0;
+	while (*s)
+	{
+		if (ft_strchr(delim, *s) == 0)
+		{
+			if (!state)
+				tokens[i++] = s;
+			state = 1;
+		}
+		else
+		{
+			if (state)
+				*s = '\0';
+			state = 0;
+		}
+		s++;
+	}
+	tokens[i] = 0;
+	return (tokens);
+}
+
+static char	*search_path(const char *name, char *path)
+{
+	char	**dirs;
+	char	*ret;
+
+	dirs = tokenize_split(path, ":");
+	while (*dirs)
+	{
+		if ((ret = ft_strjoin3(*dirs, "/", name)) == 0)
+		{
+			dirs++;
+			continue ;
+		}
+		if (access(ret, F_OK) == 0)
+			return (ret);
+		free((void *)ret);
+		dirs++;
+	}
 	return (0);
 }
 
-char	*get_exec_path(const char *name)
+static char	*get_exec_path(const char *name)
 {
 	char	*ret;
 	char	*path;
-	char	**dirs;
 
 	if (*name == '/' ||
 		ft_strstr(name, "./") == name || ft_strstr(name, "../") == name)
 	{
-		if ((ret = ft_strdup(name)) != 0)
-			return (is_executable(ret) ? ret : 0);
-		else
-		{
-			report_error(ERR_MALLOC);
+		if ((ret = ft_strdup(name)) == 0)
 			return (0);
-		}
-	}
-	if ((path = get_var("PATH")) == 0) /////// here
-	{
+		if (access(ret, F_OK) == 0)
+			return (ret);
+		free((void *)ret);
 		return (0);
 	}
-	dirs = tokenize_split(path, ":");
-	while (*dirs)
-	{
-		ret = ft_strjoin3(*dirs, "/", name);
-		if (is_executable(ret))
-		{
-			free((void *)path);
-			return (ret); 
-		}
-		free((void *)ret);
-		dirs++;
-	}
+	if ((path = get_var("PATH")) == 0)
+		return (0);
+	ret = search_path(name, path);
 	free((void *)path);
-	return (0);
+	return (ret);
 }
 
-int	execute(char **av)
+static void	launch_process(char **av)
+{
+	char	*cmd;
+
+	cmd = get_exec_path(av[0]);
+	if (cmd && av[0][0])
+	{
+		if (access(cmd, X_OK) == 0)
+		{
+			execve(cmd, av, get_env());
+			ft_dprintf(2, "%s: %s: Failed to launch the command\n", SHELL_NAME, av[0]);
+		}
+		else
+			ft_dprintf(2, "%s: %s: access denied\n", SHELL_NAME, cmd);
+	}
+	else
+		ft_dprintf(2, "%s: %s: command not found\n", SHELL_NAME, *av);
+}
+
+int			execute(char **av)
 {
 	pid_t	child;
 	int		status;
-	int		launch;
-	char	*cmd;
 
 	child = fork();
 	if (child > 0)
@@ -86,18 +126,7 @@ int	execute(char **av)
 	}
 	else if (child == 0)
 	{
-//check for leaks in child process
-		cmd = get_exec_path(av[0]);
-		launch = 0;
-		if (cmd)
-			launch = execve(cmd, av, get_env());
-		else
-			ft_dprintf(2, "%s: command not found\n", av[0]);
-		if (launch == -1)
-			ft_dprintf(2, "%s: %s: Failed to launch the command\n", SHELL_NAME, av[0]);
-		free((void*)av);
-		free((void *)cmd);
-//		ft_dprintf(2, "Failed to launch process '%s', status: %d\n", av[0], launch);
+		launch_process(av);
 		exit(1);
 	}
 	status = 1;

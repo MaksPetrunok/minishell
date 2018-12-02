@@ -106,7 +106,6 @@ int		set_var(const char *var_name, const char *var_value)
 	while (*ptr)
 		if (equals(var_name, *ptr))
 		{
-// MAKE IT SAFE
 			*ptr = make_var_line(var_name, var_value, *ptr);
 			return (1);
 		}
