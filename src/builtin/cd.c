@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:21 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/28 18:45:33 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/03 13:24:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*get_path(char *arg)
 	else if (ft_strcmp(arg, "-") == 0)
 		path = get_var("OLDPWD");
 	else
-		path = ft_strdup(arg);
+		path = arg;
 	return (path);
 }
 
@@ -40,26 +40,22 @@ static void	try_cd(char *dir, const char *cwd)
 {
 	char	*path;
 
-	if ((path = get_path(dir)) == 0)
-	{
-		report_error(ERR_MALLOC);
-		return ;
-	}
+	path = get_path(dir);
 	if (!is_dir(path))
 	{
 		ft_dprintf(2, "cd: %s: not a directory\n", path);
-		free((void *)path);
+//		free((void *)path);
 		return ;
 	}
 	if (chdir(path) != 0)
 	{
 		ft_dprintf(2, "cd: cannot open '%s'\n", path);
-		free((void *)path);
+//		free((void *)path);
 		return ;
 	}
 	set_var("OLDPWD", cwd);
 	set_var("PWD", path);
-	free((void *)path);
+//	free((void *)path);
 }
 
 int			builtin_cd(char **av)

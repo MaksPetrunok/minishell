@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/30 21:45:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/03 13:29:13 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,10 @@ static char	*get_exec_path(const char *name)
 		free((void *)ret);
 		return (0);
 	}
-	if ((path = get_var("PATH")) == 0)
+	path = get_var("PATH");
+	if (!path || !(*path))
+		return (0);
+	if ((path = ft_strdup(path)) == 0)
 		return (0);
 	ret = search_path(name, path);
 	free((void *)path);

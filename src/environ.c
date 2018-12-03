@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 18:19:35 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/23 19:04:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/03 13:18:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ char	*get_var(const char *var_name)
 	{
 		if (equals(var_name, *ptr))
 		{
-			if ((value = ft_strdup(*ptr + len + 1)) == 0)
-				report_error(ERR_MALLOC);
+			value = *ptr + len + 1;
 			break ;
 		}
 		ptr++;

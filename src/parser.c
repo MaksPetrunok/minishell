@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/30 22:49:54 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/03 13:43:05 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,24 @@ static int	vector_size(t_token *tkn)
 static char	*get_value(t_token *tkn)
 {
 	char	*tmp;
+	char	*ret;
 
 	if (tkn->type == CH_GENERAL)
-		return (ft_strdup(tkn->data));
-	if (tkn->data[0] == '~')
+		tmp = tkn->data;
+	else if (tkn->data[0] == '~')
 	{
 		if (tkn->data[1] == '\0')
 			tmp = get_var("HOME");
 		else
-			return (ft_strdup(tkn->data));
+			tmp = ft_strdup(tkn->data);
 	}
 	else
 		tmp = get_var(tkn->data + 1);
 	if (tmp == 0)
-		tmp = ft_strnew(0);
-	return (tmp);
+		ret = ft_strnew(0);
+	else
+		ret = ft_strdup(tmp);
+	return (ret);
 }
 
 static char	*join(char *s1, char *s2)
@@ -97,6 +100,8 @@ char	**parse_cmd(t_token **tkn)
 	while (*tkn && size-- > 0)
 	{
 		buff = get_value(*tkn);
+		if (!buff && !(*av))
+			return (0);
 		if ((*tkn)->complete)
 		{
 			*av = join(*av, buff);
