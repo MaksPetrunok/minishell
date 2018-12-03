@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/11/30 21:38:30 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/03 15:02:27 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ MAIN_FILES = main.c \
 			lexer_util.c \
 			parser.c \
 			free_util.c \
+			terminal.c \
 			err.c
 
 BUILTIN = builtin.c \
@@ -52,7 +53,7 @@ OBJ_LIST = $(addprefix $(OBJ_DIR), $(SRC_LIST:.c=.o))
 all: $(NAME)
 
 $(NAME): $(LIB) $(OBJ_LIST)
-	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME)
+	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME) -L ./ -ltermcap
 	@echo "$(NAME) - Done."
 
 $(LIB):

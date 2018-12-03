@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:38:47 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/30 23:19:19 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/03 16:24:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	sh_loop()
 	}
 }
 
+int init_keyboard();
+
 int		main(int ac, char **av, char **ev)
 {
 	if (ac)
@@ -96,9 +98,12 @@ int		main(int ac, char **av, char **ev)
 	if (av)
 		av = 0;
 
+
 	setup_signals();
 	if (ev)
 		init_environment(ev);
+	if (init_keyboard() == 0)
+		ft_printf("Success\n");
 	sh_loop();
 	env_free(g_myenv);
 	return (0);

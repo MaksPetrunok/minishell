@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/30 21:38:10 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/03 14:36:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # include <sys/stat.h>
 # include <signal.h>
 
+# include <termios.h>
+# include <termcap.h>
+# include <term.h>
+
+# include <sys/ioctl.h>
+# include <fcntl.h>
+
+
 # define SHELL_NAME	"SmashMyBashUp"
 # define CMD_DELIM	';'
 
@@ -33,6 +41,8 @@ void	show_prompt(void);
 char	**get_input(void);
 t_token	*tokenize(char *s);
 char	**parse_cmd(t_token **tkn);
+
+char	*get_var(const char *name);
 
 /*
 ** Freeing allocated data.
