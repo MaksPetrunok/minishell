@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 22:44:13 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 23:21:05 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct	s_inp_buff
 	int			size;
 }				t_inp_buff;
 
-typedef int	(*t_key_act)(t_inp_buff *buff, int key_code);
+typedef int	(*t_key_act)(t_inp_buff **buff, int key_code);
 
 typedef	struct	s_key
 {
@@ -59,13 +59,13 @@ int			unset_keyboard(void);
 ** Input buffer manipulation functions.
 */
 
-int		inp_insert(t_inp_buff *buff, int key_code);
-int		inp_move(t_inp_buff *buff, int key_code);
-int		inp_delete(t_inp_buff *buff, int key_code);
-int		inp_autocomp(t_inp_buff *buff, int key_code);
-int		inp_exit(t_inp_buff *buff, int key_code);
-int		inp_ignore(t_inp_buff *buff, int key_code);
-int		inp_delete(t_inp_buff *buff, int key_code);
+int		inp_insert(t_inp_buff **buff, int key_code);
+int		inp_move(t_inp_buff **buff, int key_code);
+int		inp_delete(t_inp_buff **buff, int key_code);
+int		inp_autocomp(t_inp_buff **buff, int key_code);
+int		inp_exit(t_inp_buff **buff, int key_code);
+int		inp_ignore(t_inp_buff **buff, int key_code);
+int		inp_delete(t_inp_buff **buff, int key_code);
 
 /*
 ** Terminal visualisation functions.

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 20:46:33 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 23:21:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int					get_input(char **str)
 				return (buff->len);
 			}
 			on_key = key_action(c);
-			on_key(buff, c);
+			on_key(&buff, c);
 		}
 		unset_keyboard();
 	}
