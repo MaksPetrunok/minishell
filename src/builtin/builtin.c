@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 15:35:31 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 22:50:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	get_builtin_index(const char *s)
 	return (-1);
 }
 
-t_func	get_builtin(const char *name)
+t_func		get_builtin(const char *name)
 {
 	int			index;
 	t_func	list[10];
@@ -68,7 +68,6 @@ t_func	get_builtin(const char *name)
 		return (0);
 	set_builtin_funcs(list);
 	index = get_builtin_index(name);
-//ft_printf("\x1b[3;2;94m<dbg>requested cmd: %s, builtin index=%d\x1b[0m\n", name, index); // DELETE
 	if (index == -1)
 		return (0);
 	return (list[index]);

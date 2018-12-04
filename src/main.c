@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:38:47 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 21:27:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 19:15:57 by mpetruno         ###   ########.fr       */
 /*   Updated: 2018/12/03 13:45:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -20,7 +20,8 @@
 
 #include "minishell.h"
 
-pid_t	g_child = 0;
+pid_t			g_child = 0;
+struct termios	g_term;
 
 int	process_cmd(char **cmd_lst)
 {
@@ -52,7 +53,6 @@ void	show_prompt(void)
 			ft_printf("%s: ", SHELL_NAME);
 		else
 			ft_printf("\x1b[1m%s:\x1b[0;94m%s\x1b[0m$ ", SHELL_NAME, cwd);
-//		free((void *)tmp);
 		return ;
 	}
 	if (ft_strstr(cwd, tmp) == cwd)
@@ -60,7 +60,6 @@ void	show_prompt(void)
 			SHELL_NAME, cwd + ft_strlen(tmp));
 	else
 		ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ", SHELL_NAME, cwd);
-//	free((void *)tmp);
 }
 
 void	sh_loop()
@@ -74,8 +73,10 @@ void	sh_loop()
 	while (run)
 	{
 		show_prompt();
-		if (get_next_line(0, &input) == 1)
+//		if (get_next_line(0, &input) == 1) //old way for reading input
+		if (get_input(&input) > 0)
 		{
+			write(1, "\n", 1);
 			tkn_lst = tokenize(input);
 			tkn_ptr = tkn_lst;
 			while (tkn_ptr && run)
@@ -92,20 +93,13 @@ void	sh_loop()
 	}
 }
 
-int init_keyboard();
-
-int		main(int ac, char **av, char **ev)
+int		main(int UNUSED ac, char UNUSED **av, char **ev)
 {
-	if (ac)
-		ac = 0;
-	if (av)
-		av = 0;
-
-
 	setup_signals();
 	if (ev)
 		init_environment(ev);
 	sh_loop();
 	env_free(g_myenv);
+	system("leaks minishell");
 	return (0);
 }

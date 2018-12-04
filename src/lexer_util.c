@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/30 23:19:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 22:48:58 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int		add_space(t_token **tkn, char __attribute__((unused)) **s)
 
 int		unexpected_tkn(t_token __attribute__((unused)) **tkn, char **s)
 {
-	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n", SHELL_NAME, **s);
+	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n",
+													SHELL_NAME, **s);
 	return (-2);
 }

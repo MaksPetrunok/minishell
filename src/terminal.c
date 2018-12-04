@@ -5,45 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/03 16:19:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 18:06:16 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/12/04 11:52:22 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/04 17:39:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	putch(int c)
+int	myputchar(int c)
 {
-	unsigned char	ch;
-
-	ch = (unsigned char)c;
-	write(2, &ch, 1);
-	return (0);
+	return (write(1, &c, 4));
 }
 
-int	init_keyboard()
+int	myputerr(int c)
 {
-	struct termios	term;
+	return (write(2, &c, 4));
+}
+
+int	init_keyboard(void)
+{
 	char			*buff;
+	struct termios	tmp;
 
 	if (tgetent(0, get_var("TERM")) != 1)
 		return (-1);
-	if (tcgetattr(0, &term) != 0)
+	if (tcgetattr(0, &g_term) != 0)
 		return (-1);
-	term.c_lflag &= ~(ECHO | ECHOE | ICANON);
-	term.c_cc[VMIN] = 1;
-	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, 0, &term) != 0)
+	ft_memcpy((void *)&tmp, (void *)&g_term, sizeof(struct termios));
+	tmp.c_lflag &= ~(ECHO | ECHOE | ICANON);
+	tmp.c_cc[VMIN] = 1;
+	tmp.c_cc[VTIME] = 0;
+	if (tcsetattr(0, 0, &tmp) != 0)
 		return (-1);
+	tputs(tgetstr("im", &buff), 1, myputchar);
+	return (0);
+}
 
-	buff = malloc(1000);
-	//tputs(tgetstr("ti", &buff), 1, putch);
-	ft_printf("test\n");
-	tputs(tgetstr("le", &buff), 1, putch);
-	tputs(tgetstr("le", &buff), 1, putch);
-	tputs(tgetstr("le", &buff), 1, putch);
-	ft_printf("V\n");
-//	tputs(tgetstr("vi", &buff), 1, putch);
+int	unset_keyboard(void)
+{
+	char	**buff;
 
+	buff = 0;
+	tputs(tgetstr("ei", buff), 1, myputchar);
+	if (tcsetattr(0, 0, &g_term) != 0)
+		return (-1);
 	return (0);
 }

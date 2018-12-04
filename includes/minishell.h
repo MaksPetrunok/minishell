@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 14:36:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 13:46:26 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "input.h"
 # include "environ.h"
 # include "err.h"
 # include "builtin.h"
@@ -28,17 +29,14 @@
 # include <termcap.h>
 # include <term.h>
 
-# include <sys/ioctl.h>
-# include <fcntl.h>
-
-
 # define SHELL_NAME	"SmashMyBashUp"
-# define CMD_DELIM	';'
+# define CMD_DELIM	';' // check if used anywhere
+# define UNUSED	__attribute__((unused))
 
-extern pid_t	g_child;
+extern pid_t			g_child;
+extern struct termios	g_term;
 
 void	show_prompt(void);
-char	**get_input(void);
 t_token	*tokenize(char *s);
 char	**parse_cmd(t_token **tkn);
 

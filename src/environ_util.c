@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:10 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/28 18:39:15 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 22:49:18 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "err.h"
 
 /*
- * Increases size of environment buffer.
- * Returns 1 on success or 0 on failure.
+** Increases size of environment buffer.
+** Returns 1 on success or 0 on failure.
 */
 
 int		increase_env(t_env *env)

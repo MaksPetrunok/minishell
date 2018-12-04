@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/30 23:19:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/04 22:51:41 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_token			*init_token(int size)
 	return (tkn);
 }
 
-static int	iterate(char *input, t_token **lst, enum e_state st)
+static int		iterate(char *input, t_token **lst, enum e_state st)
 {
 	t_token			*head;
 	t_token			*token;
@@ -137,7 +137,8 @@ static int	iterate(char *input, t_token **lst, enum e_state st)
 			if (do_action(&token, &input) < 0)
 			{
 				tknlst_free(head);
-				ft_dprintf(2, "%s: error while making token list\n", SHELL_NAME);
+				ft_dprintf(2, "%s: error while making token list\n",
+														SHELL_NAME);
 				return (-1);
 			}
 		head = (!head && token) ? token : head;
@@ -148,7 +149,7 @@ static int	iterate(char *input, t_token **lst, enum e_state st)
 	return (0);
 }
 
-t_token		*tokenize(char *input)
+t_token			*tokenize(char *input)
 {
 	t_token			*token;
 	enum e_state	st;

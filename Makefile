@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/03 15:02:27 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/04 20:57:19 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,13 @@ MAIN_FILES = main.c \
 			parser.c \
 			free_util.c \
 			terminal.c \
-			err.c
+			err.c \
+			on_key.c \
+			input.c \
+			input_buff.c \
+			autocompl.c
+
+
 
 BUILTIN = builtin.c \
 			exit.c \

@@ -1,123 +1,96 @@
-//header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/04 20:46:33 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-#define TAB		0x9
-#define CTRL_D	0x4
-#define	LEFT	0x445b1b
-#define RIGHT	0x435b1b
-// not used yet
-#define UP		0x415b1b
-#define DOWN	0x425b1b
-#define	ALT_RIGHT	0x661b
-#define ALT_LEFT	0x621b
-#define ALT_UP		0x415b1b //same as UP
-#define ALT_DOWN	0x425b1b //same as DOWN
-#define BACK_SP	0x7f
-#define RETURN	0xa
-#define DEL		0x7e335b1b
-#define	CTRL_R	0x12
-
-#define KEY_HANDLER_NUM	7
-
-typedef	struct	s_key
+static t_key_act	key_action(int code)
 {
-	int			code;
-	char		*cmd;
-}				t_key;
-
-int	v_putchar(int __attribute__((unused)) c)
-{
-	return (0);
-}
-
-char	*key_action(int	code)
-{
-	static t_key	table[KEY_HANDLER_NUM] = {
-						{LEFT, "le"},
-						{RIGHT, "nd"},
-						{BACK_SP, "dc"},
-						{RETURN, "return"},
-						{DEL, "dc"},
-						{TAB, "tab"},
-						{CTRL_D, "ctrl+D"}};
+	static t_key	table[KEY_NUM] = {
+						{K_LEFT, &inp_move},
+						{K_RIGHT, &inp_move},
+						{K_BACK_SP, &inp_delete},
+						{K_DEL, &inp_delete},
+						{K_TAB, &inp_autocomp},
+						{K_CTRL_D, &inp_exit},
+						{K_UP, &inp_ignore},
+						{K_DOWN, &inp_ignore},
+						{K_CTRL_R, &inp_ignore},
+						{K_ALT_LEFT, &inp_ignore},
+						{K_ALT_RIGHT, &inp_ignore},
+						{0, &inp_insert}};
 	int				i;
 
-	i = 0;
-	while (i < KEY_HANDLER_NUM)
-		if (table[i]->code == code)
-			return (table[i]->cmd);
-		else
-			i++;
+	i = -1;
+	while (++i < KEY_NUM - 1)
+		if (table[i].code == code)
+			break ;
+	return (table[i].on_key_act);
+}
+
+static long			get_char(void)
+{
+	long	c;
+
+	c = 0;
+	if (read(0, &c, 4) > 0)
+		return (c);
 	return (0);
 }
 
-int	main()
+char				*utf_to_str(long *arr, int size)
 {
-	struct termios	term;
-	char			*buff;
+	char	*str;
+	char	*ptr;
+	char	*tmp;
 
-	if (tgetent(0, "xterm-256color") != 1)
-		return (-1);
-	if (tcgetattr(0, &term) != 0)
-		return (-1);
-	term.c_lflag &= ~(ECHO | ECHOE | ICANON);
-	term.c_cc[VMIN] = 1;
-	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, 0, &term) != 0)
-		return (-1);
-
-	//tputs(tgetstr("ti", &buff), 1, putch);
-	ft_printf("test\n");
-	tputs(tgetstr("le", &buff), 1, putch);
-//	tputs(tgetstr("vi", &buff), 1, putch);
-
-//	tputs(tgetstr("os", &buff), 1, putch);
-//	tputs(tgetstr("co", &buff), 1, putch);
-	tputs(tgetstr("im", &buff), 1, putch);
-	ft_printf("BUFF=%p\n", buff);
-
-
-	int		s;
-	int		run = 1;
-	char	*key;
-	char	arr[5];
-
-	while (run)
+	if ((str = malloc(size + 1)) == 0)
+		return (0);
+	ptr = str;
+	while (*arr)
 	{
-		s = 0;
-		read(0, &s, 8);
-
-		t_pair	*t = table;
-		while (t->id)
-		{
-			if (t->id == s)
-			{
-				if (t->id == LEFT || t->id == RIGHT || t->id == DEL)
-					tputs(tgetstr(t->str, &buff), 1, putch);
-				else if (t->id == BACK_SP)
-				{
-					tputs(tgetstr("le", &buff), 1, putch);
-					tputs(tgetstr(t->str, &buff), 1, putch);
-				}
-				else
-					tputs(t->str, 1, putch);
-				break;
-			}
-			t++;
-		}
-		if (t->id != 0)
-			continue ;
-
-		tputs((char *)(&s), 1, putch);
-		//tputs(tgetstr(s, &buff), 1, putch);
-		if (s == '!')
-			run = 0;
+		tmp = (char *)arr;
+		while (*tmp)
+			*ptr++ = *tmp++;
+		arr++;
 	}
+	*ptr = '\0';
+	return (str);
+}
 
+int					get_input(char **str)
+{
+	t_inp_buff	*buff;
+	t_key_act	on_key;
+	int			c;
 
-
-
-
+	if ((buff = init_input_buff()) == 0)
+		return (0);
+	if (init_keyboard() == 0)
+	{
+		while (1)
+		{
+			if ((c = get_char()) == K_RETURN)
+			{
+				*str = utf_to_str(buff->data, buff->len);
+				input_buff_free(buff);
+				unset_keyboard();
+				return (buff->len);
+			}
+			on_key = key_action(c);
+			on_key(buff, c);
+		}
+		unset_keyboard();
+	}
+	else
+		ft_dprintf(2, "%s: cannot set keyboard handler\n", SHELL_NAME);
 	return (0);
 }
