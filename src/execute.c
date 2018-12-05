@@ -10,26 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// BEFORE RELEASE:
-// Make output buffer in ft_printf from static to dynamic.
-// Instead of flushing buffer to fd when it's full - reallocate new buffer
-// and copy old buffer to new, continue filling increased buffer.
-// Output should be printed only one time.
-// Think about flushing the buffer when its size reaches some value, i.e. 10kB.
-
 #include "minishell.h"
 
 pid_t	g_child;
 
 static char	**tokenize_split(char *s, char *delim)
 {
-	char	**tokens = malloc(sizeof(char **) * 10);
+	char	**tokens;
 	int		i;
 	int		state;
 
+	tokens = malloc(sizeof(char **) * 16);
 	i = 0;
 	state = 0;
-	while (*s)
+	while (*s && i < 15)
 	{
 		if (ft_strchr(delim, *s) == 0)
 		{
@@ -88,10 +82,7 @@ static char	*get_exec_path(const char *name)
 	path = get_var("PATH");
 	if (!path || !(*path))
 		return (0);
-	if ((path = ft_strdup(path)) == 0)
-		return (0);
 	ret = search_path(name, path);
-	free((void *)path);
 	return (ret);
 }
 
@@ -105,7 +96,8 @@ static void	launch_process(char **av)
 		if (access(cmd, X_OK) == 0)
 		{
 			execve(cmd, av, get_env());
-			ft_dprintf(2, "%s: %s: Failed to launch the command\n", SHELL_NAME, av[0]);
+			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
+													SHELL_NAME, av[0]);
 		}
 		else
 			ft_dprintf(2, "%s: %s: access denied\n", SHELL_NAME, cmd);
@@ -124,7 +116,8 @@ int			execute(char **av)
 		g_child = child;
 	if (child == -1)
 	{
-		ft_dprintf(2, "%s: failed to launch new process '%s'\n", SHELL_NAME, av[0]);
+		ft_dprintf(2, "%s: failed to launch new process '%s'\n",
+												SHELL_NAME, av[0]);
 		return (-1);
 	}
 	else if (child == 0)
@@ -134,8 +127,6 @@ int			execute(char **av)
 	}
 	status = 1;
 	waitpid(child, &status, 0);
-//	if (waitpid(child, &status, 0) != child)
-//		ft_dprintf(2, "Error during waiting child pid %d\n", child);
 	g_child = 0;
 	return (1);
 }

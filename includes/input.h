@@ -73,7 +73,7 @@ int		inp_delete(t_inp_buff **buff, int key_code);
 */
 void	term_cursor_move(int code);
 void	term_delete(int code);
-void	term_print(int code);
+void	term_print(long code);
 void	term_ignore(int code);
 
 t_inp_buff	*init_input_buff(void);

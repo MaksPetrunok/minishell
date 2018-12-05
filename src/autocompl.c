@@ -40,25 +40,23 @@ static void		add_file(const char *file, t_list **lst)
 	ft_lstins(lst, new, sort);
 }
 
-char	*convert_pattern(long *data)
+char			*convert_pattern(t_inp_buff *buff)
 {
 	long	*start;
-	int		size;
 	char	*patt;
+	int		i;
 
-	start = data;
-	while (*data)
-	{
-		if (*data == (long)' ')
-			start = data;
-		data++;
-	}
-	size = data - start;
-	patt = utf_to_str(start, size);
+	if (buff->data[buff->len - 1] == (long)' ')
+		return (0);
+	i = buff->len - 1;
+	while (buff->data[i] != (long)' ' && i > 0)
+		i--;
+	start = buff->data + i + 1;
+	patt = utf_to_str(start, buff->len - i);
 	return (patt);
 }
 
-static t_list	*get_files(long *data)
+static t_list	*get_files(t_inp_buff *buff)
 {
 	DIR				*dstr;
 	struct dirent	*dirp;
@@ -67,38 +65,36 @@ static t_list	*get_files(long *data)
 	t_list			*lst;
 
 	getcwd(dir, 4100);
-	patt = convert_pattern(data);
+	patt = convert_pattern(buff);
 	if ((dstr = opendir(dir)) == 0)
 		return (0);
 	lst = 0;
 	while ((dirp = readdir(dstr)) != 0)
 		if (patt == 0 || ft_strstr(dirp->d_name, patt) == dirp->d_name)
-		add_file(dirp->d_name, &lst);
+			add_file(dirp->d_name, &lst);
 	closedir(dstr);
 	free((void *)patt);
 	return (lst);
 }
 
-
-
-void	auto_complete(t_inp_buff *buff)
+void			auto_complete(t_inp_buff *buff)
 {
 	t_list	*match;
 	t_list	*head;
+	char	*str;
 
-	match = get_files(buff->data);
+	match = get_files(buff);
 	head = match;
-//	if (ft_lstsize(match) == 1)
-//	{	
-//	}
-	techo("\n");
 	while (match)
 	{
-		techo((char *)(match->content));
 		techo("\n");
+		techo((char *)(match->content));
 		match = match->next;
 	}
 	ft_lstfree(&head);
-//	system("leaks -fullContent minishell");
+	techo("\n");
+	show_prompt();
+	str = utf_to_str(buff->data, buff->len);
+	techo(str);
+	free((void *)str);
 }
-

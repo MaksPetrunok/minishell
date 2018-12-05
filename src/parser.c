@@ -10,25 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- * SYNTAX for TOKEN LIST:
- *
- * token : data = (string with data)\0
- * 		 : add_next = 0 | 1
- * 		 : type = CH_GENERAL | CH_EXPR | CH_SEMICOLON
- * 		 : next = token | NULL
- *
- * ptree : int	type
- * 		 : char **av
- * 		 : ptree left
- * 		 : ptree right
- *
- *
- * Note: if add_next = 0 and next->type = CH_GENERAL | CH_EXPR then
- * append next->data to ->data. If add_next = 1 then add next->data
- * as next value in vector
- */
-
 #include "minishell.h"
 
 static int	vector_size(t_token *tkn)
@@ -100,8 +81,11 @@ char	**parse_cmd(t_token **tkn)
 	ref = av;
 	while (*tkn && size-- > 0)
 	{
-		buff = get_value(*tkn);
+
 		increment = (*tkn)->complete;
+
+		//move to separate function set_argument()
+		buff = get_value(*tkn);
 		if (!buff && !(*av))
 			return (0);
 		if ((*tkn)->complete)
@@ -111,6 +95,7 @@ char	**parse_cmd(t_token **tkn)
 		}
 		else
 			*av = join(*av, buff);
+		//end move
 		*tkn = (*tkn)->next;
 	}
 	av = increment ? av : av + 1;

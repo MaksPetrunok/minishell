@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_key_act	key_action(int code)
+static void		key_action(t_inp_buff **buff, int code)
 {
 	static t_key	table[KEY_NUM] = {
 						{K_LEFT, &inp_move},
@@ -34,7 +34,7 @@ static t_key_act	key_action(int code)
 	while (++i < KEY_NUM - 1)
 		if (table[i].code == code)
 			break ;
-	return (table[i].on_key_act);
+	table[i].on_key_act(buff, code);
 }
 
 static long			get_esc(long *c)
@@ -101,7 +101,6 @@ char				*utf_to_str(long *arr, int size)
 int					get_input(char **str)
 {
 	t_inp_buff	*buff;
-	t_key_act	on_key;
 	int			c;
 	int			len;
 
@@ -119,8 +118,7 @@ int					get_input(char **str)
 				unset_keyboard();
 				return (len);
 			}
-			on_key = key_action(c);
-			on_key(&buff, c);
+			key_action(&buff, c);
 		}
 		unset_keyboard();
 	}

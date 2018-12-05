@@ -62,7 +62,7 @@ static int	get_builtin_index(const char *s)
 t_func		get_builtin(const char *name)
 {
 	int			index;
-	t_func	list[10];
+	t_func		list[10];
 
 	if (name == 0)
 		return (0);

@@ -31,8 +31,6 @@ t_inp_buff	*init_input_buff(void)
 	ret->pos = 0;
 	ret->len = 0;
 	ret->size = INPUT_BUFF_SIZE;
-//			ft_printf(" new size = %d, %p->%p\n",
-//					ret->size, ret, ret->data);
 	return (ret);
 }
 
@@ -42,7 +40,6 @@ int			increase_input_buff(t_inp_buff **buff)
 	long		*new_data;
 	int			new_size;
 
-//	techo("Incr start\n");
 	new_size = (*buff)->size + INPUT_BUFF_SIZE;
 	if ((new_buff = malloc(sizeof(t_inp_buff))) == 0)
 		return (0);
@@ -57,11 +54,8 @@ int			increase_input_buff(t_inp_buff **buff)
 	new_buff->data = new_data;
 	new_buff->size = new_size;
 	new_buff->len = (*buff)->len;
-//	ft_memcpy((void *)new_data, (void *)(*buff)->data,
-//							(*buff)->size * sizeof(long));
 	input_buff_free(*buff);
 	*buff = new_buff;
-//	techo("Incr END\n");
 	return (1);
 }
 
@@ -97,21 +91,10 @@ static void	shift(t_inp_buff *buff, int direction)
 
 int			inp_insert(t_inp_buff **buff, int key_code)
 {
-//	unset_keyboard();
-//		ft_printf("\npos: %d, len: %d, size: %d| -> ",
-//				(*buff)->pos, (*buff)->len, (*buff)->size);
-//	init_keyboard();
 	if ((*buff)->len == (*buff)->size - 1)
 	{
 		if (!increase_input_buff(buff))
 			return (0);
-//		else
-//		{
-//			unset_keyboard();
-//			ft_printf("======== new size = %d, %p->%p\n",
-//					(*buff)->size, *buff, (*buff)->data);
-//			init_keyboard();
-//		}
 	}
 	shift(*buff, 1);
 	(*buff)->data[(*buff)->pos] = key_code;

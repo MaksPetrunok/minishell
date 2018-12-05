@@ -27,16 +27,16 @@ void	term_delete(int code)
 	tconf("dc");
 }
 
-void	term_print(int code)
+void	term_print(long code)
 {
-	char	s[5];
+	char	*s;
 
-	s[4] = 0;
-	ft_strncpy(s, (char *)(&code), 4);
+	s = (char *)(&code);
+	techo(" ");
+	tconf("le");
 	unset_keyboard();
 	ft_printf("%s", s);
 	init_keyboard();
-//	techo((char *)(s));
 }
 
 void	term_ignore(int UNUSED code)

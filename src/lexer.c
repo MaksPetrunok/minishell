@@ -105,8 +105,7 @@ t_token			*init_token(int size)
 	t_token	*tkn;
 	char	*str;
 
-	size_t tkn_size = sizeof(t_token);
-	tkn = malloc(tkn_size);
+	tkn = malloc(sizeof(t_token));
 	str = malloc(size + 1);
 	if (!tkn || !str)
 	{
