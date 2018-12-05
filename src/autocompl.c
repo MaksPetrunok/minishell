@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 22:42:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 11:39:58 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ void	auto_complete(t_inp_buff *buff)
 //	if (ft_lstsize(match) == 1)
 //	{	
 //	}
-	tputs("\n", 1, myputchar);
+	techo("\n");
 	while (match)
 	{
-		tputs((char *)(match->content), 1, myputchar);
-		tputs("\n", 1, myputchar);
+		techo((char *)(match->content));
+		techo("\n");
 		match = match->next;
 	}
 	ft_lstfree(&head);

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 23:21:05 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 11:20:38 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define K_ALT_LEFT		0x621b
 
 # define KEY_NUM			12
-# define INPUT_BUFF_SIZE	20
+# define INPUT_BUFF_SIZE	4
 
 # include <dirent.h>
 
@@ -49,11 +49,12 @@ typedef	struct	s_key
 }				t_key;
 
 
-int			myputchar(int c);
-int			myputerr(int c);
 
 int			init_keyboard(void);
 int			unset_keyboard(void);
+int			myputchar(int c);
+int			techo(char *s);
+int			tconf(char *s);
 
 /*
 ** Input buffer manipulation functions.

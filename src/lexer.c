@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 22:51:41 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 15:12:32 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ t_token			*init_token(int size)
 	t_token	*tkn;
 	char	*str;
 
-	tkn = malloc(sizeof(t_token));
+	size_t tkn_size = sizeof(t_token);
+	tkn = malloc(tkn_size);
 	str = malloc(size + 1);
 	if (!tkn || !str)
 	{
@@ -121,7 +122,7 @@ t_token			*init_token(int size)
 	return (tkn);
 }
 
-static int		iterate(char *input, t_token **lst, enum e_state st)
+static int		iterate(char *input, t_token **lst, enum e_state *st)
 {
 	t_token			*head;
 	t_token			*token;
@@ -133,7 +134,7 @@ static int		iterate(char *input, t_token **lst, enum e_state st)
 	while (*input)
 	{
 		sig = get_signal(*input);
-		if ((do_action = g_fsm_table[st][sig].func) != 0)
+		if ((do_action = g_fsm_table[*st][sig].func) != 0)
 			if (do_action(&token, &input) < 0)
 			{
 				tknlst_free(head);
@@ -142,7 +143,7 @@ static int		iterate(char *input, t_token **lst, enum e_state st)
 				return (-1);
 			}
 		head = (!head && token) ? token : head;
-		st = g_fsm_table[st][sig].state;
+		*st = g_fsm_table[*st][sig].state;
 		input++;
 	}
 	*lst = head;
@@ -158,7 +159,7 @@ t_token			*tokenize(char *input)
 		return (0);
 	token = 0;
 	st = S_SPECIAL;
-	if (iterate(input, &token, st) == -1)
+	if (iterate(input, &token, &st) == -1)
 		return (0);
 	if (st == S_QUOTE || st == S_DQUOTE)
 	{

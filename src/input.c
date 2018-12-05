@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 23:21:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 17:04:55 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_key_act	key_action(int code)
 			break ;
 	return (table[i].on_key_act);
 }
-
+/*
 static long			get_char(void)
 {
 	long	c;
@@ -44,6 +44,30 @@ static long			get_char(void)
 	if (read(0, &c, 4) > 0)
 		return (c);
 	return (0);
+}
+*/
+
+static long			get_char(void)
+{
+	long	c;
+	int		i;
+	char	*ptr;
+
+
+	c = 0;
+	i = 4;
+	ptr = (char *)(&c);
+	if (read(0, ptr, 1) < 1)
+		return (0);
+	if (*ptr >= 0 && *ptr <= 127)
+		return (c);
+	else if ((*ptr >> 5) == 0b110)
+		read(0, ptr + 1, 1);
+	else if ((*ptr >> 4) == 0b1110)
+		read(0, ptr + 1, 2);
+	else if ((*ptr >> 5) == 0b11110)
+		read(0, ptr + 1, 3);
+	return (c);
 }
 
 char				*utf_to_str(long *arr, int size)
@@ -63,6 +87,7 @@ char				*utf_to_str(long *arr, int size)
 		arr++;
 	}
 	*ptr = '\0';
+//	techo("Converting...\n");//
 	return (str);
 }
 
@@ -71,6 +96,7 @@ int					get_input(char **str)
 	t_inp_buff	*buff;
 	t_key_act	on_key;
 	int			c;
+	int			len;
 
 	if ((buff = init_input_buff()) == 0)
 		return (0);
@@ -81,9 +107,10 @@ int					get_input(char **str)
 			if ((c = get_char()) == K_RETURN)
 			{
 				*str = utf_to_str(buff->data, buff->len);
+				len = buff->len;
 				input_buff_free(buff);
 				unset_keyboard();
-				return (buff->len);
+				return (len);
 			}
 			on_key = key_action(c);
 			on_key(&buff, c);

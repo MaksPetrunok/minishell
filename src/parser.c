@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 13:43:05 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 15:13:50 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ char	**parse_cmd(t_token **tkn)
 {
 	char	**av;
 	char	*buff;
-	int		size;
 	char	**ref;
+	int		size;
+	int		increment;
 
 	size = vector_size(*tkn);
 	if (size == 0 || (av = ft_memalloc(sizeof(char **) * (size + 1))) == 0)
@@ -100,6 +101,7 @@ char	**parse_cmd(t_token **tkn)
 	while (*tkn && size-- > 0)
 	{
 		buff = get_value(*tkn);
+		increment = (*tkn)->complete;
 		if (!buff && !(*av))
 			return (0);
 		if ((*tkn)->complete)
@@ -111,5 +113,7 @@ char	**parse_cmd(t_token **tkn)
 			*av = join(*av, buff);
 		*tkn = (*tkn)->next;
 	}
+	av = increment ? av : av + 1;
+	*av = 0;
 	return (ref);
 }

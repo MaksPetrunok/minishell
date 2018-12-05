@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 13:29:13 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 12:07:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,9 @@ int			execute(char **av)
 		exit(1);
 	}
 	status = 1;
-	if (waitpid(child, &status, 0) != child)
-		ft_dprintf(2, "Error during waiting child pid %d\n", child);
+	waitpid(child, &status, 0);
+//	if (waitpid(child, &status, 0) != child)
+//		ft_dprintf(2, "Error during waiting child pid %d\n", child);
 	g_child = 0;
 	return (1);
 }

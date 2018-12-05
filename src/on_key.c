@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 16:42:23 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 16:00:45 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,29 @@
 
 void	term_cursor_move(int code)
 {
-	char	**buff;
-
-	buff = 0;
 	if (code == K_LEFT)
-		tputs(tgetstr("le", buff), 1, myputchar);
+		tconf("le");
 	else if (code == K_RIGHT)
-		tputs(tgetstr("nd", buff), 1, myputchar);
+		tconf("nd");
 }
 
 void	term_delete(int code)
 {
-	char	**buff;
-
-	buff = 0;
 	if (code == K_BACK_SP)
-		tputs(tgetstr("le", buff), 1, myputchar);
-	tputs(tgetstr("dc", buff), 1, myputchar);
+		tconf("le");
+	tconf("dc");
 }
 
 void	term_print(int code)
 {
-	tputs((char *)(&code), 1, myputchar);
+	char	s[5];
+
+	s[4] = 0;
+	ft_strncpy(s, (char *)(&code), 4);
+	unset_keyboard();
+	ft_printf("%s", s);
+	init_keyboard();
+//	techo((char *)(s));
 }
 
 void	term_ignore(int UNUSED code)

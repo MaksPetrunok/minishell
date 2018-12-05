@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:38:47 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 19:15:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 13:16:45 by mpetruno         ###   ########.fr       */
 /*   Updated: 2018/12/03 13:45:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -74,6 +74,7 @@ void	sh_loop()
 	{
 		show_prompt();
 //		if (get_next_line(0, &input) == 1) //old way for reading input
+//ft_printf("input: %p\n", input);
 		if (get_input(&input) > 0)
 		{
 			write(1, "\n", 1);

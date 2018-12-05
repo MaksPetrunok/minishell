@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:52:22 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 17:39:56 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 11:36:57 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,23 @@ int	myputchar(int c)
 	return (write(1, &c, 4));
 }
 
-int	myputerr(int c)
+int	techo(char *s)
 {
-	return (write(2, &c, 4));
+	tputs(s, 1, myputchar);
+	return (0);
+}
+
+int	tconf(char *s)
+{
+	char	**buff;
+
+	buff = 0;
+	tputs(tgetstr(s, buff), 1, myputchar);
+	return (0);
 }
 
 int	init_keyboard(void)
 {
-	char			*buff;
 	struct termios	tmp;
 
 	if (tgetent(0, get_var("TERM")) != 1)
@@ -37,16 +46,13 @@ int	init_keyboard(void)
 	tmp.c_cc[VTIME] = 0;
 	if (tcsetattr(0, 0, &tmp) != 0)
 		return (-1);
-	tputs(tgetstr("im", &buff), 1, myputchar);
+	tconf("im");
 	return (0);
 }
 
 int	unset_keyboard(void)
 {
-	char	**buff;
-
-	buff = 0;
-	tputs(tgetstr("ei", buff), 1, myputchar);
+	tconf("ei");
 	if (tcsetattr(0, 0, &g_term) != 0)
 		return (-1);
 	return (0);
