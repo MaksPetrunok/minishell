@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:15:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 13:16:09 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/05 17:53:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ static void	shift(t_inp_buff *buff, int direction)
 
 int			inp_insert(t_inp_buff **buff, int key_code)
 {
-	unset_keyboard();
+//	unset_keyboard();
 //		ft_printf("\npos: %d, len: %d, size: %d| -> ",
 //				(*buff)->pos, (*buff)->len, (*buff)->size);
-	init_keyboard();
+//	init_keyboard();
 	if ((*buff)->len == (*buff)->size - 1)
 	{
 		if (!increase_input_buff(buff))

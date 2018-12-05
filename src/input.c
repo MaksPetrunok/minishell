@@ -26,7 +26,8 @@ static t_key_act	key_action(int code)
 						{K_CTRL_R, &inp_ignore},
 						{K_ALT_LEFT, &inp_ignore},
 						{K_ALT_RIGHT, &inp_ignore},
-						{0, &inp_insert}};
+						{0, &inp_ignore},
+						{-1, &inp_insert}};
 	int				i;
 
 	i = -1;
@@ -35,17 +36,21 @@ static t_key_act	key_action(int code)
 			break ;
 	return (table[i].on_key_act);
 }
-/*
-static long			get_char(void)
-{
-	long	c;
 
-	c = 0;
-	if (read(0, &c, 4) > 0)
-		return (c);
+static long			get_esc(long *c)
+{
+	char	*ptr;
+
+	ptr = (char *)c;
+	if (read(0, ptr + 1, 1) < 1)
+		return (0);
+	if (*(ptr + 1) == 91)
+	{
+		read(0, ptr + 2, 5);
+		return (*c);
+	}
 	return (0);
 }
-*/
 
 static long			get_char(void)
 {
@@ -53,20 +58,23 @@ static long			get_char(void)
 	int		i;
 	char	*ptr;
 
-
 	c = 0;
 	i = 4;
 	ptr = (char *)(&c);
 	if (read(0, ptr, 1) < 1)
 		return (0);
-	if (*ptr >= 0 && *ptr <= 127)
+	if (*ptr == 27)
+		return (get_esc(&c));
+	else if (*ptr >= 0 && *ptr <= 127 && *ptr != 27)
 		return (c);
 	else if (((*ptr >> 5) & 0b110) == 0b110)
 		read(0, ptr + 1, 1);
 	else if (((*ptr >> 4) & 0b1110) == 0b1110)
 		read(0, ptr + 1, 2);
-	else if (((*ptr >> 5) & 0b11110) == 0b11110)
+	else if (((*ptr >> 3) & 0b11110) == 0b11110)
 		read(0, ptr + 1, 3);
+	else
+		return (0);
 	return (c);
 }
 
@@ -87,7 +95,6 @@ char				*utf_to_str(long *arr, int size)
 		arr++;
 	}
 	*ptr = '\0';
-//	techo("Converting...\n");//
 	return (str);
 }
 

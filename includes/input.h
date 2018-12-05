@@ -27,7 +27,7 @@
 # define K_ALT_RIGHT	0x661b
 # define K_ALT_LEFT		0x621b
 
-# define KEY_NUM			12
+# define KEY_NUM			13
 # define INPUT_BUFF_SIZE	4
 
 # include <dirent.h>
