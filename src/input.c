@@ -55,17 +55,15 @@ static long			get_esc(long *c)
 static long			get_char(void)
 {
 	long	c;
-	int		i;
 	char	*ptr;
 
 	c = 0;
-	i = 4;
 	ptr = (char *)(&c);
 	if (read(0, ptr, 1) < 1)
 		return (0);
 	if (*ptr == 27)
 		return (get_esc(&c));
-	else if (*ptr >= 0 && *ptr <= 127 && *ptr != 27)
+	else if (*ptr >= 0 && *ptr != 27)
 		return (c);
 	else if (((*ptr >> 5) & 0b110) == 0b110)
 		read(0, ptr + 1, 1);
