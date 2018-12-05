@@ -61,11 +61,11 @@ static long			get_char(void)
 		return (0);
 	if (*ptr >= 0 && *ptr <= 127)
 		return (c);
-	else if ((*ptr >> 5) == 0b110)
+	else if (((*ptr >> 5) & 0b110) == 0b110)
 		read(0, ptr + 1, 1);
-	else if ((*ptr >> 4) == 0b1110)
+	else if (((*ptr >> 4) & 0b1110) == 0b1110)
 		read(0, ptr + 1, 2);
-	else if ((*ptr >> 5) == 0b11110)
+	else if (((*ptr >> 5) & 0b11110) == 0b11110)
 		read(0, ptr + 1, 3);
 	return (c);
 }
