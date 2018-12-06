@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/06 16:32:26 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/06 18:59:56 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra -g #debug
+FLAGS = -Wall -Werror -Wextra
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
