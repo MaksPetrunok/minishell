@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:15:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 17:53:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 13:59:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int			inp_exit(t_inp_buff **buff, int UNUSED key_code)
 
 int			inp_autocomp(t_inp_buff UNUSED **buff, int UNUSED key_code)
 {
-	auto_complete(*buff);
+	auto_complete(buff);
 //	techo("AUTOCOMPLETION\n");
 	return (1);
 }

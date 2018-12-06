@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 11:20:38 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 14:12:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	term_ignore(int code);
 t_inp_buff	*init_input_buff(void);
 void		input_buff_free(t_inp_buff *buff);
 char		*utf_to_str(long *data, int size);
-void		auto_complete(t_inp_buff *buff);
+void		auto_complete(t_inp_buff **buff);
 int			get_input(char **str);
 
 
