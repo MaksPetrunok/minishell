@@ -5,25 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/28 18:38:47 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 13:16:45 by mpetruno         ###   ########.fr       */
-/*   Updated: 2018/12/03 13:45:06 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/06 17:14:55 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// BEFORE RELEASE:
-// Make output buffer in ft_printf from static to dynamic.
-// Instead of flushing buffer to fd when it's full - reallocate new buffer
-// and copy old buffer to new, continue filling increased buffer.
-// Output should be printed only one time.
-// Think about flushing the buffer when its size reaches some value, i.e. 10kB.
 
 #include "minishell.h"
 
 pid_t			g_child = 0;
 struct termios	g_term;
 
-int	process_cmd(char **cmd_lst)
+int		process_cmd(char **cmd_lst)
 {
 	int		ret;
 	t_func	bf;
@@ -62,10 +54,28 @@ void	show_prompt(void)
 		ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ", SHELL_NAME, cwd);
 }
 
-void	sh_loop()
+int		process_input(char *input)
 {
 	t_token	*tkn_lst;
 	t_token	*tkn_ptr;
+	int		run;
+
+	run = 1;
+	write(1, "\n", 1);
+	tkn_lst = tokenize(input);
+	tkn_ptr = tkn_lst;
+	while (tkn_ptr && run)
+	{
+		run = process_cmd(parse_cmd(&tkn_ptr));
+		if (tkn_ptr && tkn_ptr->type == CH_SEMICOLON)
+			tkn_ptr = tkn_ptr->next;
+	}
+	tknlst_free(tkn_lst);
+	return (run);
+}
+
+void	sh_loop(void)
+{
 	char	*input;
 	int		run;
 
@@ -73,29 +83,18 @@ void	sh_loop()
 	while (run)
 	{
 		show_prompt();
-//		if (get_next_line(0, &input) == 1) //old way for reading input
-//ft_printf("input: %p\n", input);
 		if (get_input(&input) > 0)
-		{
-			write(1, "\n", 1);
-			tkn_lst = tokenize(input);
-			tkn_ptr = tkn_lst;
-			while (tkn_ptr && run)
-			{
-				run = process_cmd(parse_cmd(&tkn_ptr));
-				if (tkn_ptr && tkn_ptr->type == CH_SEMICOLON)
-					tkn_ptr = tkn_ptr->next;
-			}
-			tknlst_free(tkn_lst);
-		}
+			run = process_input(input);
 		else
 			write(1, "\n", 1);
 		free((void *)input);
 	}
 }
 
-int		main(int UNUSED ac, char UNUSED **av, char **ev)
+int		main(int ac, char **av, char **ev)
 {
+	if (av)
+		(void)ac;
 	setup_signals();
 	if (ev)
 		init_environment(ev);

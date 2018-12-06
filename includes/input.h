@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 14:12:56 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 17:26:55 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,42 @@ typedef	struct	s_key
 	t_key_act	on_key_act;
 }				t_key;
 
-
-
-int			init_keyboard(void);
-int			unset_keyboard(void);
-int			myputchar(int c);
-int			techo(char *s);
-int			tconf(char *s);
+int				init_keyboard(void);
+int				unset_keyboard(void);
+int				myputchar(int c);
+int				techo(char *s);
+int				tconf(char *s);
 
 /*
 ** Input buffer manipulation functions.
 */
-
-int		inp_insert(t_inp_buff **buff, int key_code);
-int		inp_move(t_inp_buff **buff, int key_code);
-int		inp_delete(t_inp_buff **buff, int key_code);
-int		inp_autocomp(t_inp_buff **buff, int key_code);
-int		inp_exit(t_inp_buff **buff, int key_code);
-int		inp_ignore(t_inp_buff **buff, int key_code);
-int		inp_delete(t_inp_buff **buff, int key_code);
+int				inp_insert(t_inp_buff **buff, int key_code);
+int				inp_move(t_inp_buff **buff, int key_code);
+int				inp_delete(t_inp_buff **buff, int key_code);
+int				inp_autocomp(t_inp_buff **buff, int key_code);
+int				inp_exit(t_inp_buff **buff, int key_code);
+int				inp_ignore(t_inp_buff **buff, int key_code);
+int				inp_delete(t_inp_buff **buff, int key_code);
 
 /*
 ** Terminal visualisation functions.
 */
-void	term_cursor_move(int code);
-void	term_delete(int code);
-void	term_print(long code);
-void	term_ignore(int code);
+void			term_cursor_move(int code);
+void			term_delete(int code);
+void			term_print(long code);
+void			term_ignore(int code);
 
-t_inp_buff	*init_input_buff(void);
-void		input_buff_free(t_inp_buff *buff);
-char		*utf_to_str(long *data, int size);
-void		auto_complete(t_inp_buff **buff);
-int			get_input(char **str);
+t_inp_buff		*init_input_buff(void);
+int				increase_input_buff(t_inp_buff **buff);
+void			shift(t_inp_buff *buff, int direction);
+void			input_buff_free(t_inp_buff *buff);
+char			*utf_to_str(long *data, int size);
+void			auto_complete(t_inp_buff **buff);
+int				get_input(char **str);
 
-
-
+/*
+** aux.c
+*/
+int				sort(void *a, void *b);
 
 #endif

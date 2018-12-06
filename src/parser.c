@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 15:13:50 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 16:29:38 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,28 @@ static char	*join(char *s1, char *s2)
 	return (tmp);
 }
 
-char	**parse_cmd(t_token **tkn)
+static int	set_argument(char ***vect, t_token **tkn)
+{
+	char	*buff;
+	char	**av;
+
+	av = *vect;
+	buff = get_value(*tkn);
+	if (!buff && !(*av))
+		return (0);
+	if ((*tkn)->complete)
+	{
+		*av = join(*av, buff);
+		(*vect)++;
+	}
+	else
+		*av = join(*av, buff);
+	return (1);
+}
+
+char		**parse_cmd(t_token **tkn)
 {
 	char	**av;
-	char	*buff;
 	char	**ref;
 	int		size;
 	int		increment;
@@ -81,21 +99,9 @@ char	**parse_cmd(t_token **tkn)
 	ref = av;
 	while (*tkn && size-- > 0)
 	{
-
 		increment = (*tkn)->complete;
-
-		//move to separate function set_argument()
-		buff = get_value(*tkn);
-		if (!buff && !(*av))
+		if (set_argument(&av, tkn) == 0)
 			return (0);
-		if ((*tkn)->complete)
-		{
-			*av = join(*av, buff);
-			av++;
-		}
-		else
-			*av = join(*av, buff);
-		//end move
 		*tkn = (*tkn)->next;
 	}
 	av = increment ? av : av + 1;

@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/04 20:57:19 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/06 16:32:26 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,9 @@ MAIN_FILES = main.c \
 			on_key.c \
 			input.c \
 			input_buff.c \
-			autocompl.c
+			input_buff_manage.c \
+			autocompl.c \
+			aux.c
 
 
 

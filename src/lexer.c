@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 15:12:32 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 17:20:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 			if (do_action(&token, &input) < 0)
 			{
 				tknlst_free(head);
-				ft_dprintf(2, "%s: error while making token list\n",
+				ft_dprintf(2, "%s: error while processing input\n",
 														SHELL_NAME);
 				return (-1);
 			}

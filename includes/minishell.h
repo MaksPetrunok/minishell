@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 13:46:26 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 17:24:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <term.h>
 
 # define SHELL_NAME	"SmashMyBashUp"
-# define CMD_DELIM	';' // check if used anywhere
 # define UNUSED	__attribute__((unused))
 
 extern pid_t			g_child;

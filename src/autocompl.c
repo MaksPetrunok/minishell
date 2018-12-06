@@ -6,29 +6,17 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 14:51:20 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 16:16:02 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int		sort(void *a, void *b)
-{
-	char	*aa;
-	char	*bb;
-
-	aa = (char *)a;
-	bb = (char *)b;
-	return (ft_strcmp(aa, bb));
-}
 
 static void		add_file(char *file, t_list **lst)
 {
 	t_list	*new;
 	char	*data;
 
-//	techo(file);
-//	techo("\n");
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return ;
@@ -58,9 +46,8 @@ char			*convert_pattern(t_inp_buff *buff)
 	return (patt);
 }
 
-static t_list	*get_files(t_inp_buff *buff)
+static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
 {
-	DIR				*dstr;
 	struct dirent	*dirp;
 	char			dir[4100];
 	char			*patt;
@@ -79,7 +66,7 @@ static t_list	*get_files(t_inp_buff *buff)
 		{
 			i = 0;
 			while (patt[i] && dirp->d_name[i] == patt[i])
-			   i++;
+				i++;
 			if (i > 0 && dirp->d_name[i] && patt[i] == '\0')
 				add_file(dirp->d_name + i, &lst);
 		}
@@ -122,8 +109,10 @@ void			auto_complete(t_inp_buff **buff)
 	t_list	*match;
 	t_list	*head;
 	char	*str;
+	DIR		*dstr;
 
-	match = get_files(*buff);
+	dstr = 0;
+	match = get_files(*buff, dstr);
 	head = match;
 	while (match && ft_lstsize(head) > 1)
 	{
@@ -131,7 +120,6 @@ void			auto_complete(t_inp_buff **buff)
 		techo((char *)(match->content));
 		match = match->next;
 	}
-	
 	if (ft_lstsize(head) > 1)
 	{
 		techo("\n");

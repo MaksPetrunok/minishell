@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:15:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 13:59:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 16:56:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_inp_buff	*init_input_buff(void)
 	t_inp_buff	*ret;
 	long		*data;
 
-	data = malloc(INPUT_BUFF_SIZE * sizeof(long));
-	ret = malloc(sizeof(t_inp_buff));
+	data = (long *)malloc((INPUT_BUFF_SIZE) * sizeof(long));
+	ret = (t_inp_buff *)malloc(sizeof(t_inp_buff));
 	if (!data || !ret)
 	{
 		techo(SHELL_NAME);
@@ -27,7 +27,6 @@ t_inp_buff	*init_input_buff(void)
 	}
 	ret->data = data;
 	ret->data[0] = 0;
-
 	ret->pos = 0;
 	ret->len = 0;
 	ret->size = INPUT_BUFF_SIZE;
@@ -65,7 +64,7 @@ void		input_buff_free(t_inp_buff *buff)
 	free((void *)buff);
 }
 
-static void	shift(t_inp_buff *buff, int direction)
+void		shift(t_inp_buff *buff, int direction)
 {
 	int	i;
 
@@ -89,82 +88,10 @@ static void	shift(t_inp_buff *buff, int direction)
 	}
 }
 
-int			inp_insert(t_inp_buff **buff, int key_code)
+int			inp_autocomp(t_inp_buff **buff, int key_code)
 {
-	if ((*buff)->len == (*buff)->size - 1)
-	{
-		if (!increase_input_buff(buff))
-			return (0);
-	}
-	shift(*buff, 1);
-	(*buff)->data[(*buff)->pos] = key_code;
-	(*buff)->pos += 1;
-	(*buff)->len += 1;
-	term_print(key_code);
-	return (1);
-}
-
-int			inp_move(t_inp_buff **buff, int key_code)
-{
-	if (key_code == K_LEFT && (*buff)->pos > 0)
-	{
-		(*buff)->pos--;
-		term_cursor_move(key_code);
-		return (1);
-	}
-	else if (key_code == K_RIGHT && (*buff)->pos < (*buff)->len)
-	{
-		(*buff)->pos++;
-		term_cursor_move(key_code);
-		return (1);
-	}
-	return (0);
-
-}
-
-int			inp_delete(t_inp_buff **buff, int key_code)
-{
-	if (key_code == K_DEL)
-	{
-		shift(*buff, -1);
-		term_delete(key_code);
-		(*buff)->len--;
-		return (1);
-	}
-	else if (key_code == K_BACK_SP && (*buff)->pos > 0)
-	{
-		(*buff)->pos--;
-		shift(*buff, -1);
-		(*buff)->len--;
-		term_delete(key_code);
-		return (1);
-	}
-	return (0);
-
-}
-
-int			inp_ignore(t_inp_buff UNUSED **buff, int UNUSED key_code)
-{
-	return (1);
-}
-
-int			inp_exit(t_inp_buff **buff, int UNUSED key_code)
-{
-	if ((*buff)->len == 0)
-	{
-		techo("see you later :)\n");
-		unset_keyboard();
-		exit(0);
-	}
-	else if ((*buff)->pos < (*buff)->len)
-		inp_delete(buff, K_DEL);
-	return (1);
-
-}
-
-int			inp_autocomp(t_inp_buff UNUSED **buff, int UNUSED key_code)
-{
+	(void)buff;
+	(void)key_code;
 	auto_complete(buff);
-//	techo("AUTOCOMPLETION\n");
 	return (1);
 }

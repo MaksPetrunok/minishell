@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 17:04:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 16:57:34 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		key_action(t_inp_buff **buff, int code)
+static void	key_action(t_inp_buff **buff, int code)
 {
 	static t_key	table[KEY_NUM] = {
 						{K_LEFT, &inp_move},
@@ -37,7 +37,7 @@ static void		key_action(t_inp_buff **buff, int code)
 	table[i].on_key_act(buff, code);
 }
 
-static long			get_esc(long *c)
+static long	get_esc(long *c)
 {
 	char	*ptr;
 
@@ -52,7 +52,7 @@ static long			get_esc(long *c)
 	return (0);
 }
 
-static long			get_char(void)
+static long	get_char(void)
 {
 	long	c;
 	char	*ptr;
@@ -76,7 +76,7 @@ static long			get_char(void)
 	return (c);
 }
 
-char				*utf_to_str(long *arr, int size)
+char		*utf_to_str(long *arr, int size)
 {
 	char	*str;
 	char	*ptr;
@@ -96,7 +96,7 @@ char				*utf_to_str(long *arr, int size)
 	return (str);
 }
 
-int					get_input(char **str)
+int			get_input(char **str)
 {
 	t_inp_buff	*buff;
 	int			c;

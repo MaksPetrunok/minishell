@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 16:00:45 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 16:58:59 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	term_print(long code)
 	init_keyboard();
 }
 
-void	term_ignore(int UNUSED code)
+void	term_ignore(int code)
 {
+	(void)code;
 	return ;
 }

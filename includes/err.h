@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/23 17:51:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 17:25:12 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 
 # define ERR_INITENV	0x10
 # define ERR_SETVAR		0x20
-# define ERR_ADDVAR		0x20 // add to .c file
+# define ERR_ADDVAR		0x20
 
-# define ERR_MALLOC	0x01
+# define ERR_MALLOC		0x01
 
 # define ESTR_MALLOC	"Failed to allocate memory."
 # define ESTR_INITENV	"Cannot initialize environment."
