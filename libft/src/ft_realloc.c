@@ -6,15 +6,15 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 19:53:39 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/06/27 17:08:23 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:50:15 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- * Frees initial *ptr, allocates size bytes and returns pointer to allocated
- * memory. All data from *ptr copied to newly allocated memory.
+** Frees initial *ptr, allocates size bytes and returns pointer to allocated
+** memory. All data from *ptr copied to newly allocated memory.
 */
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)

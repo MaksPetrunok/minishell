@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 16:58:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:44:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	term_print(long code)
 	char	*s;
 
 	s = (char *)(&code);
-	techo(" ");
-	tconf("le");
 	unset_keyboard();
-	ft_printf("%s", s);
+	tconf("im");
+	ft_putstr(s);
 	init_keyboard();
 }
 

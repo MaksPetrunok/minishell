@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 17:14:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:58:14 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,12 @@ void	sh_loop(void)
 
 int		main(int ac, char **av, char **ev)
 {
-	if (av)
-		(void)ac;
+	(void)av;
+	(void)ac;
 	setup_signals();
 	if (ev)
 		init_environment(ev);
 	sh_loop();
 	env_free(g_myenv);
-	system("leaks minishell");
 	return (0);
 }

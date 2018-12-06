@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:52:22 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 11:36:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:48:10 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	myputchar(int c)
 
 int	techo(char *s)
 {
-	tputs(s, 1, myputchar);
+	unset_keyboard();
+	ft_putstr(s);
+	init_keyboard();
 	return (0);
 }
 

@@ -6,16 +6,12 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 18:27:52 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/21 15:04:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/06 18:52:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-//for Ubuntu
-# define uintmax_t	__uintmax_t
-# define intmax_t	__intmax_t
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -76,7 +72,8 @@ int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
-char				*ft_strjoin3(char const *s1, char const *s2, char const *s3);
+char				*ft_strjoin3(char const *s1, char const *s2,
+														char const *s3);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 char				*ft_strsort(char *str);

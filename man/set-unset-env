@@ -1,6 +1,0 @@
-Add environ variable:
-setenv [name] [value]
-setenv [name] (value is set to "\0")
-
-Remove environ variable:
-unsetenv [name]
