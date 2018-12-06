@@ -80,7 +80,7 @@ static t_list	*get_files(t_inp_buff *buff)
 			i = 0;
 			while (patt[i] && dirp->d_name[i] == patt[i])
 			   i++;
-			if (i > 0 && dirp->d_name[i])
+			if (i > 0 && dirp->d_name[i] && patt[i] == '\0')
 				add_file(dirp->d_name + i, &lst);
 		}
 	closedir(dstr);
@@ -88,7 +88,7 @@ static t_list	*get_files(t_inp_buff *buff)
 	return (lst);
 }
 
-static void		fill(t_inp_buff UNUSED **buff, t_list *head)
+static void		fill(t_inp_buff **buff, t_list *head)
 {
 	t_list	*lst;
 	int		i;
@@ -98,7 +98,7 @@ static void		fill(t_inp_buff UNUSED **buff, t_list *head)
 
 	i = 0;
 	add = 1;
-	while (add)
+	while (head && add)
 	{
 		lst = head;
 		add = 1;
@@ -112,10 +112,10 @@ static void		fill(t_inp_buff UNUSED **buff, t_list *head)
 		}
 		if (add)
 			inp_insert(buff, (int)sym);
+		i++;
 	}
 	return ;
 }
-
 
 void			auto_complete(t_inp_buff **buff)
 {
@@ -125,19 +125,21 @@ void			auto_complete(t_inp_buff **buff)
 
 	match = get_files(*buff);
 	head = match;
-	while (match)
+	while (match && ft_lstsize(head) > 1)
 	{
 		techo("\n");
 		techo((char *)(match->content));
 		match = match->next;
 	}
-	ft_lstfree(&head);
-	techo("\n");
-	show_prompt();
+	
+	if (ft_lstsize(head) > 1)
 	{
-		str = utf_to_str((*buff)->data, (*buff)->len);
-		techo(str);
-		fill(buff, head);
+		techo("\n");
+		show_prompt();
+		if (*(str = utf_to_str((*buff)->data, (*buff)->len)))
+			techo(str);
 		free((void *)str);
 	}
+	fill(buff, head);
+	ft_lstfree(&head);
 }
