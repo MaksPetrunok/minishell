@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 19:48:49 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/12/04 11:52:22 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/06 22:40:04 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t	g_child;
-
-void	setup_signals(void)
+int	myputchar(int c)
 {
-	signal(SIGINT, &sh_sig_handler);
+	return (write(0, &c, 4));
 }
 
-void	sh_sig_handler(int UNUSED sig)
+int	techo(char *s)
 {
-	if (g_child)
-	{
-		kill(g_child, SIGINT);
-		g_child = 0;
-		write(1, "\n", 1);
-	}
-	else
-	{
-		write(1, "\n", 1);
-		show_prompt();
-	}
+//	unset_keyboard();
+	ft_putstr(s);
+	tputs(s, 1, myputchar);
+//	init_keyboard();
+	return (0);
+}
+
+int	tconf(char *s)
+{
+	char	**buff;
+
+	buff = 0;
+	tputs(tgetstr(s, buff), 1, myputchar);
+	return (0);
 }

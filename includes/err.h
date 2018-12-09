@@ -13,6 +13,9 @@
 #ifndef ERR_H
 # define ERR_H
 
+# define EXIT_ERR	-1
+# define EXIT_OK	0
+
 # define ERR_ALL	0xFF
 # define ERR_MAIN	0xF0
 # define ERR_AUX	0x0F

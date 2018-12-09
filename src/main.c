@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-pid_t			g_child = 0;
-struct termios	g_term;
+//pid_t			g_child = 0;
+//struct termios	g_term;
+t_shell	shell;
 
 int		process_cmd(char **cmd_lst)
 {
@@ -95,10 +96,13 @@ int		main(int ac, char **av, char **ev)
 {
 	(void)av;
 	(void)ac;
-	setup_signals();
-	if (ev)
-		init_environment(ev);
+	if (init_shell(ev) != 0)
+		return (EXIT_ERR);
+//	setup_signals();
+//	if (ev)
+//		init_environment(ev);
 	sh_loop();
-	env_free(g_myenv);
+	exit_shell();
+//	env_free(g_myenv);
 	return (0);
 }

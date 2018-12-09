@@ -21,9 +21,9 @@ typedef struct	s_env
 	int			capacity;
 }				t_env;
 
-extern t_env	*g_myenv;
+//extern t_env	*g_myenv; // see shell->environ
 
-void			init_environment(char **ev);
+t_env			*init_environment(char **ev);
 char			**get_env(void);
 char			*get_var(const char *name);
 int				set_var(const char *name, const char *value);

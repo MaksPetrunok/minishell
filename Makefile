@@ -33,14 +33,17 @@ MAIN_FILES = main.c \
 			lexer_util.c \
 			parser.c \
 			free_util.c \
-			terminal.c \
 			err.c \
 			on_key.c \
 			input.c \
 			input_buff.c \
 			input_buff_manage.c \
 			autocompl.c \
-			aux.c
+			aux.c \
+			shell/shell.c \
+			shell/terminal.c \
+			shell/shell_init.c \
+			shell/shell_exit.c
 
 
 
@@ -60,7 +63,7 @@ OBJ_LIST = $(addprefix $(OBJ_DIR), $(SRC_LIST:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(OBJ_LIST)
+$(NAME): $(LIB) create_directories $(OBJ_LIST)
 	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME) -L ./ -ltermcap
 	@echo "$(NAME) - Done."
 
@@ -68,9 +71,12 @@ $(LIB):
 	@make -C $(LIB_DIR) all --silent
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
+
+create_directories:
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
-	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
+	@mkdir -p $(OBJ_DIR)shell/
 
 clean:
 	@echo "$(NAME): Cleaning object files... "
@@ -84,4 +90,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY = all clean fclean re
+.PHONY = all clean fclean re create_directories

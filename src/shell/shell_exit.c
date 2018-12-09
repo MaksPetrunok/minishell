@@ -12,51 +12,24 @@
 
 #include "minishell.h"
 
-int	myputchar(int c)
+void	finish_child_processes(void)
 {
-	return (write(0, &c, 4));
+	t_list		*lst;
+	t_process	*process;
+
+	lst = shell.childs;
+	while (lst)
+	{
+		process = (t_process *)(lst->content);
+		kill(process->pid, SIGKILL);
+		lst = lst->next;
+	}
 }
 
-int	techo(char *s)
-{
-//	unset_keyboard();
-	ft_putstr(s);
-	tputs(s, 1, myputchar);
-//	init_keyboard();
-	return (0);
-}
-
-int	tconf(char *s)
-{
-	char	**buff;
-
-	buff = 0;
-	tputs(tgetstr(s, buff), 1, myputchar);
-	return (0);
-}
-
-int	init_keyboard(void)
-{
-	struct termios	tmp;
-
-	if (tgetent(0, get_var("TERM")) != 1)
-		return (-1);
-	if (tcgetattr(0, &g_term) != 0)
-		return (-1);
-	ft_memcpy((void *)&tmp, (void *)&g_term, sizeof(struct termios));
-	tmp.c_lflag &= ~(ECHO | ECHOE | ICANON);
-	tmp.c_cc[VMIN] = 1;
-	tmp.c_cc[VTIME] = 0;
-	if (tcsetattr(0, 0, &tmp) != 0)
-		return (-1);
-	tconf("im");
-	return (0);
-}
-
-int	unset_keyboard(void)
+int	restore_term_ref(void)
 {
 	tconf("ei");
-	if (tcsetattr(0, 0, &g_term) != 0)
+	if (tcsetattr(0, 0, shell.term_ref) != 0)
 		return (-1);
 	return (0);
 }

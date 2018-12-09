@@ -15,6 +15,8 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+typedef __intmax_t  intmax_t;
+typedef __uintmax_t uintmax_t;
 
 typedef struct		s_list
 {

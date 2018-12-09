@@ -13,6 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "shell_struct.h"
 # include "libft.h"
 # include "input.h"
 # include "environ.h"
@@ -32,8 +33,10 @@
 # define SHELL_NAME	"SmashMyBashUp"
 # define UNUSED	__attribute__((unused))
 
-extern pid_t			g_child;
-extern struct termios	g_term;
+//extern pid_t			g_child;
+//extern struct termios	g_term;
+
+extern t_shell	shell;
 
 void	show_prompt(void);
 t_token	*tokenize(char *s);

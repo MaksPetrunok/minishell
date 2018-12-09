@@ -13,7 +13,7 @@
 13. add -n flag to echo
 14. Track cursor motion. If cursor is at right most column of the screen - move it to next line after inserting a character.
 15. When hit RETURN, check firs how many lines are below the cursor and offset cursor to not override existing output.
-
+16. Unset keyboard handling (terminal) when forking new process.
 
 
 

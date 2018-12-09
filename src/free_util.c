@@ -39,8 +39,13 @@ void	arr_free(void **arr)
 
 void	env_free(t_env *env)
 {
+	int	i;
+
 	if (!env)
 		return ;
+	i = 0;
+	while (env->av[i])
+		free((void *)(env->av[i++]));
 	arr_free((void *)env->av);
 	free((void *)env);
 }
