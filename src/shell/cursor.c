@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_exit.c                                       :+:      :+:    :+:   */
+/*   cursor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/10 02:32:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 02:32:58 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/12/09 19:58:48 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/10 07:31:21 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	finish_child_processes(void)
+int	init_cursor(void)
 {
-	t_list		*lst;
-	t_process	*process;
-
-	lst = shell.childs;
-	while (lst)
-	{
-		process = (t_process *)(lst->content);
-		kill(process->pid, SIGKILL);
-		lst = lst->next;
-	}
+	if ((shell.cursor = malloc(sizeof(t_cursor))) == 0)
+		return (-1);
+	shell.cursor->col = 0;
+	shell.cursor->row = 0;
+	return (0);
 }

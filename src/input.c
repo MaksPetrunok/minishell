@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 18:17:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 02:35:37 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,29 +98,24 @@ char		*utf_to_str(long *arr, int size)
 
 int			get_input(char **str)
 {
-	t_inp_buff	*buff;
+	t_inp_buff	**buff;
 	int			c;
 	int			len;
 
-	if ((buff = init_input_buff()) == 0)
+	shell.input = init_input_buff();
+	buff = &(shell.input);
+	if (*buff == NULL)
 		return (0);
-	if (init_keyboard() == 0)
+	while (1)
 	{
-		while (1)
+		if ((c = get_char()) == K_RETURN)
 		{
-			if ((c = get_char()) == K_RETURN)
-			{
-				*str = utf_to_str(buff->data, buff->len);
-				len = buff->len;
-				input_buff_free(buff);
-				unset_keyboard();
-				return (len);
-			}
-			key_action(&buff, c);
+			*str = utf_to_str((*buff)->data, (*buff)->len);
+			len = (*buff)->len;
+			input_buff_free(*buff);
+			return (len);
 		}
-		unset_keyboard();
+		key_action(buff, c);
 	}
-	else
-		ft_dprintf(2, "%s: cannot set keyboard handler\n", SHELL_NAME);
 	return (0);
 }

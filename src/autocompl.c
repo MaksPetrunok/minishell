@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 16:16:02 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 04:00:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void		fill(t_inp_buff **buff, t_list *head)
 	return ;
 }
 
-void			auto_complete(t_inp_buff **buff)
+int				auto_complete(t_inp_buff **buff)
 {
 	t_list	*match;
 	t_list	*head;
@@ -130,4 +130,5 @@ void			auto_complete(t_inp_buff **buff)
 	}
 	fill(buff, head);
 	ft_lstfree(&head);
+	return (1);
 }

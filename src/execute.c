@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/05 12:07:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 11:25:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,14 @@ static void	launch_process(char **av)
 	{
 		if (access(cmd, X_OK) == 0)
 		{
-			execve(cmd, av, get_env());
+			/*
+			ft_printf("exec path = %s\n", cmd);
+			for (int i=0; av[i] != 0; i++)
+				ft_printf("av[%d]=%s\n", i, av[i]);
+			for (int i=0; shell.environ->av[i] != 0; i++)
+				ft_printf("env[%d]=%s\n", i, shell.environ->av[i]);
+				*/
+			execve(cmd, av, shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
 													SHELL_NAME, av[0]);
 		}
@@ -122,11 +129,13 @@ int			execute(char **av)
 	}
 	else if (child == 0)
 	{
+		switch_term_to(shell.term_ref);
 		launch_process(av);
 		exit(1);
 	}
 	status = 1;
 	waitpid(child, &status, 0);
+	switch_term_to(shell.term_current);
 	g_child = 0;
 	return (1);
 }

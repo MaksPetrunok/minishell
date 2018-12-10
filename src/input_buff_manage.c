@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:30:46 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 16:55:47 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 08:14:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	inp_insert(t_inp_buff **buff, int key_code)
 {
+	int	move;
+
+	move = 1;
 	if ((*buff)->len == (*buff)->size - 1)
 	{
 		if (!increase_input_buff(buff))
@@ -23,45 +26,57 @@ int	inp_insert(t_inp_buff **buff, int key_code)
 	(*buff)->data[(*buff)->pos] = key_code;
 	(*buff)->pos += 1;
 	(*buff)->len += 1;
-	term_print(key_code);
+	if (key_code == K_TAB)
+	{
+		move = TAB_SIZE;
+		key_code = ' ';
+	}
+	while (move-- > 0)
+		term_print(key_code);
 	return (1);
 }
 
 int	inp_move(t_inp_buff **buff, int key_code)
 {
+	int	move;
+
+	move = 0;
 	if (key_code == K_LEFT && (*buff)->pos > 0)
 	{
 		(*buff)->pos--;
-		term_cursor_move(key_code);
-		return (1);
+		if ((*buff)->data[(*buff)->pos] == K_TAB)
+			move = TAB_SIZE;
+		else
+			move = 1;
 	}
 	else if (key_code == K_RIGHT && (*buff)->pos < (*buff)->len)
 	{
+		if ((*buff)->data[(*buff)->pos] == K_TAB)
+			move = TAB_SIZE;
+		else
+			move = 1;
 		(*buff)->pos++;
-		term_cursor_move(key_code);
-		return (1);
 	}
-	return (0);
+	while (move-- > 0)
+		term_cursor_move(key_code);
+	return (1);
 }
 
 int	inp_delete(t_inp_buff **buff, int key_code)
 {
-	if (key_code == K_DEL)
-	{
-		shift(*buff, -1);
-		term_delete(key_code);
-		(*buff)->len--;
-		return (1);
-	}
-	else if (key_code == K_BACK_SP && (*buff)->pos > 0)
-	{
+	int	move;
+	int	can_delete;
+
+	can_delete = (key_code == K_BACK_SP && (*buff)->pos > 0) ||
+		key_code == K_DEL;
+	if (key_code == K_BACK_SP && (*buff)->pos > 0)
 		(*buff)->pos--;
-		shift(*buff, -1);
-		(*buff)->len--;
+	move = (*buff)->data[(*buff)->pos] == K_TAB ? 4 : 1;
+	while (can_delete && move-- > 0)
 		term_delete(key_code);
-		return (1);
-	}
-	return (0);
+	shift(*buff, -1);
+	(*buff)->len--;
+	return (1);
 }
 
 int	inp_ignore(t_inp_buff **buff, int key_code)
@@ -76,8 +91,9 @@ int	inp_exit(t_inp_buff **buff, int key_code)
 	(void)key_code;
 	if ((*buff)->len == 0)
 	{
-		techo("see you later :)\n");
-		unset_keyboard();
+		techo("exit\n");
+		input_buff_free(*buff);
+		exit_shell();
 		exit(0);
 	}
 	else if ((*buff)->pos < (*buff)->len)

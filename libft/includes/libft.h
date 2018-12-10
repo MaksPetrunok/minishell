@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 18:27:52 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 18:52:06 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/09 18:08:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+# ifdef OS_LINUX
 typedef __intmax_t  intmax_t;
 typedef __uintmax_t uintmax_t;
+# endif
 
 typedef struct		s_list
 {

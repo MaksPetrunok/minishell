@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 18:19:35 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/03 13:18:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 00:38:34 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ static char	**duplicate_env(char **env, int size)
 
 	if ((copy = (char **)malloc(sizeof(char **) * size)) == NULL)
 		return (0);
+//ft_printf("sizeof copy = %ld\n", sizeof(char **) * size);
 	i = 0;
-	while (i < size && *env)
+	while (i < size - 1)
 	{
-		if ((copy[i] = ft_strdup(*env)) == 0)
+		if ((copy[i] = ft_strdup(*env++)) == 0)
 		{
 			arr_free((void **)copy);
 			return (0);
 		}
+//ft_printf("%p	copy[%d]=%s\n", &copy[i], i, copy[i]);
 		i++;
-		env++;
 	}
 	copy[i] = 0;
 	return (copy);
@@ -42,7 +43,11 @@ t_env	*init_environment(char **ev)
 	char	**new_av;
 	int		size;
 
-	size = ft_arrsize((void **)ev);
+	if (ev != NULL)
+		size = ft_arrsize((void **)ev) + 1;
+	else
+		size = 1;
+//ft_printf("initial env arr size = %d\n", size);
 	if ((new_av = duplicate_env(ev, size)) == 0)
 		return (0);
 	if ((new_env = malloc(sizeof(t_env))) == 0)
@@ -53,11 +58,6 @@ t_env	*init_environment(char **ev)
 	new_env->av = new_av;
 	new_env->capacity = size;
 	return (new_env);
-}
-
-char **get_env(void)
-{
-	return (shell.environ->av);
 }
 
 char *get_var(const char *var_name)

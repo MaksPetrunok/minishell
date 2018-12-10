@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 18:58:14 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 01:31:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ void	sh_loop(void)
 	run = 1;
 	while (run)
 	{
+//		switch_term_to(shell.term_ref);
 		show_prompt();
+//		switch_term_to(shell.term_current);
 		if (get_input(&input) > 0)
 			run = process_input(input);
 		else
@@ -98,11 +100,8 @@ int		main(int ac, char **av, char **ev)
 	(void)ac;
 	if (init_shell(ev) != 0)
 		return (EXIT_ERR);
-//	setup_signals();
-//	if (ev)
-//		init_environment(ev);
 	sh_loop();
 	exit_shell();
-//	env_free(g_myenv);
+	system("leaks minishell");
 	return (0);
 }

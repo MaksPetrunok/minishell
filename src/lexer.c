@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 17:20:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 03:21:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_state_trans	g_fsm_table[7][8] =
 
 	[S_EXPR][CH_GENERAL] = {S_GENERAL, &new_emp_tkn},
 	[S_EXPR][CH_VARNAME] = {S_EXPR, &append_tkn},
-	[S_EXPR][CH_EXPR] = {S_EXPR, &append_tkn},
+	[S_EXPR][CH_EXPR] = {S_EXPR, &new_emp_tkn},
 	[S_EXPR][CH_ESCAPE] = {S_ESCAPE, 0},
 	[S_EXPR][CH_QUOTE] = {S_QUOTE, &new_emp_tkn},
 	[S_EXPR][CH_DQUOTE] = {S_DQUOTE, &new_emp_tkn},

@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/06 18:59:56 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/10 02:41:11 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -40,9 +40,11 @@ MAIN_FILES = main.c \
 			input_buff_manage.c \
 			autocompl.c \
 			aux.c \
-			shell/shell.c \
+			terminal_outp.c \
+			\
 			shell/terminal.c \
-			shell/shell_init.c \
+			shell/cursor.c \
+			shell/shell.c \
 			shell/shell_exit.c
 
 
@@ -63,20 +65,26 @@ OBJ_LIST = $(addprefix $(OBJ_DIR), $(SRC_LIST:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(LIB) create_directories $(OBJ_LIST)
+$(NAME): $(LIB) $(OBJ_LIST)
 	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME) -L ./ -ltermcap
 	@echo "$(NAME) - Done."
 
 $(LIB):
 	@make -C $(LIB_DIR) all --silent
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
+#OBJ_DIR_TREE =
 
-create_directories:
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+#ifneq ($(OBJ_DIR_TREE), done)
+#	@OBJ_DIR_TREE = done
+#	@echo "Creating folders..." $(OBJ_DIR_TREE)
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
 	@mkdir -p $(OBJ_DIR)shell/
+#	@echo "FLAG..." $(OBJ_DIR_TREE)
+#endif
+	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
+
 
 clean:
 	@echo "$(NAME): Cleaning object files... "
@@ -90,4 +98,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY = all clean fclean re create_directories
+.PHONY = all clean fclean re

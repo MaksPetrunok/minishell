@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:15:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 18:49:43 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 05:19:50 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int			increase_input_buff(t_inp_buff **buff)
 
 void		input_buff_free(t_inp_buff *buff)
 {
+	if (buff == NULL)
+		return ;
 	free((void *)(buff->data));
 	free((void *)buff);
 }
@@ -90,8 +92,18 @@ void		shift(t_inp_buff *buff, int direction)
 
 int			inp_autocomp(t_inp_buff **buff, int key_code)
 {
-	(void)buff;
-	(void)key_code;
-	auto_complete(buff);
+	int	i;
+
+	if ((*buff)->pos == 0)
+		return (inp_insert(buff, key_code));
+	i = (*buff)->pos;
+	while (i > 0)
+		if ((*buff)->data[i - 1] != 0 &&
+			(*buff)->data[i - 1] != (long)' ' &&
+			(*buff)->data[i - 1] != (long)K_TAB)
+			return (auto_complete(buff));
+		else
+			i--;
+	inp_insert(buff, key_code);
 	return (1);
 }

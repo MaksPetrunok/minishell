@@ -1,14 +1,18 @@
-//header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/10 07:18:43 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 t_shell	shell;
-
-static void	free_terminals()
-{
-	free((void *)(shell.term_ref));
-	free((void *)(shell.term_current));
-}
 
 static void	free_child_list(void)
 {
@@ -25,24 +29,32 @@ static void	free_child_list(void)
 
 int	init_shell(char **env)
 {
+	shell.childs = NULL;
+	shell.input = NULL;
 	if ((shell.environ = init_environment(env)) == 0)
 		return (-1);
-	if (read_term_ref() == -1)
-		return (-1);
-	if (configure_term() == -1 ||
-		init_cursor() == -1)
+	if (setup_terminal() != 0)
 	{
-		free_terminals();
+		env_free(shell.environ);
 		return (-1);
 	}
-	shell.childs = NULL;
+	if (init_cursor() != 0)
+	{
+		exit_shell();
+		return (-1);
+	}
+	if (ioctl(0, TIOCGWINSZ, &(shell.w)) == -1)
+		return (-1);
+//	ft_printf("rows: %d, cols: %d\n", shell.w.ws_row, shell.w.ws_col);
+	setup_signals();
+	switch_term_to(shell.term_current);
 	return (0);
 }
 
 void	exit_shell(void)
 {
 	finish_child_processes();
-	if (restore_term_ref() == -1)
+	if (switch_term_to(shell.term_ref) == -1)
 		ft_dprintf(2, "%s: unable restore terminal settings\n", SHELL_NAME);
 	free_child_list();
 	free_terminals();

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 17:26:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/10 08:27:32 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define KEY_NUM			13
 # define INPUT_BUFF_SIZE	4
-
+# define TAB_SIZE			4
 # include <dirent.h>
 
 typedef struct	s_inp_buff
@@ -78,7 +78,7 @@ int				increase_input_buff(t_inp_buff **buff);
 void			shift(t_inp_buff *buff, int direction);
 void			input_buff_free(t_inp_buff *buff);
 char			*utf_to_str(long *data, int size);
-void			auto_complete(t_inp_buff **buff);
+int				auto_complete(t_inp_buff **buff);
 int				get_input(char **str);
 
 /*
