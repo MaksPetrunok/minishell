@@ -113,6 +113,7 @@ int			get_input(char **str)
 			*str = utf_to_str((*buff)->data, (*buff)->len);
 			len = (*buff)->len;
 			input_buff_free(*buff);
+			shell.input = NULL;
 			return (len);
 		}
 		key_action(buff, c);

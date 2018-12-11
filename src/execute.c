@@ -91,17 +91,17 @@ static void	launch_process(char **av)
 	char	*cmd;
 
 	cmd = get_exec_path(av[0]);
-	if (cmd && av[0][0])
+	if (cmd && *av && **av)
 	{
 		if (access(cmd, X_OK) == 0)
 		{
-			/*
+			
 			ft_printf("exec path = %s\n", cmd);
 			for (int i=0; av[i] != 0; i++)
 				ft_printf("av[%d]=%s\n", i, av[i]);
 			for (int i=0; shell.environ->av[i] != 0; i++)
 				ft_printf("env[%d]=%s\n", i, shell.environ->av[i]);
-				*/
+				
 			execve(cmd, av, shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
 													SHELL_NAME, av[0]);
@@ -119,23 +119,23 @@ int			execute(char **av)
 	int		status;
 
 	child = fork();
-	if (child > 0)
-		g_child = child;
-	if (child == -1)
-	{
-		ft_dprintf(2, "%s: failed to launch new process '%s'\n",
-												SHELL_NAME, av[0]);
-		return (-1);
-	}
-	else if (child == 0)
+	if (child == 0)
 	{
 		switch_term_to(shell.term_ref);
 		launch_process(av);
 		exit(1);
 	}
+	else if (child < 0)
+	{
+		ft_dprintf(2, "%s: failed to launch new process '%s'\n",
+												SHELL_NAME, av[0]);
+		return (-1);
+	}
+	else
+		g_child = child; //append child to shell.childs instead
 	status = 1;
 	waitpid(child, &status, 0);
-	switch_term_to(shell.term_current);
+//	switch_term_to(shell.term_current); //no need here, term switched for child only
 	g_child = 0;
 	return (1);
 }

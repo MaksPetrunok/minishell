@@ -102,6 +102,6 @@ int		main(int ac, char **av, char **ev)
 		return (EXIT_ERR);
 	sh_loop();
 	exit_shell();
-	system("leaks minishell");
+//	system("leaks minishell");
 	return (0);
 }

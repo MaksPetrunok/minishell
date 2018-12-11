@@ -19,6 +19,7 @@
 +16. Unset keyboard handling (terminal) when forking new process.
 17. Manage terminals carefully. When env TERM is changed try to connect corresponding terminal. Show err message if cannot be found.
 18. Ensure that unicode is shown properly. Multiple utf symbols cause segfault.
+19. Search executables like dir/foo in PWD
 	Debug it.
 
 unset TERM

@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+# define OS_LINUX //for Ubuntu
 # ifdef OS_LINUX
 typedef __intmax_t  intmax_t;
 typedef __uintmax_t uintmax_t;

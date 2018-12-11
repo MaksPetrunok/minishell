@@ -104,6 +104,6 @@ int			inp_autocomp(t_inp_buff **buff, int key_code)
 			return (auto_complete(buff));
 		else
 			i--;
-	inp_insert(buff, key_code);
-	return (1);
+	//inp_insert(buff, key_code);
+	return (inp_insert(buff, key_code));
 }
