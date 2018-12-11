@@ -17,10 +17,12 @@ t_inp_buff	*init_input_buff(void)
 	t_inp_buff	*ret;
 	long		*data;
 
-	data = (long *)malloc((INPUT_BUFF_SIZE) * sizeof(long));
-	ret = (t_inp_buff *)malloc(sizeof(t_inp_buff));
+	data = malloc((INPUT_BUFF_SIZE) * sizeof(long));
+	ret = malloc(sizeof(t_inp_buff));
 	if (!data || !ret)
 	{
+		free((void *)data);
+		free((void *)ret);
 		techo(SHELL_NAME);
 		techo(": failed to allocate buffer for input\n");
 		return (0);

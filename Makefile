@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/10 02:41:11 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/11 15:21:16 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ OBJ_LIST = $(addprefix $(OBJ_DIR), $(SRC_LIST:.c=.o))
 all: $(NAME)
 
 $(NAME): $(LIB) $(OBJ_LIST)
-	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME) -L ./ -ltermcap
+	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME) -ltermcap
 	@echo "$(NAME) - Done."
 
 $(LIB):

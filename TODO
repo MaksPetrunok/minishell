@@ -1,3 +1,4 @@
+
 +1. Clear inp_buff when Ctrl+C.
 2. Manage variable $?.
 +3. TAB & Spaces

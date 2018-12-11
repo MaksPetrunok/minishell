@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 02:35:37 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/11 23:15:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ int			get_input(char **str)
 	int			c;
 	int			len;
 
+	switch_term_to(shell.term_typing);
+	if (shell.canonical)
+		return (get_next_line(0, str));
 	shell.input = init_input_buff();
 	buff = &(shell.input);
 	if (*buff == NULL)

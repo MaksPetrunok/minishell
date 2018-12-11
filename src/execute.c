@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 11:25:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/11 23:15:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	launch_process(char **av)
 				ft_printf("av[%d]=%s\n", i, av[i]);
 			for (int i=0; shell.environ->av[i] != 0; i++)
 				ft_printf("env[%d]=%s\n", i, shell.environ->av[i]);
+			ft_printf("----------------------\n");
 				
 			execve(cmd, av, shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
@@ -118,10 +119,9 @@ int			execute(char **av)
 	pid_t	child;
 	int		status;
 
-	child = fork();
-	if (child == 0)
+	if ((child = fork()) == 0)
 	{
-		switch_term_to(shell.term_ref);
+		switch_term_to(shell.term_default);
 		launch_process(av);
 		exit(1);
 	}
@@ -135,7 +135,7 @@ int			execute(char **av)
 		g_child = child; //append child to shell.childs instead
 	status = 1;
 	waitpid(child, &status, 0);
-//	switch_term_to(shell.term_current); //no need here, term switched for child only
+	switch_term_to(shell.term_typing);
 	g_child = 0;
 	return (1);
 }

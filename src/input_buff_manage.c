@@ -6,11 +6,25 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:30:46 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 08:14:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/11 19:13:09 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void refresh_str(t_inp_buff *buff)
+{
+	int		i;
+	long	*av;
+
+	i = buff->pos;
+	tconf("ce"); // clean not only current line, but all following as well
+	av = buff->data;
+	while (av[i])
+		term_print(av[i++]);
+	while (i-- > buff->pos)
+		term_cursor_move(K_LEFT);
+}
 
 int	inp_insert(t_inp_buff **buff, int key_code)
 {
@@ -33,6 +47,8 @@ int	inp_insert(t_inp_buff **buff, int key_code)
 	}
 	while (move-- > 0)
 		term_print(key_code);
+	if ((*buff)->pos < (*buff)->len)
+		refresh_str(*buff);
 	return (1);
 }
 

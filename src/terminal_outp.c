@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 18:47:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 01:30:42 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/11 19:26:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	putchar_echo(int c)
 
 static int	putchar_conf(int c)
 {
-	return (write(1, &c, 4));
+	return (write(1, &c, 1));
 }
 
 int			techo(char *s)
@@ -30,9 +30,9 @@ int			techo(char *s)
 
 int			tconf(char *s)
 {
-	char	**buff;
+//	char	**buff;
 
-	buff = 0;
-	tputs(tgetstr(s, buff), 1, putchar_conf);
+//	buff = 0;
+	tputs(tgetstr(s, 0), 1, putchar_conf);
 	return (0);
 }
