@@ -30,7 +30,9 @@ static int	initialize(void)
 
 static int	set_terminal_db(void)
 {
-	char	*name;
+	static char	*name; // compare pointers of name and get_var("TERM")
+						// to detect if variable has been changed
+						// if changed and tgetent not accessible - show err msg
 
 	name = get_var("TERM");
 	if (name == NULL || *name == '\0')
