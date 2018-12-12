@@ -52,7 +52,7 @@ static char	*get_value(t_token *tkn)
 	}
 	else
 		tmp = get_var(tkn->data + 1);
-	ret = (tmp == 0) ? ret = ft_strnew(0) : ft_strdup(tmp);
+	ret = (tmp == 0) ? ft_strnew(0) : ft_strdup(tmp);
 	return (ret);
 }
 

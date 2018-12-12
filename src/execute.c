@@ -95,14 +95,14 @@ static void	launch_process(char **av)
 	{
 		if (access(cmd, X_OK) == 0)
 		{
-		/*	
+			
 			ft_printf("exec path = %s\n", cmd);
 			for (int i=0; av[i] != 0; i++)
 				ft_printf("av[%d]=%s\n", i, av[i]);
-			for (int i=0; g_shell.environ->av[i] != 0; i++)
-				ft_printf("env[%d]=%s\n", i, g_shell.environ->av[i]);
+//			for (int i=0; g_shell.environ->av[i] != 0; i++)
+//				ft_printf("env[%d]=%s\n", i, g_shell.environ->av[i]);
 			ft_printf("----------------------\n");
-		*/		
+				
 			execve(cmd, av, g_shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
 													SHELL_NAME, av[0]);
