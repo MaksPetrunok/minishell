@@ -6,17 +6,19 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:58:48 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 07:31:21 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 19:28:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_shell	g_shell;
+
 int	init_cursor(void)
 {
-	if ((shell.cursor = malloc(sizeof(t_cursor))) == 0)
+	if ((g_shell.cursor = malloc(sizeof(t_cursor))) == 0)
 		return (-1);
-	shell.cursor->col = 0;
-	shell.cursor->row = 0;
+	g_shell.cursor->col = 0;
+	g_shell.cursor->row = 0;
 	return (0);
 }

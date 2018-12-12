@@ -6,17 +6,17 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 07:58:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 21:46:15 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t	g_child;
+t_shell	g_shell;
 
 void	win_size_handler(int UNUSED sig)
 {
-	ioctl(0, TIOCGWINSZ, &(shell.w));
+	ioctl(0, TIOCGWINSZ, &(g_shell.w));
 }
 
 void	exit_safely(int UNUSED sig)
@@ -36,19 +36,14 @@ void	setup_signals(void)
 
 void	sh_sig_handler(int UNUSED sig)
 {
-	shell.input->pos = 0;
-	shell.input->len = 0;
-	shell.input->data[0] = 0;
-//	input_buff_free(&(shell.input));
+	if (g_shell.input != NULL)
+	{
+		g_shell.input->pos = 0;
+		g_shell.input->len = 0;
+		g_shell.input->data[0] = 0;
+	}
+	g_shell.run = 0;
 	write(1, "\n", 1);
-	if (g_child)
-	{
-		kill(g_child, SIGINT);
-		g_child = 0;
-	}
-	else
-	{
+	if (finish_child_processes() == 0)
 		show_prompt();
-	}
-
 }

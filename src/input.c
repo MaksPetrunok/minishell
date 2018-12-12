@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 10:12:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 14:31:06 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 19:27:26 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ int			get_input(char **str)
 	int			c;
 	int			len;
 
-	if (shell.canonical)
+	if (g_shell.canonical)
 		return (get_next_line(0, str));
-	shell.input = init_input_buff();
-	buff = &(shell.input);
+	g_shell.input = init_input_buff();
+	buff = &(g_shell.input);
 	if (*buff == NULL)
 		return (0);
 	while (1)
@@ -115,7 +115,7 @@ int			get_input(char **str)
 			*str = utf_to_str((*buff)->data, (*buff)->len);
 			len = (*buff)->len;
 			input_buff_free(*buff);
-			shell.input = NULL;
+			g_shell.input = NULL;
 			return (len);
 		}
 		key_action(buff, c);

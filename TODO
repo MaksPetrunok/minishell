@@ -1,6 +1,7 @@
 there is smth wrong with calling execute(), sometimes fails.
+check what's going on when Ctrl+C during get_next_line reading.
 
-
+0. Check how TAB works.
 +1. Clear inp_buff when Ctrl+C.
 +2. Manage variable $?.
 +3. TAB & Spaces

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 15:20:45 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 21:44:44 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_shell
 {
 	struct termios	*term_typing;
 	struct termios	*term_default;
+	int				run;
 	int				canonical;
 	int				last_ret;
 	t_inp_buff		*input;
@@ -64,4 +65,5 @@ void	free_terminals(void);
 /*
 ** shell_exit.c
 */
-void				finish_child_processes(void);
+int					finish_child_processes(void);
+int					add_child_process(pid_t pid);

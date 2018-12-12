@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:15:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 05:19:50 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 22:36:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ t_inp_buff	*init_input_buff(void)
 	{
 		free((void *)data);
 		free((void *)ret);
-		techo(SHELL_NAME);
-		techo(": failed to allocate buffer for input\n");
+		ft_dprintf(2, "%s: failed to allocate buffer for input\n", SHELL_NAME);
 		return (0);
 	}
 	ret->data = data;
@@ -37,26 +36,31 @@ t_inp_buff	*init_input_buff(void)
 
 int			increase_input_buff(t_inp_buff **buff)
 {
-	t_inp_buff	*new_buff;
+//	t_inp_buff	*new_buff;
 	long		*new_data;
 	int			new_size;
 
 	new_size = (*buff)->size + INPUT_BUFF_SIZE;
-	if ((new_buff = malloc(sizeof(t_inp_buff))) == 0)
-		return (0);
+//	if ((new_buff = malloc(sizeof(t_inp_buff))) == 0)
+//		return (0);
 	if ((new_data = malloc(sizeof(long) * new_size)) == 0)
 	{
-		free((void *)new_buff);
+//		free((void *)new_buff);
 		return (0);
 	}
-	while (--((*buff)->size) >= 0)
-		new_data[(*buff)->size] = (*buff)->data[(*buff)->size];
-	new_buff->pos = (*buff)->pos;
-	new_buff->data = new_data;
-	new_buff->size = new_size;
-	new_buff->len = (*buff)->len;
-	input_buff_free(*buff);
-	*buff = new_buff;
+//	while (--((*buff)->size) >= 0)
+//		new_data[(*buff)->size] = (*buff)->data[(*buff)->size];
+	ft_memcpy((void *)new_data, (void *)((*buff)->data),
+		sizeof(long) * (*buff)->size);
+	free((void *)((*buff)->data));
+	(*buff)->data = new_data;
+	(*buff)->size = new_size;
+//	new_buff->pos = (*buff)->pos;
+//	new_buff->data = new_data;
+//	new_buff->size = new_size;
+//	new_buff->len = (*buff)->len;
+//	input_buff_free(*buff);
+//	*buff = new_buff;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 08:27:32 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 22:41:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define K_ALT_LEFT		0x621b
 
 # define KEY_NUM			13
-# define INPUT_BUFF_SIZE	4
+# define INPUT_BUFF_SIZE	1
 # define TAB_SIZE			4
 # include <dirent.h>
 

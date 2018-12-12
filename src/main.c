@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 16:21:41 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 21:50:07 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	shell;
+t_shell	g_shell;
 
 int		process_cmd(char **cmd_lst)
 {
@@ -61,11 +61,12 @@ int		process_input(char *input)
 	int		run;
 
 	run = 1;
-	if (!shell.canonical)
+	g_shell.run = 1;
+	if (!g_shell.canonical)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
 	tkn_ptr = tkn_lst;
-	while (tkn_ptr && run)
+	while (tkn_ptr && run && g_shell.run)
 	{
 		run = process_cmd(parse_cmd(&tkn_ptr));
 		if (tkn_ptr && tkn_ptr->type == CH_SEMICOLON)

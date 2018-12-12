@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:57:56 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 16:25:18 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 21:55:54 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static int	set_terminal_db(void)
 				ft_dprintf(2,
 					"terminal database '%s' not found\n", name);
 			last_db = name;
-			return (0);
 		}
+		return (0);
 	}
 	last_db = name;
 	return (1);
