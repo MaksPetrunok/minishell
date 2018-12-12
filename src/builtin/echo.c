@@ -6,11 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:28 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 03:50:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 15:58:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	g_shell;
 
 static int	append_newline(char **av)
 {
@@ -43,5 +45,6 @@ int			builtin_echo(char **av)
 	}
 	if (append_nl)
 		write(1, "\n", 1);
+	g_shell.last_ret = 0;
 	return (1);
 }

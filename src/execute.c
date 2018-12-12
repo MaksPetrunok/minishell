@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/11 23:15:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:41:04 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-pid_t	g_child;
 
 static char	**tokenize_split(char *s, char *delim)
 {
@@ -99,11 +97,11 @@ static void	launch_process(char **av)
 			ft_printf("exec path = %s\n", cmd);
 			for (int i=0; av[i] != 0; i++)
 				ft_printf("av[%d]=%s\n", i, av[i]);
-			for (int i=0; shell.environ->av[i] != 0; i++)
-				ft_printf("env[%d]=%s\n", i, shell.environ->av[i]);
+			for (int i=0; g_shell.environ->av[i] != 0; i++)
+				ft_printf("env[%d]=%s\n", i, g_shell.environ->av[i]);
 			ft_printf("----------------------\n");
 				
-			execve(cmd, av, shell.environ->av);
+			execve(cmd, av, g_shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
 													SHELL_NAME, av[0]);
 		}
@@ -121,9 +119,9 @@ int			execute(char **av)
 
 	if ((child = fork()) == 0)
 	{
-		switch_term_to(shell.term_default);
+		switch_term_to(g_shell.term_default);
 		launch_process(av);
-		exit(1);
+		exit(127);
 	}
 	else if (child < 0)
 	{
@@ -132,10 +130,12 @@ int			execute(char **av)
 		return (-1);
 	}
 	else
-		g_child = child; //append child to shell.childs instead
+		g_shell.childs = ft_lstnew((void *)(&child), sizeof(child));
 	status = 1;
 	waitpid(child, &status, 0);
-	switch_term_to(shell.term_typing);
-	g_child = 0;
+	g_shell.last_ret = WEXITSTATUS(status);
+	switch_term_to(g_shell.term_typing);
+	ft_lstfree(&(g_shell.childs));
+	g_shell.childs = 0;
 	return (1);
 }

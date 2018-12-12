@@ -6,11 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 16:29:38 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 16:55:28 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	g_shell;
 
 static int	vector_size(t_token *tkn)
 {
@@ -41,12 +43,16 @@ static char	*get_value(t_token *tkn)
 		else
 			tmp = ft_strdup(tkn->data);
 	}
+	else if (tkn->data[0] == '$' && tkn->data[1] == '?')
+	{
+		tmp = ft_itoa(g_shell.last_ret);
+		ret = ft_strjoin(tmp, tkn->data + 2);
+		free((void *)tmp);
+		return (ret);
+	}
 	else
 		tmp = get_var(tkn->data + 1);
-	if (tmp == 0)
-		ret = ft_strnew(0);
-	else
-		ret = ft_strdup(tmp);
+	ret = (tmp == 0) ? ret = ft_strnew(0) : ft_strdup(tmp);
 	return (ret);
 }
 

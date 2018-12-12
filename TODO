@@ -1,12 +1,14 @@
+there is smth wrong with calling execute(), sometimes fails.
+
 
 +1. Clear inp_buff when Ctrl+C.
-2. Manage variable $?.
++2. Manage variable $?.
 +3. TAB & Spaces
 4. Autocompletion for executables.
 +5. Manage properly PWD, OLDPWD for "cd ." and "cd .." and for missing
 	PWD, OLDPWD in environment, or for empty env.
 +6. Check if env passed is empty.
-7. Check TERM env.variable before launch
++7. Check TERM env.variable before launch
 +8. Use fd=0 in putchar for tputs.
 +9. setenv - recognize either arg1 arg2 or arg1=arg2
 +10. Handle $HOME$PWD (without space separation)
@@ -15,10 +17,12 @@
 +13. add -n flag to echo
 14. Track cursor motion. If cursor is at right most column of the screen -
 	move it to next line after inserting a character.
+
 15. When hit RETURN, check firs how many lines are below the cursor
 	and offset cursor to not override existing output.
 +16. Unset keyboard handling (terminal) when forking new process.
-17. Manage terminals carefully. When env TERM is changed try to connect corresponding terminal. Show err message if cannot be found.
++17. Manage terminals carefully. When env TERM is changed try to connect
+	corresponding terminal. Show err message if cannot be found.
 18. Ensure that unicode is shown properly. Multiple utf symbols cause segfault.
 19. Search executables like dir/foo in PWD
 	Debug it.

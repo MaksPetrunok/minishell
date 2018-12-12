@@ -6,11 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:21 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 06:11:17 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:31:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	g_shell;
 
 static char	*get_path(char *arg)
 {
@@ -51,7 +53,10 @@ static int	try_cd(char *dir)
 	}
 	else if (chdir(path) != 0)
 	{
-		ft_dprintf(2, "cd: cannot open '%s'\n", path);
+		if (access(path, F_OK))
+			ft_dprintf(2, "cd: cannot open: %s\n", path);
+		else
+			ft_dprintf(2, "cd: access denied: %s\n", path);
 		return (0);
 	}
 	return (1);
@@ -66,6 +71,7 @@ int			builtin_cd(char **av)
 	if (ft_arrsize((void **)av) > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
+		g_shell.last_ret = 1;
 		return (1);
 	}
 	if (try_cd(av[1]))
@@ -73,6 +79,9 @@ int			builtin_cd(char **av)
 		getcwd(new_dir, 4100);
 		set_var("OLDPWD", cwd);
 		set_var("PWD", new_dir);
+		g_shell.last_ret = 0;
 	}
+	else
+		g_shell.last_ret = 1;
 	return (1);
 }

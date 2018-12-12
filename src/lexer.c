@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 03:21:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 15:40:04 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ enum e_signal	get_signal(char c)
 		return (CH_SPACE);
 	else if (c == ';')
 		return (CH_SEMICOLON);
-	else if (c == '_' || ft_isalnum(c))
+	else if (c == '_' || c == '?' || ft_isalnum(c))
 		return (CH_VARNAME);
 	else if (c != '\0')
 		return (CH_GENERAL);

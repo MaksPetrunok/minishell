@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/11 23:13:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 16:21:41 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	show_prompt(void)
 	char	cwd[5000];
 	char	*is_wd;
 
+	switch_term_to(g_shell.term_typing);
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);
 	if ((tmp = get_var("HOME")) == 0 || *tmp == '\0')

@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 18:19:35 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 00:38:34 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:23:47 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell shell;
+t_shell g_shell;
 
 static char	**duplicate_env(char **env, int size)
 {
@@ -66,7 +66,7 @@ char *get_var(const char *var_name)
 	char *value;
 	size_t len;
 
-	ptr = shell.environ->av;
+	ptr = g_shell.environ->av;
 	value = 0;
 	len = ft_strlen(var_name);
 	while (*ptr)
@@ -87,7 +87,7 @@ int unset_var(const char *name)
 
 	if (!name)
 		return (-1);
-	ptr = shell.environ->av;
+	ptr = g_shell.environ->av;
 	while (*ptr)
 	{
 		if (equals(name, *ptr))
@@ -112,7 +112,7 @@ int set_var(const char *var_name, const char *var_value)
 	int index;
 
 	var_value = (var_value == 0) ? "" : var_value;
-	ptr = shell.environ->av;
+	ptr = g_shell.environ->av;
 	while (*ptr)
 		if (equals(var_name, *ptr))
 		{
@@ -121,14 +121,14 @@ int set_var(const char *var_name, const char *var_value)
 		}
 		else
 			ptr++;
-	index = ptr - shell.environ->av;
-	if (index >= shell.environ->capacity - 1)
-		if (increase_env(shell.environ) == 0)
+	index = ptr - g_shell.environ->av;
+	if (index >= g_shell.environ->capacity - 1)
+		if (increase_env(g_shell.environ) == 0)
 		{
 			report_error(ERR_SETVAR | ERR_MALLOC);
 			return (0);
 		}
-	ptr = shell.environ->av;
+	ptr = g_shell.environ->av;
 	ptr[index] = make_var_line(var_name, var_value, ptr[index]);
 	ptr[++index] = 0;
 	return (1);

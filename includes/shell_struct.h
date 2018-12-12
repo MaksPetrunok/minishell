@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/10 07:18:17 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/12 15:20:45 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_shell
 	struct termios	*term_typing;
 	struct termios	*term_default;
 	int				canonical;
+	int				last_ret;
 	t_inp_buff		*input;
 	t_env			*environ;
 	t_cursor		*cursor;
