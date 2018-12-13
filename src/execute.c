@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 21:50:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 18:43:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,29 @@
 
 t_shell	g_shell;
 
-static char	**tokenize_split(char *s, char *delim)
-{
-	char	**tokens;
-	int		i;
-	int		state;
-
-	tokens = malloc(sizeof(char **) * 16);
-	i = 0;
-	state = 0;
-	while (*s && i < 15)
-	{
-		if (ft_strchr(delim, *s) == 0)
-		{
-			if (!state)
-				tokens[i++] = s;
-			state = 1;
-		}
-		else
-		{
-			if (state)
-				*s = '\0';
-			state = 0;
-		}
-		s++;
-	}
-	tokens[i] = 0;
-	return (tokens);
-}
-
 static char	*search_path(const char *name, char *path)
 {
+	char	**dirs_ref;
 	char	**dirs;
 	char	*ret;
 
-	dirs = tokenize_split(path, ":");
+	if ((dirs = ft_strsplit(path, ':')) == 0)
+		return (0);
+	dirs_ref = dirs;
 	while (*dirs)
 	{
-		if ((ret = ft_strjoin3(*dirs, "/", name)) == 0)
+		if ((ret = ft_strjoin3(*dirs, "/", name)) != 0)
 		{
-			dirs++;
-			continue ;
+			if (access(ret, F_OK) == 0)
+			{
+				free((void *)dirs_ref);
+				return (ret);
+			}
+			free((void *)ret);
 		}
-		if (access(ret, F_OK) == 0)
-			return (ret);
-		free((void *)ret);
 		dirs++;
 	}
+	free((void *)dirs_ref);
 	return (0);
 }
 
@@ -95,14 +71,6 @@ static void	launch_process(char **av)
 	{
 		if (access(cmd, X_OK) == 0)
 		{
-			
-			ft_printf("exec path = %s\n", cmd);
-			for (int i=0; av[i] != 0; i++)
-				ft_printf("av[%d]=%s\n", i, av[i]);
-//			for (int i=0; g_shell.environ->av[i] != 0; i++)
-//				ft_printf("env[%d]=%s\n", i, g_shell.environ->av[i]);
-			ft_printf("----------------------\n");
-				
 			execve(cmd, av, g_shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
 													SHELL_NAME, av[0]);

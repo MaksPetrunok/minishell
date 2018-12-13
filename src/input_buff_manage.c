@@ -31,10 +31,13 @@ int	inp_insert(t_inp_buff **buff, int key_code)
 	int	move;
 
 	move = 1;
-	if ((*buff)->len == (*buff)->size - 1)
+	if ((*buff)->len >= (*buff)->size - 1)
 	{
 		if (!increase_input_buff(buff))
+		{
+			ft_dprintf(2, "\ncannot increase input buffer\n");
 			return (0);
+		}
 	}
 	shift(*buff, 1);
 	(*buff)->data[(*buff)->pos] = key_code;

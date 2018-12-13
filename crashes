@@ -1,0 +1,58 @@
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503e0616 tiny_malloc_from_free_list + 1155
+5   libsystem_malloc.dylib              0x00007fff503df3bf szone_malloc_should_clear + 422
+6   libsystem_malloc.dylib              0x00007fff503df1bd malloc_zone_malloc + 103
+7   libsystem_malloc.dylib              0x00007fff503de4c7 malloc + 24
+8   minishell                           0x000000010aa41214 ft_realloc + 100
+9   minishell                           0x000000010aa3ea25 increase_input_buff + 69 (input_buff.c:45)
+10  minishell                           0x000000010aa3ed3e inp_insert + 62 (input_buff_manage.c:36)
+11  minishell                           0x000000010aa3e85e key_action + 110 (input.c:38)
+12  minishell                           0x000000010aa3e66c get_input + 220 (input.c:111)
+13  minishell                           0x000000010aa3c917 sh_loop + 39 (main.c:88)
+14  minishell                           0x000000010aa3c9ad main + 61 (main.c:103)
+15  libdyld.dylib                       0x00007fff50236015 start + 1
+
+
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503e0616 tiny_malloc_from_free_list + 1155
+5   libsystem_malloc.dylib              0x00007fff503df3bf szone_malloc_should_clear + 422
+6   libsystem_malloc.dylib              0x00007fff503df1bd malloc_zone_malloc + 103
+7   libsystem_malloc.dylib              0x00007fff503de4c7 malloc + 24
+8   minishell                           0x000000010f5de83a init_token + 26 (lexer.c:108)
+9   minishell                           0x000000010f5debac new_emp_tkn + 108 (lexer_util.c:28)
+10  minishell                           0x000000010f5dea11 iterate + 129 (lexer.c:137)
+11  minishell                           0x000000010f5de914 tokenize + 68 (lexer.c:161)
+12  minishell                           0x000000010f5dd8a0 process_input + 80 (main.c:67)
+13  minishell                           0x000000010f5dd989 sh_loop + 57 (main.c:89)
+14  minishell                           0x000000010f5dda0d main + 61 (main.c:103)
+15  libdyld.dylib                       0x00007fff50236015 start + 1
+
+
+
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503e0616 tiny_malloc_from_free_list + 1155
+5   libsystem_malloc.dylib              0x00007fff503df3bf szone_malloc_should_clear + 422
+6   libsystem_malloc.dylib              0x00007fff503df1bd malloc_zone_malloc + 103
+7   libsystem_malloc.dylib              0x00007fff503de4c7 malloc + 24
+8   minishell                           0x000000010719d224 ft_realloc + 100
+9   minishell                           0x000000010719aa35 increase_input_buff + 69 (input_buff.c:45)
+10  minishell                           0x000000010719ad4e inp_insert + 62 (input_buff_manage.c:36)
+11  minishell                           0x000000010719a86e key_action + 110 (input.c:38)
+12  minishell                           0x000000010719a67c get_input + 220 (input.c:111)
+13  minishell                           0x0000000107198947 sh_loop + 39 (main.c:88)
+14  minishell                           0x00000001071989dd main + 61 (main.c:103)
+15  libdyld.dylib                       0x00007fff50236015 start + 1

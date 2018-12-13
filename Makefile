@@ -6,13 +6,13 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/11 15:21:16 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/13 18:33:43 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CC = gcc
+CC = clang #gcc
 
 FLAGS = -Wall -Werror -Wextra -g
 

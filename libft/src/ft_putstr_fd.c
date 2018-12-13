@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/10 17:40:55 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/06/10 17:41:24 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 16:15:31 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	ft_putstr_fd(char const *s, int fd)
 {
-	write(fd, s, ft_strlen((char *)s));
+	if (s != NULL)
+		write(fd, s, ft_strlen((char *)s));
 }

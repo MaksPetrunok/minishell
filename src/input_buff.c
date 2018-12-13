@@ -41,26 +41,18 @@ int			increase_input_buff(t_inp_buff **buff)
 	int			new_size;
 
 	new_size = (*buff)->size + INPUT_BUFF_SIZE;
-//	if ((new_buff = malloc(sizeof(t_inp_buff))) == 0)
-//		return (0);
-	if ((new_data = malloc(sizeof(long) * new_size)) == 0)
-	{
-//		free((void *)new_buff);
+
+	if ((new_data = (long *)ft_realloc((void *)((*buff)->data),
+								sizeof(long) * (*buff)->size,
+								sizeof(long) * new_size)) == 0)
 		return (0);
-	}
-//	while (--((*buff)->size) >= 0)
-//		new_data[(*buff)->size] = (*buff)->data[(*buff)->size];
-	ft_memcpy((void *)new_data, (void *)((*buff)->data),
-		sizeof(long) * (*buff)->size);
-	free((void *)((*buff)->data));
+//	if ((new_data = malloc(sizeof(long) * new_size)) == 0)
+//		return (0);
+//	ft_memcpy((void *)new_data, (void *)((*buff)->data),
+//		sizeof(long) * (*buff)->size);
+//	free((void *)((*buff)->data));
 	(*buff)->data = new_data;
 	(*buff)->size = new_size;
-//	new_buff->pos = (*buff)->pos;
-//	new_buff->data = new_data;
-//	new_buff->size = new_size;
-//	new_buff->len = (*buff)->len;
-//	input_buff_free(*buff);
-//	*buff = new_buff;
 	return (1);
 }
 
