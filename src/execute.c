@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 18:43:53 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 22:22:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,16 @@ static char	*get_exec_path(const char *name)
 {
 	char	*ret;
 	char	*path;
+	char	cwd[4000];
 
-	if (*name == '/' ||
-		ft_strstr(name, "./") == name || ft_strstr(name, "../") == name)
+	if (ft_strchr(name, '/') != 0)
 	{
-		if ((ret = ft_strdup(name)) == 0)
+		getcwd(cwd, 400);
+		if (*name == '/')
+			ret = ft_strdup(name);
+		else
+			ret = ft_strjoin3(cwd, "/", name);
+		if (ret == NULL)
 			return (0);
 		if (access(ret, F_OK) == 0)
 			return (ret);
@@ -73,10 +78,10 @@ static void	launch_process(char **av)
 		{
 			execve(cmd, av, g_shell.environ->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
-													SHELL_NAME, av[0]);
+													SHELL_NAME, *av);
 		}
 		else
-			ft_dprintf(2, "%s: %s: access denied\n", SHELL_NAME, cmd);
+			ft_dprintf(2, "%s: %s: access denied\n", SHELL_NAME, *av);
 	}
 	else
 		ft_dprintf(2, "%s: %s: command not found\n", SHELL_NAME, *av);

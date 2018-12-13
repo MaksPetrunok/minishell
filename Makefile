@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/13 18:33:43 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/13 20:51:48 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +38,12 @@ MAIN_FILES = main.c \
 			input.c \
 			input_buff.c \
 			input_buff_manage.c \
-			autocompl.c \
 			aux.c \
 			terminal_outp.c \
+			\
+			autocmp/autocomp.c \
+			autocmp/file_comp.c \
+			autocmp/exec_comp.c \
 			\
 			shell/terminal.c \
 			shell/cursor.c \
@@ -81,6 +84,8 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
 	@mkdir -p $(OBJ_DIR)shell/
+	@mkdir -p $(OBJ_DIR)autocmp/
+
 #	@echo "FLAG..." $(OBJ_DIR_TREE)
 #endif
 	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 15:52:41 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 20:10:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "err.h"
 # include "builtin.h"
 # include "lexer.h"
+# include "autocomp.h"
 
 # include <sys/types.h>
 # include <sys/wait.h>

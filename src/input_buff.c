@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:15:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 22:36:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 21:15:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_inp_buff	*init_input_buff(void)
 
 int			increase_input_buff(t_inp_buff **buff)
 {
-//	t_inp_buff	*new_buff;
 	long		*new_data;
 	int			new_size;
 
@@ -46,11 +45,6 @@ int			increase_input_buff(t_inp_buff **buff)
 								sizeof(long) * (*buff)->size,
 								sizeof(long) * new_size)) == 0)
 		return (0);
-//	if ((new_data = malloc(sizeof(long) * new_size)) == 0)
-//		return (0);
-//	ft_memcpy((void *)new_data, (void *)((*buff)->data),
-//		sizeof(long) * (*buff)->size);
-//	free((void *)((*buff)->data));
 	(*buff)->data = new_data;
 	(*buff)->size = new_size;
 	return (1);

@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   autocomp.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/28 18:49:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 19:51:03 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/12/13 19:59:13 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/13 20:51:05 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#ifndef AUTOCOMP_H
+# define AUTOCOMP_H
 
-# define BUILTINS_BUFF_SIZE	10
+void            fill(t_inp_buff **buff, t_list *head);
+void			add_file(char *file, t_list **lst);
+char			*convert_pattern(t_inp_buff *buff);
+int				exec_complete(t_inp_buff **buff);
+int				file_complete(t_inp_buff **buff);
+int				auto_complete(t_inp_buff **buff);
 
-typedef	int	(*t_func)(char **);
+/*
+** aux.c
+*/
+int				sort(void *a, void *b);
 
-t_func	get_builtin(const char *name);
-char	**get_builtin_list(char **list);
-
-int		builtin_exit(char **av);
-int		builtin_pwd(char **av);
-int		builtin_cd(char **av);
-int		builtin_env(char **av);
-int		builtin_setenv(char **av);
-int		builtin_unsetenv(char **av);
-int		builtin_echo(char **av);
 
 #endif

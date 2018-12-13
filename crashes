@@ -1,3 +1,83 @@
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503f6ea7 tiny_free_no_lock + 2439
+5   libsystem_malloc.dylib              0x00007fff503f7256 free_tiny + 628
+6   minishell                           0x0000000104e78367 input_buff_free + 55 (input_buff.c:59)
+7   minishell                           0x0000000104e77f06 get_input + 182 (input.c:117)
+8   minishell                           0x0000000104e76257 sh_loop + 39 (main.c:88)
+9   minishell                           0x0000000104e762ed main + 61 (main.c:103)
+10  libdyld.dylib                       0x00007fff50236015 start + 1
+
+
+segfault:
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   minishell                           0x000000010a842e13 utf_to_str + 131 (input.c:92)
+1   minishell                           0x000000010a842ee6 get_input + 150 (input.c:115)
+2   minishell                           0x000000010a841397 sh_loop + 39 (main.c:88)
+3   minishell                           0x000000010a84142d main + 61 (main.c:103)
+4   libdyld.dylib                       0x00007fff50236015 start + 1
+
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503f6ea7 tiny_free_no_lock + 2439
+5   libsystem_malloc.dylib              0x00007fff503f7256 free_tiny + 628
+6   minishell                           0x00000001099f039b input_buff_free + 43 (input_buff.c:58)
+7   minishell                           0x00000001099eff46 get_input + 182 (input.c:117)
+8   minishell                           0x00000001099ee3d7 sh_loop + 39 (main.c:88)
+9   minishell                           0x00000001099ee46d main + 61 (main.c:103)
+10  libdyld.dylib                       0x00007fff50236015 start + 1
+
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503e0616 tiny_malloc_from_free_list + 1155
+5   libsystem_malloc.dylib              0x00007fff503df3bf szone_malloc_should_clear + 422
+6   libsystem_malloc.dylib              0x00007fff503df1bd malloc_zone_malloc + 103
+7   libsystem_malloc.dylib              0x00007fff503de4c7 malloc + 24
+8   libsystem_notify.dylib              0x00007fff5054213a _nc_table_new + 20
+9   libsystem_notify.dylib              0x00007fff5053e15b _notify_init_globals + 47
+10  libsystem_platform.dylib            0x00007fff50543f00 _os_once + 33
+11  libsystem_platform.dylib            0x00007fff50543ed4 _os_alloc_once + 42
+12  libsystem_notify.dylib              0x00007fff5053e22f _notify_fork_child + 179
+13  libSystem.B.dylib                   0x00007fff4df5ab13 libSystem_atfork_child + 49
+14  libsystem_c.dylib                   0x00007fff50295683 fork + 47
+15  minishell                           0x00000001099ee4a1 execute + 17 (execute.c:90)
+16  minishell                           0x00000001099ee0ff process_cmd + 95 (main.c:28)
+17  minishell                           0x00000001099ee361 process_input + 177 (main.c:71)
+18  minishell                           0x00000001099ee3e9 sh_loop + 57 (main.c:89)
+19  minishell                           0x00000001099ee46d main + 61 (main.c:103)
+20  libdyld.dylib                       0x00007fff50236015 start + 1
+
+
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
+1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333
+2   libsystem_c.dylib                   0x00007fff502e21ae abort + 127
+3   libsystem_malloc.dylib              0x00007fff503ebad4 szone_error + 596
+4   libsystem_malloc.dylib              0x00007fff503f6ea7 tiny_free_no_lock + 2439
+5   libsystem_malloc.dylib              0x00007fff503f7256 free_tiny + 628
+6   minishell                           0x0000000103e0efed ft_realloc + 157
+7   minishell                           0x0000000103e0c715 increase_input_buff + 69
+8   minishell                           0x0000000103e0ca2e inp_insert + 62
+9   minishell                           0x0000000103e0c54e key_action + 110
+10  minishell                           0x0000000103e0c35c get_input + 220
+11  minishell                           0x0000000103e0a7c7 sh_loop + 39
+12  minishell                           0x0000000103e0a85d main + 61
+13  libdyld.dylib                       0x00007fff50236015 start + 1
+
+
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
 0   libsystem_kernel.dylib              0x00007fff50386b6e __pthread_kill + 10
 1   libsystem_pthread.dylib             0x00007fff50551080 pthread_kill + 333

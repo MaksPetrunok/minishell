@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 22:41:53 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 20:00:17 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,5 @@ void			input_buff_free(t_inp_buff *buff);
 char			*utf_to_str(long *data, int size);
 int				auto_complete(t_inp_buff **buff);
 int				get_input(char **str);
-
-/*
-** aux.c
-*/
-int				sort(void *a, void *b);
 
 #endif

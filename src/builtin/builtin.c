@@ -6,14 +6,14 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/04 22:50:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/13 19:48:42 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin.h"
 
-static char	**get_builtin_list(char **list)
+char		**get_builtin_list(char **list)
 {
 	short	i;
 
