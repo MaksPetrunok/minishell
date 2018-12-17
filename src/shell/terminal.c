@@ -36,7 +36,7 @@ static int	set_terminal_db(void)
 	char		*name;
 
 	name = get_var("TERM");
-	if (name == 0 || tgetent(0, name) != 1)
+	if (name == 0 || tgetent(0, name) != 1) // add isatty()
 	{
 		if (last_db != name)
 		{

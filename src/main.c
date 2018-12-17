@@ -85,7 +85,7 @@ void	sh_loop(void)
 	while (run)
 	{
 		show_prompt();
-		if (get_input(&input) > 0)
+		if (get_input(&input, 0) > 0)
 			run = process_input(input);
 		else
 			write(1, "\n", 1);

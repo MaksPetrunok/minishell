@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-//# define OS_LINUX //for Ubuntu
+# define OS_LINUX //for Ubuntu
 # ifdef OS_LINUX
 typedef __intmax_t  intmax_t;
 typedef __uintmax_t uintmax_t;
@@ -53,6 +53,7 @@ char				*ft_strstr(const char *haystack, const char *needle);
 char				*ft_strnstr(const char *haystack, const char *needle,
 					size_t len);
 int					ft_strcmp(const char *s1, const char *s2);
+int					ft_strequ(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(const char *nptr);
 int					ft_isupper(int c);

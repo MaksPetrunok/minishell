@@ -106,7 +106,7 @@ int			execute(char **av)
 	}
 	else
 		add_child_process(child);
-	status = 1;
+//	status = 1;
 	waitpid(child, &status, 0);
 	g_shell.last_ret = WEXITSTATUS(status);
 	finish_child_processes();

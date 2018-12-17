@@ -45,6 +45,7 @@ FUNC_LIST = memset \
 			strstr \
 			strnstr \
 			strcmp \
+			strequ \
 			strncmp \
 			atoi \
 			isupper \

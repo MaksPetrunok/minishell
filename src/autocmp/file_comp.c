@@ -41,7 +41,7 @@ static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
 	return (lst);
 }
 
-int				file_complete(t_inp_buff **buff)
+int				file_complete(t_inp_buff *buff)
 {
 	t_list	*match;
 	t_list	*head;
@@ -49,7 +49,7 @@ int				file_complete(t_inp_buff **buff)
 	DIR		*dstr;
 
 	dstr = 0;
-	match = get_files(*buff, dstr);
+	match = get_files(buff, dstr);
 	head = match;
 	while (match && ft_lstsize(head) > 1)
 	{
@@ -61,11 +61,11 @@ int				file_complete(t_inp_buff **buff)
 	{
 		techo("\n");
 		show_prompt();
-		if (*(str = utf_to_str((*buff)->data, (*buff)->len)))
+		if (*(str = inp_to_str(buff->data)))
 			techo(str);
 		free((void *)str);
 	}
-	fill(buff, head);
+	fill_input(buff, head);
 	ft_lstfree(&head);
 	return (1);
 }

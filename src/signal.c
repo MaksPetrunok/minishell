@@ -33,14 +33,18 @@ void	setup_signals(void)
 	signal(SIGHUP, &exit_safely);
 	signal(SIGWINCH, &win_size_handler);
 }
-
+// make it handler for SIGINT
 void	sh_sig_handler(int UNUSED sig)
 {
 	if (g_shell.input != NULL)
 	{
+		while (g_shell.input->len >= 0)
+		{
+			free((void *)(g_shell.input->data[g_shell.input->len--]));
+		}
 		g_shell.input->pos = 0;
 		g_shell.input->len = 0;
-		g_shell.input->data[0] = 0;
+		g_shell.input->data[0] = NULL;
 	}
 	g_shell.run = 0;
 	write(1, "\n", 1);

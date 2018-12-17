@@ -13,72 +13,69 @@
 #ifndef INPUT_H
 # define INPUT_H
 
-# define K_LEFT			0x445b1b
-# define K_RIGHT		0x435b1b
-# define K_CTRL_D		0x4
-# define K_TAB			0x9
-# define K_RETURN		0xa
-# define K_BACK_SP		0x7f
-# define K_DEL			0x7e335b1b
+# define K_LEFT			"\x1b\x5b\x44"
+# define K_RIGHT		"\x1b\x5b\x43"
+# define K_CTRL_D		"\x04"
+# define K_TAB			"\x09"
+# define K_RETURN		"\x0a"
+# define K_BACK_SP		"\x7f"
+# define K_DEL			"\x1b\x5b\x33\x7e"
 
-# define K_CTRL_R		0x12
-# define K_UP			0x415b1b
-# define K_DOWN			0x425b1b
-# define K_ALT_RIGHT	0x661b
-# define K_ALT_LEFT		0x621b
+# define K_CTRL_R		"\x12"
+# define K_UP			"\x41\x5b\x1b"
+# define K_DOWN			"\x42\x5b\x1b"
+# define K_ALT_RIGHT	"\x66\x1b"
+# define K_ALT_LEFT		"\x62\x1b"
 
 # define KEY_NUM			13
-# define INPUT_BUFF_SIZE	1
+
+# define INP_FD				0
+# define INP_BUFF_SIZE		1
+# define SYM_SIZE			4
 # define TAB_SIZE			4
+
 # include <dirent.h>
 
 typedef struct	s_inp_buff
 {
-	long		*data;
+	char		**data;
 	int			pos;
 	int			len;
 	int			size;
 }				t_inp_buff;
 
-typedef int	(*t_key_act)(t_inp_buff **buff, int key_code);
+typedef int	(*t_key_act)(t_inp_buff *buff, char *sym);
 
 typedef	struct	s_key
 {
-	int			code;
-	t_key_act	on_key_act;
+	char		*code;
+	t_key_act	action;
 }				t_key;
 
-int				init_keyboard(void);
-int				unset_keyboard(void);
-int				myputchar(int c);
-int				techo(char *s);
+/*
+** terminal_outp.c
+*/
 int				tconf(char *s);
+int				techo(char *s);
 
-/*
-** Input buffer manipulation functions.
-*/
-int				inp_insert(t_inp_buff **buff, int key_code);
-int				inp_move(t_inp_buff **buff, int key_code);
-int				inp_delete(t_inp_buff **buff, int key_code);
-int				inp_autocomp(t_inp_buff **buff, int key_code);
-int				inp_exit(t_inp_buff **buff, int key_code);
-int				inp_ignore(t_inp_buff **buff, int key_code);
-int				inp_delete(t_inp_buff **buff, int key_code);
+int				is_control(char *str);
+//int				putch(int c);
 
-/*
-** Terminal visualisation functions.
-*/
-void			term_cursor_move(int code);
-void			term_delete(int code);
-void			term_print(long code);
-void			term_ignore(int code);
+char			*inp_to_str(char **inp);
 
-t_inp_buff		*init_input_buff(void);
-int				increase_input_buff(t_inp_buff **buff);
-void			shift(t_inp_buff *buff, int direction);
-void			input_buff_free(t_inp_buff *buff);
-char			*utf_to_str(long *data, int size);
-int				auto_complete(t_inp_buff **buff);
-int				get_input(char **str);
+int				inp_insert(t_inp_buff *buff, char *sym);
+int				inp_control(t_inp_buff *buff, char *sym);
+int				inp_movel(t_inp_buff *buff, char *sym);
+int				inp_mover(t_inp_buff *buff, char *sym);
+int				inp_delete(t_inp_buff *buff, char *sym);
+int				inp_backsp(t_inp_buff *buff, char *sym);
+int				inp_tab(t_inp_buff *buff, char *sym);
+int				inp_autocomp(t_inp_buff *buff, char *sym);
+
+int				inp_ignore(t_inp_buff *buff, char *sym);
+
+
+void			read_symbol(char *buff, int fd);
+int				get_input(char **str, int fd);
 
 #endif

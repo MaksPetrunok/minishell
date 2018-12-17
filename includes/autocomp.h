@@ -13,12 +13,12 @@
 #ifndef AUTOCOMP_H
 # define AUTOCOMP_H
 
-void            fill(t_inp_buff **buff, t_list *head);
+void            fill_input(t_inp_buff *buff, t_list *head);
 void			add_file(char *file, t_list **lst);
 char			*convert_pattern(t_inp_buff *buff);
-int				exec_complete(t_inp_buff **buff);
-int				file_complete(t_inp_buff **buff);
-int				auto_complete(t_inp_buff **buff);
+int				exec_complete(t_inp_buff *buff);
+int				file_complete(t_inp_buff *buff);
+int				auto_complete(t_inp_buff *buff);
 
 /*
 ** aux.c

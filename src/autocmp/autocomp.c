@@ -32,66 +32,66 @@ void			add_file(char *file, t_list **lst)
 
 char			*convert_pattern(t_inp_buff *buff)
 {
-	long	*start;
+	char	**start;
 	char	*patt;
 	int		i;
 
-	if (buff->data[buff->len - 1] == (long)' ' ||
-		buff->data[buff->len - 1] == (long)'\t' || buff->len == 0)
+	if (buff->data[buff->len - 1][0] == ' ' ||
+		buff->data[buff->len - 1][0] == '\t' || buff->len == 0)
 		return (0);
 	i = buff->len - 1;
-	while (buff->data[i] != (long)' ' && buff->data[i] != (long)'\t' &&
-																i >= 0)
+	while (i >= 0 && buff->data[i][0] != ' ' && buff->data[i][0] != '\t')
 		i--;
 	start = buff->data + i + 1;
-	patt = utf_to_str(start, buff->len - i);
+	patt = inp_to_str(start);
 	return (patt);
 }
 
-void			fill(t_inp_buff **buff, t_list *head)
+void			fill_input(t_inp_buff *buff, t_list *head)
 {
 	t_list	*lst;
 	int		i;
 	int		add;
 	char	*tmp;
-	char	sym;
+	char	sym[2];
 
 	i = 0;
 	add = 1;
+	sym[1] = '\0';
 	while (head && add)
 	{
 		lst = head;
 		add = 1;
-		sym = *(char *)((lst->content) + i);
+		sym[0] = *(char *)((lst->content) + i);
 		while (lst && add)
 		{
 			tmp = (char *)(lst->content);
-			if (!tmp[i] || tmp[i] != sym)
+			if (!tmp[i] || tmp[i] != sym[0])
 				add = 0;
 			lst = lst->next;
 		}
 		if (add)
-			inp_insert(buff, (int)sym);
+			inp_insert(buff, sym);
 		i++;
 	}
 	return ;
 }
 
-int				auto_complete(t_inp_buff **buff)
+int				auto_complete(t_inp_buff *buff)
 {
 	int	i;
 	int	words;
 
-	if ((*buff)->pos != (*buff)->len)
+	if (buff->pos != buff->len)
 		return (1);
 	i = 0;
 	words = 0;
-	while (i < (*buff)->len)
+	while (i < buff->len - 1)
 	{
-		if ((*buff)->data[i] != ' ' && (*buff)->data[i] != '\t' &&
-			((*buff)->data[i + 1] == ' ' || (*buff)->data[i + 1] == '\t'))
+		if (buff->data[i][0] != ' ' && buff->data[i][0] != '\t' &&
+			(buff->data[i + 1][0] == ' ' || buff->data[i + 1][0] == '\t'))
 			words++;
-		if ((*buff)->data[i] == ';')
+		if (buff->data[i][0] == ';')
 			words = 0;
 		i++;
 	}

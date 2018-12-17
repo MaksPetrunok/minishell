@@ -12,7 +12,7 @@
 
 NAME = minishell
 
-CC = clang #gcc
+CC = clang
 
 FLAGS = -Wall -Werror -Wextra -g
 
@@ -34,22 +34,25 @@ MAIN_FILES = main.c \
 			parser.c \
 			free_util.c \
 			err.c \
-			on_key.c \
-			input.c \
-			input_buff.c \
-			input_buff_manage.c \
+			\
+			input/read_inp.c \
+			input/read_symbol.c \
+			input/insert.c \
+			input/control.c \
+			input/move.c \
+			input/delete.c \
+			\
 			aux.c \
 			terminal_outp.c \
-			\
-			autocmp/autocomp.c \
-			autocmp/file_comp.c \
-			autocmp/exec_comp.c \
 			\
 			shell/terminal.c \
 			shell/cursor.c \
 			shell/shell.c \
-			shell/shell_exit.c
-
+			shell/shell_exit.c \
+			\
+			autocmp/autocomp.c \
+			autocmp/file_comp.c \
+			autocmp/exec_comp.c
 
 
 BUILTIN = builtin.c \
@@ -83,6 +86,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 #	@echo "Creating folders..." $(OBJ_DIR_TREE)
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
+	@mkdir -p $(OBJ_DIR)input/
 	@mkdir -p $(OBJ_DIR)shell/
 	@mkdir -p $(OBJ_DIR)autocmp/
 

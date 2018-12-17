@@ -39,7 +39,7 @@ t_list	*get_execs(t_inp_buff *buff)
 	return (lst);
 }
 
-int				exec_complete(t_inp_buff **buff)
+int				exec_complete(t_inp_buff *buff)
 {
 	t_list	*match;
 	t_list	*head;
@@ -47,7 +47,7 @@ int				exec_complete(t_inp_buff **buff)
 	DIR		*dstr;
 
 	dstr = 0;
-	match = get_execs(*buff);
+	match = get_execs(buff);
 	head = match;
 	while (match && ft_lstsize(head) > 1)
 	{
@@ -59,11 +59,11 @@ int				exec_complete(t_inp_buff **buff)
 	{
 		techo("\n");
 		show_prompt();
-		if (*(str = utf_to_str((*buff)->data, (*buff)->len)))
+		if (*(str = inp_to_str(buff->data)))
 			techo(str);
 		free((void *)str);
 	}
-	fill(buff, head);
+	fill_input(buff, head);
 	ft_lstfree(&head);
 	return (1);
 }

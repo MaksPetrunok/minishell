@@ -5,16 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/09 22:08:06 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/06/18 20:44:39 by mpetruno         ###   ########.fr       */
+/*   Created: 2018/06/04 15:57:36 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/06/09 16:44:54 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strequ(char const *s1, char const *s2)
+int	ft_strequ(const char *s1, const char *s2)
 {
-	if (s1 && s2)
-		return (ft_strcmp(s1, s2) == 0);
-	return (0);
+	return (ft_strcmp(s1, s2) == 0);
 }
