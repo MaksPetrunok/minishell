@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:21 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 18:31:48 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 11:48:59 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static char	*get_path(char *arg)
 
 	path = 0;
 	if (!arg || ft_strcmp(arg, "--") == 0)
-		path = get_var("HOME");
+		path = get_var("HOME", g_shell.environ);
 	else if (ft_strcmp(arg, "-") == 0)
-		path = get_var("OLDPWD");
+		path = get_var("OLDPWD", g_shell.environ);
 	else if (access(arg, F_OK) == 0)
 		path = arg;
 	return (path);
@@ -77,8 +77,8 @@ int			builtin_cd(char **av)
 	if (try_cd(av[1]))
 	{
 		getcwd(new_dir, 4100);
-		set_var("OLDPWD", cwd);
-		set_var("PWD", new_dir);
+		set_var("OLDPWD", cwd, g_shell.environ);
+		set_var("PWD", new_dir, g_shell.environ);
 		g_shell.last_ret = 0;
 	}
 	else

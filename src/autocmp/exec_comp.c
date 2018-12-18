@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 21:14:14 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 13:57:05 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_list	*get_execs(t_inp_buff *buff)
 	return (lst);
 }
 
-int				exec_complete(t_inp_buff *buff)
+int		exec_complete(t_inp_buff *buff)
 {
 	t_list	*match;
 	t_list	*head;

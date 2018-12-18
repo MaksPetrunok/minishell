@@ -1,8 +1,18 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   insert.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/18 14:18:06 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static int			increase_buff(t_inp_buff *buff)
+static int	increase_buff(t_inp_buff *buff)
 {
 	int		new_size;
 	size_t	new_bytes;
@@ -20,7 +30,7 @@ static int			increase_buff(t_inp_buff *buff)
 	return (1);
 }
 
-int	inp_insert(t_inp_buff *buff, char *sym)
+int			inp_insert(t_inp_buff *buff, char *sym)
 {
 	int	i;
 
@@ -38,7 +48,6 @@ int	inp_insert(t_inp_buff *buff, char *sym)
 	}
 	if ((buff->data[buff->pos] = ft_strdup(sym)) == NULL)
 		return (0);
-//ft_printf("data[%d]=%s\n", buff->pos, buff->data[buff->pos]);
 	buff->pos++;
 	buff->len++;
 	i = buff->pos - 1;

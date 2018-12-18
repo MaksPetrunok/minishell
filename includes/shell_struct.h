@@ -6,15 +6,17 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 21:44:44 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:36:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "input.h"
-#include "environ.h"
-#include <sys/ioctl.h>
+#ifndef SHELL_STRUCT_H
+# define SHELL_STRUCT_H
 
+# include "libft.h"
+# include "input.h"
+# include "environ.h"
+# include <sys/ioctl.h>
 
 typedef	struct		s_process
 {
@@ -41,8 +43,6 @@ typedef struct		s_shell
 	t_list			*childs;
 }					t_shell;
 
-// provide getters for shell struct variables if necessary
-
 /*
 ** shell.c
 */
@@ -52,18 +52,19 @@ void				exit_shell(void);
 /*
 ** cursor.c
 */
-int		init_cursor(void);
-
+int					init_cursor(void);
 
 /*
 ** terminal.c
 */
-int     switch_term_to(struct termios *term);
-int     setup_terminal(void);
-void	free_terminals(void);
+int					switch_term_to(struct termios *term);
+int					setup_terminal(void);
+void				free_terminals(void);
 
 /*
 ** shell_exit.c
 */
 int					finish_child_processes(void);
 int					add_child_process(pid_t pid);
+
+#endif

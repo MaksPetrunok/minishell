@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:10 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/09 23:58:25 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:22:44 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 ** Increases size of environment buffer.
 ** Returns 1 on success or 0 on failure.
 */
+
 int		increase_env(t_env *env)
 {
 	int		new_size;

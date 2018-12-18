@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/04 15:56:47 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 15:56:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:40:19 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,4 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	else
 		return (0);
-//	return ((*s) ? (char *)s : 0);
 }

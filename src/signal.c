@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 21:46:15 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:29:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 t_shell	g_shell;
 
-void	win_size_handler(int UNUSED sig)
+void	win_size_handler(int __attribute__((unused)) sig)
 {
 	ioctl(0, TIOCGWINSZ, &(g_shell.w));
 }
 
-void	exit_safely(int UNUSED sig)
+void	exit_safely(int __attribute__((unused)) sig)
 {
 	exit_shell();
 	exit(1);
@@ -27,14 +27,14 @@ void	exit_safely(int UNUSED sig)
 
 void	setup_signals(void)
 {
-	signal(SIGINT, &sh_sig_handler);
+	signal(SIGINT, &sh_sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, &exit_safely);
 	signal(SIGHUP, &exit_safely);
 	signal(SIGWINCH, &win_size_handler);
 }
-// make it handler for SIGINT
-void	sh_sig_handler(int UNUSED sig)
+
+void	sh_sigint_handler(int __attribute__((unused)) sig)
 {
 	if (g_shell.input != NULL)
 	{

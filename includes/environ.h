@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/11/23 18:26:43 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:31:47 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ typedef struct	s_env
 	int			capacity;
 }				t_env;
 
-//extern t_env	*g_myenv; // see shell->environ
-
 t_env			*init_environment(char **ev);
 char			**get_env(void);
-char			*get_var(const char *name);
-int				set_var(const char *name, const char *value);
-int				unset_var(const char *name);
+char			*get_var(const char *name, t_env *env);
+int				set_var(const char *name, const char *value, t_env *env);
+int				unset_var(const char *name, t_env *env);
 
 int				increase_env(t_env *env);
 void			env_free(t_env *env);

@@ -6,13 +6,23 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 21:31:25 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 13:56:33 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			add_file(char *file, t_list **lst)
+int		sort(void *a, void *b)
+{
+	char	*aa;
+	char	*bb;
+
+	aa = (char *)a;
+	bb = (char *)b;
+	return (ft_strcmp(aa, bb));
+}
+
+void	add_file(char *file, t_list **lst)
 {
 	t_list	*new;
 	char	*data;
@@ -30,7 +40,7 @@ void			add_file(char *file, t_list **lst)
 	ft_lstins(lst, new, sort);
 }
 
-char			*convert_pattern(t_inp_buff *buff)
+char	*convert_pattern(t_inp_buff *buff)
 {
 	char	**start;
 	char	*patt;
@@ -47,7 +57,7 @@ char			*convert_pattern(t_inp_buff *buff)
 	return (patt);
 }
 
-void			fill_input(t_inp_buff *buff, t_list *head)
+void	fill_input(t_inp_buff *buff, t_list *head)
 {
 	t_list	*lst;
 	int		i;
@@ -74,10 +84,9 @@ void			fill_input(t_inp_buff *buff, t_list *head)
 			inp_insert(buff, sym);
 		i++;
 	}
-	return ;
 }
 
-int				auto_complete(t_inp_buff *buff)
+int		auto_complete(t_inp_buff *buff)
 {
 	int	i;
 	int	words;

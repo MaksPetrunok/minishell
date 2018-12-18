@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 15:30:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:09:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	free_child_list(void)
 	}
 }
 
-int	init_shell(char **env)
+int			init_shell(char **env)
 {
 	g_shell.childs = NULL;
 	g_shell.input = NULL;
@@ -39,20 +39,18 @@ int	init_shell(char **env)
 		env_free(g_shell.environ);
 		return (-1);
 	}
-//	if (init_cursor() != 0)
-//	{
-//		exit_g_shell.);
-//		return (-1);
-//	}
-
-//	if (ioctl(0, TIOCGWINSZ, &(g_shell.w)) == -1)
-//		return (-1);
-//	ft_printf("rows: %d, cols: %d\n", g_shell.w.ws_row, g_shell.w.ws_col);
+	if (init_cursor() != 0)
+	{
+		exit_shell();
+		return (-1);
+	}
+	if (ioctl(0, TIOCGWINSZ, &(g_shell.w)) == -1)
+		return (-1);
 	setup_signals();
 	return (0);
 }
 
-void	exit_shell(void)
+void		exit_shell(void)
 {
 	finish_child_processes();
 	if (switch_term_to(g_shell.term_default) == -1)

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 20:00:17 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:37:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define KEY_NUM			13
 
 # define INP_FD				0
-# define INP_BUFF_SIZE		1
+# define INP_BUFF_SIZE		8
 # define SYM_SIZE			4
 # define TAB_SIZE			4
 
@@ -59,7 +59,6 @@ int				tconf(char *s);
 int				techo(char *s);
 
 int				is_control(char *str);
-//int				putch(int c);
 
 char			*inp_to_str(char **inp);
 
@@ -73,7 +72,6 @@ int				inp_tab(t_inp_buff *buff, char *sym);
 int				inp_autocomp(t_inp_buff *buff, char *sym);
 
 int				inp_ignore(t_inp_buff *buff, char *sym);
-
 
 void			read_symbol(char *buff, int fd);
 int				get_input(char **str, int fd);

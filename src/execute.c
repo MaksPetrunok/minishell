@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 22:22:24 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:22:59 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ static char	*get_exec_path(const char *name)
 		free((void *)ret);
 		return (0);
 	}
-	path = get_var("PATH");
+	path = get_var("PATH", g_shell.environ);
 	if (!path || !(*path))
 		return (0);
 	ret = search_path(name, path);
 	return (ret);
 }
 
-static void	launch_process(char **av)
+static void	launch_process(char **av, t_env *env)
 {
 	char	*cmd;
 
@@ -76,7 +76,7 @@ static void	launch_process(char **av)
 	{
 		if (access(cmd, X_OK) == 0)
 		{
-			execve(cmd, av, g_shell.environ->av);
+			execve(cmd, av, env->av);
 			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
 													SHELL_NAME, *av);
 		}
@@ -87,7 +87,7 @@ static void	launch_process(char **av)
 		ft_dprintf(2, "%s: %s: command not found\n", SHELL_NAME, *av);
 }
 
-int			execute(char **av)
+int			execute(char **av, t_env *env)
 {
 	pid_t	child;
 	int		status;
@@ -95,7 +95,7 @@ int			execute(char **av)
 	if ((child = fork()) == 0)
 	{
 		switch_term_to(g_shell.term_default);
-		launch_process(av);
+		launch_process(av, env);
 		exit(127);
 	}
 	else if (child < 0)
@@ -106,7 +106,6 @@ int			execute(char **av)
 	}
 	else
 		add_child_process(child);
-//	status = 1;
 	waitpid(child, &status, 0);
 	g_shell.last_ret = WEXITSTATUS(status);
 	finish_child_processes();

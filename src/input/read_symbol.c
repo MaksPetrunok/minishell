@@ -1,4 +1,14 @@
-//header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_symbol.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/18 14:18:25 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/18 14:18:35 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -7,18 +17,14 @@ void	read_symbol(char *buff, int fd)
 	int	i;
 
 	read(fd, buff, 1);
-//ft_printf("READ %d\n", *buff);
 	if (*buff == 27)
 	{
 		i = 2;
 		read(fd, buff + 1, 1);
-//ft_printf("ESC %c", *(buff + 1));
 		while (i < SYM_SIZE && is_control(buff) == 1)
 		{
 			read(fd, buff + i++, 1);
-//ft_printf("%c", *(buff + i - 1));
 		}
-//ft_printf("\n");
 		if (!is_control(buff))
 			*buff = '\0';
 	}

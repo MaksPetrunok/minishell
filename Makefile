@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/13 20:51:48 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/18 14:46:41 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = clang
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -34,6 +34,7 @@ MAIN_FILES = main.c \
 			parser.c \
 			free_util.c \
 			err.c \
+			terminal_outp.c \
 			\
 			input/read_inp.c \
 			input/read_symbol.c \
@@ -41,9 +42,6 @@ MAIN_FILES = main.c \
 			input/control.c \
 			input/move.c \
 			input/delete.c \
-			\
-			aux.c \
-			terminal_outp.c \
 			\
 			shell/terminal.c \
 			shell/cursor.c \
@@ -78,20 +76,12 @@ $(NAME): $(LIB) $(OBJ_LIST)
 $(LIB):
 	@make -C $(LIB_DIR) all --silent
 
-#OBJ_DIR_TREE =
-
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-#ifneq ($(OBJ_DIR_TREE), done)
-#	@OBJ_DIR_TREE = done
-#	@echo "Creating folders..." $(OBJ_DIR_TREE)
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
 	@mkdir -p $(OBJ_DIR)input/
 	@mkdir -p $(OBJ_DIR)shell/
 	@mkdir -p $(OBJ_DIR)autocmp/
-
-#	@echo "FLAG..." $(OBJ_DIR_TREE)
-#endif
 	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
 
 

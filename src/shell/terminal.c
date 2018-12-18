@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:57:56 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 21:55:54 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:12:34 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static int	set_terminal_db(void)
 	static char	*last_db = NULL;
 	char		*name;
 
-	name = get_var("TERM");
-	if (name == 0 || tgetent(0, name) != 1) // add isatty()
+	name = get_var("TERM", g_shell.environ);
+	if (name == 0 || !isatty(0) || tgetent(0, name) != 1)
 	{
 		if (last_db != name)
 		{
@@ -54,7 +54,7 @@ static int	set_terminal_db(void)
 	return (1);
 }
 
-int	switch_term_to(struct termios *term)
+int			switch_term_to(struct termios *term)
 {
 	if (term == g_shell.term_typing)
 	{
@@ -72,7 +72,7 @@ int	switch_term_to(struct termios *term)
 	return (0);
 }
 
-int	setup_terminal(void)
+int			setup_terminal(void)
 {
 	g_shell.term_default = 0;
 	g_shell.term_typing = 0;
@@ -84,7 +84,7 @@ int	setup_terminal(void)
 	return (0);
 }
 
-void free_terminals(void)
+void		free_terminals(void)
 {
 	free((void *)(g_shell.term_default));
 	free((void *)(g_shell.term_typing));

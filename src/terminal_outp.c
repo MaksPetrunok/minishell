@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 18:47:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/11 19:26:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:26:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ int			techo(char *s)
 
 int			tconf(char *s)
 {
-//	char	**buff;
-
-//	buff = 0;
 	tputs(tgetstr(s, 0), 1, putchar_conf);
 	return (0);
 }

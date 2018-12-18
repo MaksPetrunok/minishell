@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 21:50:07 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:47:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		process_cmd(char **cmd_lst)
 	if ((bf = get_builtin(*cmd_lst)) != 0)
 		ret = bf(cmd_lst);
 	else
-		ret = execute(cmd_lst);
+		ret = execute(cmd_lst, g_shell.environ);
 	arr_free((void **)cmd_lst);
 	return (ret);
 }
@@ -39,7 +39,7 @@ void	show_prompt(void)
 	switch_term_to(g_shell.term_typing);
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);
-	if ((tmp = get_var("HOME")) == 0 || *tmp == '\0')
+	if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
 	{
 		if (!is_wd)
 			ft_printf("%s: ", SHELL_NAME);
@@ -101,6 +101,5 @@ int		main(int ac, char **av, char **ev)
 		return (EXIT_ERR);
 	sh_loop();
 	exit_shell();
-//	system("leaks minishell");
 	return (0);
 }

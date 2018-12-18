@@ -1,20 +1,24 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/18 14:13:49 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/18 14:15:58 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_key    g_table[KEY_NUM] = {
-	{K_LEFT,		&inp_movel},
-	{K_RIGHT,		&inp_mover},
-	{K_BACK_SP,		&inp_backsp},
-	{K_DEL,			&inp_delete},
-	{K_TAB,			&inp_tab},
-//	{K_CTRL_D,		&inp_exit},
-//	{K_UP,			&inp_ignore},
-//	{K_DOWN,		&inp_ignore},
-//	{K_CTRL_R,		&inp_ignore},
-//	{K_ALT_LEFT,	&inp_ignore},
-//	{K_ALT_RIGHT,	&inp_ignore},
-	{NULL,			&inp_ignore}
+static t_key	g_table[KEY_NUM] = {
+	{K_LEFT, &inp_movel},
+	{K_RIGHT, &inp_mover},
+	{K_BACK_SP, &inp_backsp},
+	{K_DEL, &inp_delete},
+	{K_TAB, &inp_tab},
+	{NULL, &inp_ignore}
 };
 
 int	is_control(char *str)
@@ -42,9 +46,10 @@ int	inp_tab(t_inp_buff *buff, char *sym)
 	i = buff->pos;
 	while (i >= 0)
 	{
-		if (buff->data[i] && buff->data[i][0] != ' ' && buff->data[i][0] != '\t')
+		if (buff->data[i] &&
+			buff->data[i][0] != ' ' &&
+			buff->data[i][0] != '\t')
 		{
-			//ft_printf("\nautocompletion\n");
 			auto_complete(buff);
 			return (1);
 		}

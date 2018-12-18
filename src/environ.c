@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 18:19:35 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 18:23:47 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 14:23:50 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell g_shell;
 
 static char	**duplicate_env(char **env, int size)
 {
@@ -21,7 +19,6 @@ static char	**duplicate_env(char **env, int size)
 
 	if ((copy = (char **)malloc(sizeof(char **) * size)) == NULL)
 		return (0);
-//ft_printf("sizeof copy = %ld\n", sizeof(char **) * size);
 	i = 0;
 	while (i < size - 1)
 	{
@@ -30,14 +27,13 @@ static char	**duplicate_env(char **env, int size)
 			arr_free((void **)copy);
 			return (0);
 		}
-//ft_printf("%p	copy[%d]=%s\n", &copy[i], i, copy[i]);
 		i++;
 	}
 	copy[i] = 0;
 	return (copy);
 }
 
-t_env	*init_environment(char **ev)
+t_env		*init_environment(char **ev)
 {
 	t_env	*new_env;
 	char	**new_av;
@@ -47,7 +43,6 @@ t_env	*init_environment(char **ev)
 		size = ft_arrsize((void **)ev) + 1;
 	else
 		size = 1;
-//ft_printf("initial env arr size = %d\n", size);
 	if ((new_av = duplicate_env(ev, size)) == 0)
 		return (0);
 	if ((new_env = malloc(sizeof(t_env))) == 0)
@@ -60,13 +55,13 @@ t_env	*init_environment(char **ev)
 	return (new_env);
 }
 
-char *get_var(const char *var_name)
+char		*get_var(const char *var_name, t_env *env)
 {
-	char **ptr;
-	char *value;
-	size_t len;
+	char	**ptr;
+	char	*value;
+	size_t	len;
 
-	ptr = g_shell.environ->av;
+	ptr = env->av;
 	value = 0;
 	len = ft_strlen(var_name);
 	while (*ptr)
@@ -74,27 +69,27 @@ char *get_var(const char *var_name)
 		if (equals(var_name, *ptr))
 		{
 			value = *ptr + len + 1;
-			break;
+			break ;
 		}
 		ptr++;
 	}
 	return (value);
 }
 
-int unset_var(const char *name)
+int			unset_var(const char *name, t_env *env)
 {
 	char **ptr;
 
 	if (!name)
 		return (-1);
-	ptr = g_shell.environ->av;
+	ptr = env->av;
 	while (*ptr)
 	{
 		if (equals(name, *ptr))
 		{
 			free((void *)(*ptr));
 			*ptr++ = 0;
-			break;
+			break ;
 		}
 		ptr++;
 	}
@@ -106,13 +101,13 @@ int unset_var(const char *name)
 	return (1);
 }
 
-int set_var(const char *var_name, const char *var_value)
+int			set_var(const char *var_name, const char *var_value, t_env *env)
 {
-	char **ptr;
-	int index;
+	char	**ptr;
+	int		index;
 
 	var_value = (var_value == 0) ? "" : var_value;
-	ptr = g_shell.environ->av;
+	ptr = env->av;
 	while (*ptr)
 		if (equals(var_name, *ptr))
 		{
@@ -121,14 +116,14 @@ int set_var(const char *var_name, const char *var_value)
 		}
 		else
 			ptr++;
-	index = ptr - g_shell.environ->av;
-	if (index >= g_shell.environ->capacity - 1)
-		if (increase_env(g_shell.environ) == 0)
+	index = ptr - env->av;
+	if (index >= env->capacity - 1)
+		if (increase_env(env) == 0)
 		{
 			report_error(ERR_SETVAR | ERR_MALLOC);
 			return (0);
 		}
-	ptr = g_shell.environ->av;
+	ptr = env->av;
 	ptr[index] = make_var_line(var_name, var_value, ptr[index]);
 	ptr[++index] = 0;
 	return (1);

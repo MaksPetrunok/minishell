@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 16:55:28 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/18 11:52:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*get_value(t_token *tkn)
 	else if (tkn->data[0] == '~')
 	{
 		if (tkn->data[1] == '\0')
-			tmp = get_var("HOME");
+			tmp = get_var("HOME", g_shell.environ);
 		else
 			tmp = ft_strdup(tkn->data);
 	}
@@ -51,7 +51,7 @@ static char	*get_value(t_token *tkn)
 		return (ret);
 	}
 	else
-		tmp = get_var(tkn->data + 1);
+		tmp = get_var(tkn->data + 1, g_shell.environ);
 	ret = (tmp == 0) ? ft_strnew(0) : ft_strdup(tmp);
 	return (ret);
 }
