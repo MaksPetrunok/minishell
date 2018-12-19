@@ -16,6 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+# define OS_LINUX
+# ifdef OS_LINUX
+typedef __uintmax_t	uintmax_t;
+typedef __intmax_t	intmax_t;
+# endif
+
+
 typedef struct		s_list
 {
 	void			*content;

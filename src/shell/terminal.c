@@ -33,12 +33,13 @@ static int	initialize(void)
 static int	set_terminal_db(void)
 {
 	static char	*last_db = NULL;
+	static int	shell_initiation = 1;
 	char		*name;
 
 	name = get_var("TERM", g_shell.environ);
 	if (name == 0 || !isatty(0) || tgetent(0, name) != 1)
 	{
-		if (last_db != name)
+		if (last_db != name || shell_initiation)
 		{
 			if (name == NULL || *name == '\0')
 				ft_dprintf(2,
@@ -48,9 +49,11 @@ static int	set_terminal_db(void)
 					"terminal database '%s' not found\n", name);
 			last_db = name;
 		}
+		shell_initiation = 0;
 		return (0);
 	}
 	last_db = name;
+	shell_initiation = 0;
 	return (1);
 }
 

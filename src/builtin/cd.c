@@ -43,7 +43,12 @@ static int	try_cd(char *dir)
 
 	if ((path = get_path(dir)) == 0)
 	{
-		ft_dprintf(2, "cd: no such directory: %s\n", dir);
+		if (dir == NULL || ft_strequ(dir, "--") || ft_strequ(dir, "~"))
+			ft_putstr_fd("cd: HOME not set\n", 2);
+		else if (ft_strequ(dir, "-"))
+			ft_putstr_fd("cd: OLDPWD not set\n", 2);
+		else
+			ft_dprintf(2, "cd: no such directory: %s\n", dir);
 		return (0);
 	}
 	else if (!is_dir(path))
@@ -76,12 +81,12 @@ int			builtin_cd(char **av)
 	}
 	if (try_cd(av[1]))
 	{
-		getcwd(new_dir, 4100);
 		set_var("OLDPWD", cwd, g_shell.environ);
-		set_var("PWD", new_dir, g_shell.environ);
 		g_shell.last_ret = 0;
 	}
 	else
 		g_shell.last_ret = 1;
+	getcwd(new_dir, 4100);
+	set_var("PWD", new_dir, g_shell.environ);
 	return (1);
 }
