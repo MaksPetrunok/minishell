@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 19:24:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 20:17:01 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	refresh_ui(t_inp_buff *buff)
 	{
 		ft_printf("%s", buff->data[i++]);
 		tconf("le");
-		cur_mv_right(0);
+		cur_mv_right();
 	}
 	while (i-- > buff->pos)
 		cur_mv_left();

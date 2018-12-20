@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:58:48 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 18:48:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 20:15:35 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	cur_mv_left(void)
 	}
 }
 
-void	cur_mv_right(int __attribute__((unused)) insert)
+void	cur_mv_right(void)
 {
 	if (g_shell.cursor->col >= g_shell.winsize.ws_col - 1) // - insert)
 	{

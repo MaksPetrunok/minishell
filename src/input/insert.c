@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 19:20:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 20:17:20 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	refresh_ui(t_inp_buff *buff)
 	{
 		ft_printf("%s", buff->data[i++]);
 		tconf("le");
-		cur_mv_right(0);
+		cur_mv_right();
 	}
 	while (i-- > buff->pos)
 		cur_mv_left();
@@ -83,7 +83,7 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 	}
 	else
 		refresh_ui(buff);
-	cur_mv_right(1);
+	cur_mv_right();
 	buff->pos++;
 	buff->len++;
 	return (1);
