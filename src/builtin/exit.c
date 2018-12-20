@@ -16,9 +16,6 @@ t_shell	g_shell;
 
 static int	is_number(char *str)
 {
-	int	res;
-
-	res = 1;
 	while (*str)
 	{
 		if (!ft_isdigit(*str) &&

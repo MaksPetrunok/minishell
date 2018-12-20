@@ -44,9 +44,7 @@ int		exec_complete(t_inp_buff *buff)
 	t_list	*match;
 	t_list	*head;
 	char	*str;
-	DIR		*dstr;
 
-	dstr = 0;
 	match = get_execs(buff);
 	head = match;
 	while (match && ft_lstsize(head) > 1)

@@ -65,7 +65,7 @@ int			init_shell(char **env)
 		exit_shell();
 		return (-1);
 	}
-	if (ioctl(0, TIOCGWINSZ, &(g_shell.w)) == -1)
+	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
 		return (-1);
 	setup_signals();
 	return (0);

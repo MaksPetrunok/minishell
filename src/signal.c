@@ -16,7 +16,13 @@ t_shell	g_shell;
 
 void	win_size_handler(int __attribute__((unused)) sig)
 {
-	ioctl(0, TIOCGWINSZ, &(g_shell.w));
+	int	position;
+
+	ioctl(0, TIOCGWINSZ, &(g_shell.winsize));
+	position = g_shell.plen + g_shell.input->pos;
+	g_shell.cursor->col = position % g_shell.winsize.ws_col;
+	g_shell.cursor->row = position / g_shell.winsize.ws_col;
+//ft_printf("col=%d, row=%d", g_shell.cursor->col, g_shell.cursor->row);
 }
 
 void	exit_safely(int __attribute__((unused)) sig)

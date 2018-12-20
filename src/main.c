@@ -35,6 +35,7 @@ void	show_prompt(void)
 	char	*tmp;
 	char	cwd[5000];
 	char	*is_wd;
+	int		len;
 
 	switch_term_to(g_shell.term_typing);
 	cwd[0] = '\0';
@@ -42,16 +43,21 @@ void	show_prompt(void)
 	if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
 	{
 		if (!is_wd)
-			ft_printf("%s: ", SHELL_NAME);
+			len = ft_printf("%s: ", SHELL_NAME);
 		else
-			ft_printf("\x1b[1m%s:\x1b[0;94m%s\x1b[0m$ ", SHELL_NAME, cwd);
-		return ;
+			len = ft_printf("\x1b[1m%s:\x1b[0;94m%s\x1b[0m$ ",
+				SHELL_NAME, cwd);
 	}
-	if (ft_strstr(cwd, tmp) == cwd)
-		ft_printf("\x1b[1m%s:\x1b[94m~%s\x1b[0m$ ",
-			SHELL_NAME, cwd + ft_strlen(tmp));
+	else if (ft_strstr(cwd, tmp) == cwd)
+		len = ft_printf("\x1b[1m%s:\x1b[94m~%s\x1b[0m$ ",
+			SHELL_NAME, cwd + ft_strlen(tmp)) - 13;
 	else
-		ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ", SHELL_NAME, cwd);
+		len = ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ",
+			SHELL_NAME, cwd) - 13;
+	g_shell.plen = len;
+	g_shell.cursor->col = len % g_shell.winsize.ws_col;
+	g_shell.cursor->row = len / g_shell.winsize.ws_col;
+//ft_printf("col=%d, row=%d", g_shell.cursor->col, g_shell.cursor->row);
 }
 
 int		process_input(char *input)

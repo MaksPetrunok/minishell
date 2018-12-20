@@ -16,18 +16,13 @@
 # include "libft.h"
 # include "input.h"
 # include "environ.h"
+# include "cursor.h"
 # include <sys/ioctl.h>
 
 typedef	struct		s_process
 {
 	pid_t			pid;
 }					t_process;
-
-typedef struct		s_cusor
-{
-	int				row;
-	int				col;
-}					t_cursor;
 
 typedef struct		s_shell
 {
@@ -36,10 +31,11 @@ typedef struct		s_shell
 	int				run;
 	int				canonical;
 	int				last_ret;
+	int				plen;
 	t_inp_buff		*input;
 	t_env			*environ;
 	t_cursor		*cursor;
-	struct winsize	w;
+	struct winsize	winsize;
 	t_list			*childs;
 }					t_shell;
 
@@ -48,11 +44,6 @@ typedef struct		s_shell
 */
 int					init_shell(char **env);
 void				exit_shell(void);
-
-/*
-** cursor.c
-*/
-int					init_cursor(void);
 
 /*
 ** terminal.c

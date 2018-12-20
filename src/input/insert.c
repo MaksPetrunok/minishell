@@ -50,11 +50,13 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 		return (0);
 	buff->pos++;
 	buff->len++;
+// refresh string only if buff->(pos != len)
 	i = buff->pos - 1;
 	while (buff->data[i])
 		ft_printf("%s", buff->data[i++]);
 	tconf("ce");
 	while (i-- > buff->pos)
 		tconf("le");
+	cur_mv_right(1);
 	return (1);
 }

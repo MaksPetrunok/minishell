@@ -23,6 +23,9 @@ int	inp_movel(t_inp_buff *buff, char *sym)
 	if (buff->pos == 0)
 		return (0);
 	buff->pos--;
+	cur_mv_left();
+return (1);
+//
 	if (buff->data[buff->pos][0] == '\t')
 		tconf("bt");
 	else
@@ -35,10 +38,13 @@ int	inp_mover(t_inp_buff *buff, char *sym)
 	(void)sym;
 	if (buff->pos == buff->len)
 		return (0);
+	cur_mv_right(0);
+/*
 	if (buff->data[buff->pos][0] == '\t')
 		tconf("ta");
 	else
 		tconf("nd");
+*/
 	buff->pos++;
 	return (1);
 }

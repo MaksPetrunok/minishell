@@ -21,6 +21,7 @@
 # include "builtin.h"
 # include "lexer.h"
 # include "autocomp.h"
+# include "cursor.h"
 
 # include <sys/types.h>
 # include <sys/wait.h>
