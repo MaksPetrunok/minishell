@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:29:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 16:55:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,18 @@ void	exit_safely(int __attribute__((unused)) sig)
 	exit(1);
 }
 
+void	stp_handler(int __attribute__((unused)) sig)
+{
+	ft_printf("(%d,%d)-%d|",
+			g_shell.cursor->col,
+			g_shell.cursor->row,
+			g_shell.input->pos);
+}
+
 void	setup_signals(void)
 {
 	signal(SIGINT, &sh_sigint_handler);
+	signal(SIGTSTP, &stp_handler); //
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, &exit_safely);
 	signal(SIGHUP, &exit_safely);

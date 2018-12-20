@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:38 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:17:44 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 17:13:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ int	inp_movel(t_inp_buff *buff, char *sym)
 		return (0);
 	buff->pos--;
 	cur_mv_left();
-return (1);
-//
-	if (buff->data[buff->pos][0] == '\t')
-		tconf("bt");
-	else
-		tconf("le");
 	return (1);
 }
 
@@ -39,12 +33,6 @@ int	inp_mover(t_inp_buff *buff, char *sym)
 	if (buff->pos == buff->len)
 		return (0);
 	cur_mv_right(0);
-/*
-	if (buff->data[buff->pos][0] == '\t')
-		tconf("ta");
-	else
-		tconf("nd");
-*/
 	buff->pos++;
 	return (1);
 }
