@@ -10,7 +10,9 @@ typedef struct	s_cusor
 }				t_cursor;
 
 int				init_cursor(void);
-void			cur_mv_right(void);
+void			cur_mv_up(void);
+void			cur_mv_down(void);
 void			cur_mv_left(void);
+void			cur_mv_right(void);
 
 #endif

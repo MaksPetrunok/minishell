@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 16:55:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 21:54:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,24 @@ t_shell	g_shell;
 
 void	win_size_handler(int __attribute__((unused)) sig)
 {
-	int	position;
+	int	i;
 
+	while (g_shell.cursor->row > 0)
+		cur_mv_up();
+
+	tconf("cr");
+	tconf("cd");
 	ioctl(0, TIOCGWINSZ, &(g_shell.winsize));
-	position = g_shell.plen + g_shell.input->pos;
-	g_shell.cursor->col = position % g_shell.winsize.ws_col;
-	g_shell.cursor->row = position / g_shell.winsize.ws_col;
+	show_prompt();
+	i = 0;
+	while (i < g_shell.input->len)
+	{
+		ft_putstr(g_shell.input->data[i++]);
+		tconf("le");
+		cur_mv_right();
+	}
+	while (i-- > g_shell.input->pos)
+		cur_mv_left();
 //ft_printf("col=%d, row=%d", g_shell.cursor->col, g_shell.cursor->row);
 }
 
@@ -46,7 +58,7 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, &exit_safely);
 	signal(SIGHUP, &exit_safely);
-	signal(SIGWINCH, &win_size_handler);
+	signal(SIGWINCH, &win_size_handler); // fix me!
 }
 
 void	sh_sigint_handler(int __attribute__((unused)) sig)
