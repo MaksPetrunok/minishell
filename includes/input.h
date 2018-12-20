@@ -6,15 +6,15 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 19:21:12 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 22:33:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_H
 # define INPUT_H
 
-# define K_LEFT			"\x1b\x5b\x44"
 # define K_RIGHT		"\x1b\x5b\x43"
+# define K_LEFT			"\x1b\x5b\x44"
 # define K_CTRL_D		"\x04"
 # define K_TAB			"\x09"
 # define K_RETURN		"\x0a"
@@ -22,10 +22,23 @@
 # define K_DEL			"\x1b\x5b\x33\x7e"
 
 # define K_CTRL_R		"\x12"
-# define K_UP			"\x41\x5b\x1b"
-# define K_DOWN			"\x42\x5b\x1b"
-# define K_ALT_RIGHT	"\x66\x1b"
-# define K_ALT_LEFT		"\x62\x1b"
+//history
+# define K_UP			"\x1b\x5b\x41"
+# define K_DOWN			"\x1b\x5b\x42"
+//move by word
+# define K_SH_RIGHT		"\x1b\x5b\x31\x3b\x32\x43"
+# define K_SH_LEFT		"\x1b\x5b\x31\x3b\x32\x44"
+//unused
+# define K_ALT_RIGHT	"\x1b\x66"
+# define K_ALT_LEFT		"\x1b\x62"
+//move to the begining of a line
+# define K_SH_HOME		"\x1b\x5b\x48"
+//move to the end of line
+# define K_SH_END		"\x1b\x5b\x46"
+//move cursor up/down for multi-line string
+# define K_SH_PGUP		"\x1b\x5b\x35\x7e"
+# define K_SH_PGDOWN	"\x1b\x5b\x36\x7e"
+
 
 # define KEY_NUM			13
 
