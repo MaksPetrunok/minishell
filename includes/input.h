@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 22:33:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/20 23:03:31 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ char			*inp_to_str(char **inp);
 
 int				inp_insert(t_inp_buff *buff, char *sym);
 int				inp_control(t_inp_buff *buff, char *sym);
+int				inp_home(t_inp_buff *buff, char *sym);
+int				inp_end(t_inp_buff *buff, char *sym);
+int				inp_up(t_inp_buff *buff, char *sym);
+int				inp_down(t_inp_buff *buff, char *sym);
+
 int				inp_movel(t_inp_buff *buff, char *sym);
 int				inp_mover(t_inp_buff *buff, char *sym);
 int				inp_delete(t_inp_buff *buff, char *sym);
