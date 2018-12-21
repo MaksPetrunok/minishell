@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:47:24 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/21 18:46:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,37 @@ int		process_cmd(char **cmd_lst)
 	return (ret);
 }
 
+static int putch(int c)
+{
+	return (write(1, &c, 1));
+}
+
+void	move_cursor(int col, int row)
+{
+	tputs(tgoto(tgetstr("cm", 0), col, row), 1, putch);
+}
+
+void	set_cursor(void)
+{
+	char	buff[16];
+	char	*ptr;
+	int		n;
+
+	n = 0;
+	ft_printf("\x1b[6n");
+	while (read(0, buff + n, 1))
+	{
+		if (buff[n] == 'R')
+			break ;
+		n++;
+	}
+//ft_printf("Cursor = %s\n", buff + 2);
+	ptr = ft_strchr(buff + 2, ';');
+
+	g_shell.cursor->row = ft_atoi(buff + 2) - 1;
+	g_shell.cursor->col = ft_atoi(ptr + 1) - 1;
+}
+
 void	show_prompt(void)
 {
 	char	*tmp;
@@ -38,6 +69,7 @@ void	show_prompt(void)
 	int		len;
 
 	switch_term_to(g_shell.term_typing);
+	set_cursor();
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);
 	if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
@@ -55,9 +87,9 @@ void	show_prompt(void)
 		len = ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ",
 			SHELL_NAME, cwd) - 13;
 	g_shell.plen = len;
-	g_shell.cursor->col = len % g_shell.winsize.ws_col;
-	g_shell.cursor->row = len / g_shell.winsize.ws_col;
-//ft_printf("col=%d, row=%d", g_shell.cursor->col, g_shell.cursor->row);
+	g_shell.cursor->col += len % g_shell.winsize.ws_col;
+	g_shell.cursor->row += len / g_shell.winsize.ws_col;
+//	move_cursor(g_shell.cursor->col, g_shell.cursor->row);
 }
 
 int		process_input(char *input)

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 18:47:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:26:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/21 16:55:54 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	putchar_echo(int c)
 {
-	return (write(0, &c, 4));
+	return (write(0, &c, 1));
 }
 
 static int	putchar_conf(int c)

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:13:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 23:18:58 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/21 15:49:12 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	inp_up(t_inp_buff *buff, char *sym)
 
 int	inp_down(t_inp_buff *buff, char *sym)
 {
+//	tconf(tgoto(tgetstr("cm", NULL), x, y));
 	if (g_shell.cursor->col + buff->len - buff->pos < g_shell.winsize.ws_col)
 		return (0);
 	if (buff->pos + g_shell.winsize.ws_col > buff->len)

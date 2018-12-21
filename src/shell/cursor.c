@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:58:48 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 20:47:22 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/21 16:59:59 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,25 @@ void	cur_mv_left(void)
 	else
 	{
 		g_shell.cursor->col--;
-		tconf("le");
+		//tconf(tgoto(tgetstr("cm", 0), g_shell.cursor->col, g_shell.cursor->row));
+		char    buf[32];
+	    char    *pbuf;
+	    void    *ret;
+
+	    pbuf = buf;
+	    ret = tgetstr("cm", &pbuf);
+		if (ret == 0)
+			ft_printf("tgetstr=0\n");
+	    pbuf = tgoto(buf, 0, 0);
+		if (pbuf == 0)
+			ft_printf("tgoto=0\n");
+	    techo(pbuf);
+		tconf("vb");
+		sleep(1);
+		while (*pbuf)
+			ft_printf("\n%d", *pbuf++);
+		//tconf(tgoto(tgetstr("cm", 0), 1, 1));
+//		tconf("le");
 	}
 }
 
@@ -55,8 +73,9 @@ void	cur_mv_right(void)
 	{
 		g_shell.cursor->col = 0;
 		g_shell.cursor->row++;
-		tconf("do");
-		tconf("cr");
+//		tconf("do");
+		tconf("sf");
+//		tconf("cr");
 	}
 	else
 	{
