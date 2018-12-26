@@ -40,11 +40,11 @@
 # define K_SH_PGDOWN	"\x1b\x5b\x36\x7e"
 
 
-# define KEY_NUM			13
+# define KEY_NUM			14
 
 # define INP_FD				0
 # define INP_BUFF_SIZE		8
-# define SYM_SIZE			4
+# define SYM_SIZE			6
 # define TAB_SIZE			4
 
 # include <dirent.h>
@@ -70,6 +70,7 @@ typedef	struct	s_key
 */
 int				tconf(char *s);
 int				techo(char *s);
+void			move_cursor(int col, int row);
 
 int				is_control(char *str);
 

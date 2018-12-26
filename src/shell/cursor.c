@@ -16,79 +16,57 @@ t_shell	g_shell;
 
 void	cur_mv_up(void)
 {
-	if (g_shell.cursor->row > 0)
+	if (g_shell.positions.current.row > 0)
 	{
-		g_shell.cursor->row--;
+		g_shell.positions.current.row--;
 		tconf("up");
 	}
 }
 
 void	cur_mv_down(void)
 {
-	g_shell.cursor->row++;
+	g_shell.positions.current.row++;
 	tconf("do");
 }
 
 void	cur_mv_left(void)
 {
-	int	i;
-
-	if (g_shell.cursor->col == 0 && g_shell.cursor->row > 0)
+	if (g_shell.positions.current.col == 0 && g_shell.positions.current.row > 0)
 	{
-		g_shell.cursor->col = g_shell.winsize.ws_col - 1;
-		g_shell.cursor->row--;
-		i = g_shell.winsize.ws_col;
-		while (i-- > 1)
-			tconf("nd");
-		tconf("up");
+		g_shell.positions.current.col = g_shell.winsize.ws_col - 1;
+		g_shell.positions.current.row--;
 	}
 	else
-	{
-		g_shell.cursor->col--;
-		//tconf(tgoto(tgetstr("cm", 0), g_shell.cursor->col, g_shell.cursor->row));
-		char    buf[32];
-	    char    *pbuf;
-	    void    *ret;
-
-	    pbuf = buf;
-	    ret = tgetstr("cm", &pbuf);
-		if (ret == 0)
-			ft_printf("tgetstr=0\n");
-	    pbuf = tgoto(buf, 0, 0);
-		if (pbuf == 0)
-			ft_printf("tgoto=0\n");
-	    techo(pbuf);
-		tconf("vb");
-		sleep(1);
-		while (*pbuf)
-			ft_printf("\n%d", *pbuf++);
-		//tconf(tgoto(tgetstr("cm", 0), 1, 1));
-//		tconf("le");
-	}
+		g_shell.positions.current.col--;
+	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
 void	cur_mv_right(void)
 {
-	if (g_shell.cursor->col >= g_shell.winsize.ws_col - 1)
+	if (g_shell.positions.current.col >= g_shell.winsize.ws_col - 1)
 	{
-		g_shell.cursor->col = 0;
-		g_shell.cursor->row++;
-//		tconf("do");
-		tconf("sf");
-//		tconf("cr");
+		g_shell.positions.current.col = 0;
+		if (g_shell.positions.current.row >= g_shell.winsize.ws_row - 1)
+		{
+			tconf("sf");
+			g_shell.positions.prompt.row--;
+			g_shell.positions.cmd.row--;
+		}
+		else
+			g_shell.positions.current.row++;
 	}
 	else
-	{
-		g_shell.cursor->col++;
-		tconf("nd");
-	}
+		g_shell.positions.current.col++;
+	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
 int	init_cursor(void)
 {
-	if ((g_shell.cursor = malloc(sizeof(t_cursor))) == 0)
-		return (-1);
-	g_shell.cursor->col = 0;
-	g_shell.cursor->row = 0;
+	g_shell.positions.prompt.col = 0;
+	g_shell.positions.prompt.row = 0;
+	g_shell.positions.cmd.col = 0;
+	g_shell.positions.cmd.row = 0;
+	g_shell.positions.current.col = 0;
+	g_shell.positions.current.row = 0;
 	return (0);
 }

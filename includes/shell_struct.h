@@ -17,6 +17,7 @@
 # include "input.h"
 # include "environ.h"
 # include "cursor.h"
+# include "history.h"
 # include <sys/ioctl.h>
 
 typedef	struct		s_process
@@ -34,8 +35,9 @@ typedef struct		s_shell
 	int				plen;
 	t_inp_buff		*input;
 	t_env			*environ;
-	t_cursor		*cursor;
+	t_positions		positions;
 	struct winsize	winsize;
+	t_history		*history;
 	t_list			*childs;
 }					t_shell;
 

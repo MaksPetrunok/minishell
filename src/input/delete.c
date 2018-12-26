@@ -16,13 +16,13 @@ static void	refresh_ui(t_inp_buff *buff)
 	int	i;
 
 	tconf("ce"); //clear curent line from cursor to end
-	if (g_shell.cursor->col + buff->len - buff->pos >= g_shell.winsize.ws_col - 1)
+	if (g_shell.positions.current.col + buff->len - buff->pos >= g_shell.winsize.ws_col - 1)
 	{
 		tconf("do"); //move cursor down
 		tconf("cr"); //return to begining of current line
 		tconf("cd"); //clear curent line and to bottom
 		i = 0;
-		while (i++ < g_shell.cursor->col)
+		while (i++ < g_shell.positions.current.col)
 			tconf("nd"); //move cursor right
 		tconf("up");
 	}

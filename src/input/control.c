@@ -15,6 +15,10 @@
 static t_key	g_table[KEY_NUM] = {
 	{K_LEFT, &inp_movel},
 	{K_RIGHT, &inp_mover},
+	{K_SH_LEFT, &inp_movelw}, // left word
+	{K_SH_RIGHT, &inp_moverw}, // right word
+	{K_UP, &inp_hist_prev},
+	{K_DOWN, &inp_hist_next},
 	{K_BACK_SP, &inp_backsp},
 	{K_DEL, &inp_delete},
 	{K_TAB, &inp_tab},
@@ -73,56 +77,104 @@ int	inp_control(t_inp_buff *buff, char *sym)
 	return (g_table[i].action(buff, sym));
 }
 
+int	inp_movelw(t_inp_buff *buff, char *sym)
+{
+	(void)sym;
+	if (buff->pos == 0)
+		return (0);
+	while (!ft_isalnum(buff->data[buff->pos - 1][0]))
+	{
+		buff->pos--;
+		cur_mv_left();
+	}
+	while (ft_isalnum(buff->data[buff->pos - 1][0]))
+	{
+		buff->pos--;
+		cur_mv_left();
+	}
+	return (1);
+}
+
+int	inp_moverw(t_inp_buff *buff, char *sym)
+{
+	(void)sym;
+	if (buff->pos == 0)
+		return (0);
+	while (!ft_isalnum(buff->data[buff->pos - 1][0]))
+	{
+		buff->pos--;
+		cur_mv_left();
+	}
+	while (ft_isalnum(buff->data[buff->pos - 1][0]))
+	{
+		buff->pos--;
+		cur_mv_left();
+	}
+	return (1);
+}
+
 int	inp_home(t_inp_buff *buff, char *sym)
 {
-	while (buff->pos > 0)
-	{
-		inp_movel(buff, sym);
-	}
+	(void)sym;
+	buff->pos = 0;
+	g_shell.positions.current.col = g_shell.positions.cmd.col;
+	g_shell.positions.current.row = g_shell.positions.cmd.row;
+	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 	return (1);
 }
 
 int	inp_end(t_inp_buff *buff, char *sym)
 {
-	while (buff->pos < buff->len)
-	{
-		inp_mover(buff, sym);
-	}
+	t_positions	*pos;
+
+	(void)sym;
+	pos = &(g_shell.positions);
+	buff->pos = buff->len;
+	pos->current.col = (pos->cmd.col + buff->len) % g_shell.winsize.ws_col;
+	pos->current.row = pos->cmd.row + (pos->cmd.col + buff->len) / g_shell.winsize.ws_col;
+	move_cursor(pos->current.col, pos->current.row);
 	return (1);
 }
 
 int	inp_up(t_inp_buff *buff, char *sym)
 {
+	t_positions	*pos;
+
 	(void)sym;
-	if (g_shell.cursor->col == 0)
+	pos = &(g_shell.positions);
+	if (pos->current.row == pos->cmd.row)
 		return (0);
-	buff->pos = buff->pos - g_shell.cursor->col;
-	if (buff->pos < 0)
+	if (pos->current.col < pos->cmd.col)
+	{
 		buff->pos = 0;
-	if (buff->pos != 0)
-		cur_mv_up();
+		pos->current.col = pos->cmd.col;
+		pos->current.row = pos->cmd.row;
+	}
 	else
 	{
-		while (g_shell.cursor->col != g_shell.plen)
-			cur_mv_left();
+		buff->pos -= g_shell.winsize.ws_col;
+		pos->current.row--;
 	}
+	move_cursor(pos->current.col, pos->current.row);
 	return (1);
 }
 
 int	inp_down(t_inp_buff *buff, char *sym)
 {
-//	tconf(tgoto(tgetstr("cm", NULL), x, y));
-	if (g_shell.cursor->col + buff->len - buff->pos < g_shell.winsize.ws_col)
+	t_positions	*pos;
+
+	(void)sym;
+	pos = &(g_shell.positions);
+	if (pos->current.col + buff->len - buff->pos < g_shell.winsize.ws_col)
 		return (0);
-	if (buff->pos + g_shell.winsize.ws_col > buff->len)
+	if (buff->len - buff->pos < g_shell.winsize.ws_col)
 	{
-		while (buff->pos < buff->len)
-			inp_mover(buff, sym);
+		pos->current.col = (pos->current.col + buff->len - buff->pos) % g_shell.winsize.ws_col;
+		buff->pos = buff->len;
 	}
 	else
-	{
 		buff->pos += g_shell.winsize.ws_col;
-		cur_mv_down();
-	}
+	pos->current.row++;
+	move_cursor(pos->current.col, pos->current.row);
 	return (1);
 }

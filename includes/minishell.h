@@ -22,6 +22,7 @@
 # include "lexer.h"
 # include "autocomp.h"
 # include "cursor.h"
+# include "history.h"
 
 # include <sys/types.h>
 # include <sys/wait.h>

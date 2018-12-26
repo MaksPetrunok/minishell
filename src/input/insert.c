@@ -41,7 +41,7 @@ static void	refresh_ui(t_inp_buff *buff)
 		tconf("cr"); //return to begining of current line
 		tconf("cd"); //clear curent line and to bottom
 		i = 0;
-		while (i++ < g_shell.cursor->col)
+		while (i++ < g_shell.positions.current.col)
 			tconf("nd"); //move cursor right
 		tconf("up");
 	}

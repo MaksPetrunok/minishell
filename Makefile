@@ -43,6 +43,8 @@ MAIN_FILES = main.c \
 			input/move.c \
 			input/delete.c \
 			\
+			history/history.c \
+			\
 			shell/terminal.c \
 			shell/cursor.c \
 			shell/shell.c \
@@ -79,6 +81,7 @@ $(LIB):
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
+	@mkdir -p $(OBJ_DIR)history/
 	@mkdir -p $(OBJ_DIR)input/
 	@mkdir -p $(OBJ_DIR)shell/
 	@mkdir -p $(OBJ_DIR)autocmp/

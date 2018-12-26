@@ -30,16 +30,6 @@ int		process_cmd(char **cmd_lst)
 	return (ret);
 }
 
-static int putch(int c)
-{
-	return (write(1, &c, 1));
-}
-
-void	move_cursor(int col, int row)
-{
-	tputs(tgoto(tgetstr("cm", 0), col, row), 1, putch);
-}
-
 void	set_cursor(void)
 {
 	char	buff[16];
@@ -54,11 +44,9 @@ void	set_cursor(void)
 			break ;
 		n++;
 	}
-//ft_printf("Cursor = %s\n", buff + 2);
 	ptr = ft_strchr(buff + 2, ';');
-
-	g_shell.cursor->row = ft_atoi(buff + 2) - 1;
-	g_shell.cursor->col = ft_atoi(ptr + 1) - 1;
+	g_shell.positions.prompt.row = ft_atoi(buff + 2) - 1;
+	g_shell.positions.prompt.col = ft_atoi(ptr + 1) - 1;
 }
 
 void	show_prompt(void)
@@ -87,9 +75,10 @@ void	show_prompt(void)
 		len = ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ",
 			SHELL_NAME, cwd) - 13;
 	g_shell.plen = len;
-	g_shell.cursor->col += len % g_shell.winsize.ws_col;
-	g_shell.cursor->row += len / g_shell.winsize.ws_col;
-//	move_cursor(g_shell.cursor->col, g_shell.cursor->row);
+	g_shell.positions.cmd.col = g_shell.positions.prompt.col + len % g_shell.winsize.ws_col;
+	g_shell.positions.cmd.row = g_shell.positions.prompt.row + len / g_shell.winsize.ws_col;
+	g_shell.positions.current.col = g_shell.positions.cmd.col;
+	g_shell.positions.current.row = g_shell.positions.cmd.row;
 }
 
 int		process_input(char *input)
@@ -136,7 +125,10 @@ int		main(int ac, char **av, char **ev)
 	(void)av;
 	(void)ac;
 	if (init_shell(ev) != 0)
+	{
+		ft_dprintf(2, "cannot launch shell, failed to allocate memory\n");
 		return (EXIT_ERR);
+	}
 	sh_loop();
 	exit_shell();
 	return (0);

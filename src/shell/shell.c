@@ -55,19 +55,19 @@ int			init_shell(char **env)
 	if ((g_shell.environ = init_environment(env)) == 0)
 		return (-1);
 	set_shlvl();
-	if (setup_terminal() != 0)
+	if (setup_terminal() != 0 || init_history() != 0)
 	{
 		env_free(g_shell.environ);
 		return (-1);
 	}
-	if (init_cursor() != 0)
-	{
-		exit_shell();
-		return (-1);
-	}
+	init_cursor();
 	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
 		return (-1);
 	setup_signals();
+ft_printf("history: %p\nh.stack: %p\nh.iter: %p\n",
+		g_shell.history,
+		g_shell.history->stack,
+		g_shell.history->iter);
 	return (0);
 }
 
@@ -79,5 +79,4 @@ void		exit_shell(void)
 	free_child_list();
 	free_terminals();
 	env_free(g_shell.environ);
-	free((void *)(g_shell.cursor));
 }

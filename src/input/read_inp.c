@@ -89,8 +89,9 @@ static void			read_input(t_inp_buff *buff, int fd)
 		else if (*sym)
 			inp_insert(buff, sym);
 	}
-	while (buff->pos++ < buff->len)
-		cur_mv_right();
+	inp_end(buff, 0);
+//	while (buff->pos++ < buff->len)
+//		cur_mv_right();
 }
 
 /*
@@ -119,5 +120,7 @@ int					get_input(char **inp_str, int fd)
 	len = inp_buff->len;
 	inp_buff_free(inp_buff);
 	g_shell.input = NULL;
+	if (len > 0)
+		history_add(*inp_str);
 	return (len);
 }
