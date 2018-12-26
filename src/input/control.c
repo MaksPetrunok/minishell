@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:13:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/21 15:49:12 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 16:30:35 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static t_key	g_table[KEY_NUM] = {
 	{K_LEFT, &inp_movel},
 	{K_RIGHT, &inp_mover},
-	{K_SH_LEFT, &inp_movelw}, // left word
-	{K_SH_RIGHT, &inp_moverw}, // right word
+	{K_SH_LEFT, &inp_movelw},
+	{K_SH_RIGHT, &inp_moverw},
 	{K_UP, &inp_hist_prev},
 	{K_DOWN, &inp_hist_next},
 	{K_BACK_SP, &inp_backsp},
@@ -80,14 +80,14 @@ int	inp_control(t_inp_buff *buff, char *sym)
 int	inp_movelw(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
-	if (buff->pos == 0)
+	if (buff->len == 0)
 		return (0);
-	while (!ft_isalnum(buff->data[buff->pos - 1][0]))
+	while (buff->pos > 0 && !ft_isalnum(buff->data[buff->pos - 1][0]))
 	{
 		buff->pos--;
 		cur_mv_left();
 	}
-	while (ft_isalnum(buff->data[buff->pos - 1][0]))
+	while (buff->pos > 0 && ft_isalnum(buff->data[buff->pos - 1][0]))
 	{
 		buff->pos--;
 		cur_mv_left();
@@ -98,17 +98,17 @@ int	inp_movelw(t_inp_buff *buff, char *sym)
 int	inp_moverw(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
-	if (buff->pos == 0)
+	if (buff->len == 0)
 		return (0);
-	while (!ft_isalnum(buff->data[buff->pos - 1][0]))
+	while (buff->data[buff->pos] && !ft_isalnum(buff->data[buff->pos][0]))
 	{
-		buff->pos--;
-		cur_mv_left();
+		buff->pos++;
+		cur_mv_right();
 	}
-	while (ft_isalnum(buff->data[buff->pos - 1][0]))
+	while (buff->data[buff->pos] && ft_isalnum(buff->data[buff->pos][0]))
 	{
-		buff->pos--;
-		cur_mv_left();
+		buff->pos++;
+		cur_mv_right();
 	}
 	return (1);
 }
@@ -131,7 +131,8 @@ int	inp_end(t_inp_buff *buff, char *sym)
 	pos = &(g_shell.positions);
 	buff->pos = buff->len;
 	pos->current.col = (pos->cmd.col + buff->len) % g_shell.winsize.ws_col;
-	pos->current.row = pos->cmd.row + (pos->cmd.col + buff->len) / g_shell.winsize.ws_col;
+	pos->current.row = pos->cmd.row +
+		(pos->cmd.col + buff->len) / g_shell.winsize.ws_col;
 	move_cursor(pos->current.col, pos->current.row);
 	return (1);
 }
@@ -169,7 +170,8 @@ int	inp_down(t_inp_buff *buff, char *sym)
 		return (0);
 	if (buff->len - buff->pos < g_shell.winsize.ws_col)
 	{
-		pos->current.col = (pos->current.col + buff->len - buff->pos) % g_shell.winsize.ws_col;
+		pos->current.col = (pos->current.col + buff->len - buff->pos) %
+			g_shell.winsize.ws_col;
 		buff->pos = buff->len;
 	}
 	else

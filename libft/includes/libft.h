@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 18:27:52 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 14:49:12 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 14:27:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define OS_LINUX
+//# define OS_LINUX
 # ifdef OS_LINUX
 typedef __uintmax_t	uintmax_t;
 typedef __intmax_t	intmax_t;

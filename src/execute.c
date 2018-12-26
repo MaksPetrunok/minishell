@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:22:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 15:05:21 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,9 @@ int			execute(char **av, t_env *env)
 		return (-1);
 	}
 	else
+	{
 		add_child_process(child);
+	}
 	waitpid(child, &status, 0);
 	g_shell.last_ret = WEXITSTATUS(status);
 	finish_child_processes();
