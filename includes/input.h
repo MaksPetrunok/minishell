@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 23:03:31 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 20:47:26 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,12 @@ typedef	struct	s_key
 int				tconf(char *s);
 int				techo(char *s);
 void			move_cursor(int col, int row);
+void			clear_from_cursor(t_inp_buff *buff);
 
 int				is_control(char *str);
 
 char			*inp_to_str(char **inp);
+int				increase_buff(t_inp_buff *buff);
 
 int				inp_insert(t_inp_buff *buff, char *sym);
 int				inp_control(t_inp_buff *buff, char *sym);

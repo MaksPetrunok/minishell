@@ -1,31 +1,18 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/26 16:45:00 by mpetruno          #+#    #+#             */
+/*   Updated: 2018/12/26 19:05:17 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 t_shell	g_shell;
-
-int	inp_hist_prev(t_inp_buff *buff, char *sym)
-{
-	(void)buff;
-	(void)sym;
-	t_dlist	*lst;
-
-	lst = g_shell.history->stack;
-	while (lst)
-	{
-		ft_printf("%s\n", lst->str);
-		lst = lst->next;
-	}
-	return (1);
-}
-
-int	inp_hist_next(t_inp_buff *buff, char *sym)
-{
-	(void)buff;
-	(void)sym;
-	ft_printf("history next");
-	return (1);
-}
 
 int	history_add(char *cmd)
 {
@@ -38,8 +25,12 @@ int	history_add(char *cmd)
 		free((void *)item);
 		return (0);
 	}
+	free((void *)(g_shell.history->tmp));
+	g_shell.history->tmp = NULL;
 	item->prev = NULL;
 	item->next = g_shell.history->stack;
+	if (g_shell.history->stack)
+		g_shell.history->stack->prev = item;
 	g_shell.history->stack = item;
 	g_shell.history->iter = item;
 	return (1);
@@ -51,5 +42,6 @@ int	init_history(void)
 		return (-1);
 	g_shell.history->stack = NULL;
 	g_shell.history->iter = NULL;
+	g_shell.history->tmp = NULL;
 	return (0);
 }

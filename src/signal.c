@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/21 15:19:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 21:52:59 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ t_shell	g_shell;
 
 void	win_size_handler(int __attribute__((unused)) sig)
 {
+//	move_cursor(g_shell.positions.prompt.col, g_shell.positions.prompt.col);
+//	write(1, "X", 1);
+
 	/*
 	int	i;
 

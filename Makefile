@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/18 14:46:41 by mpetruno         ###   ########.fr        #
+#    Updated: 2018/12/26 20:48:42 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,13 @@ MAIN_FILES = main.c \
 			input/delete.c \
 			\
 			history/history.c \
+			history/navigate.c \
 			\
 			shell/terminal.c \
 			shell/cursor.c \
 			shell/shell.c \
 			shell/shell_exit.c \
+			shell/ui.c \
 			\
 			autocmp/autocomp.c \
 			autocmp/file_comp.c \

@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 20:17:20 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 20:46:50 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	increase_buff(t_inp_buff *buff)
+int	increase_buff(t_inp_buff *buff)
 {
 	int		new_size;
 	size_t	new_bytes;
@@ -34,28 +34,18 @@ static void	refresh_ui(t_inp_buff *buff)
 {
 	int	i;
 
-	if ((g_shell.plen + buff->len + 1) % g_shell.winsize.ws_col == 0)
-	{
-		tconf("ce"); //clear curent line from cursor to end
-		tconf("do"); //move cursor down
-		tconf("cr"); //return to begining of current line
-		tconf("cd"); //clear curent line and to bottom
-		i = 0;
-		while (i++ < g_shell.positions.current.col)
-			tconf("nd"); //move cursor right
-		tconf("up");
-	}
-	else
-		tconf("ce"); //clear end of line
+	clear_from_cursor(buff);
 	i = buff->pos;
 	while (buff->data[i])
+		ft_putstr(buff->data[i++]);
+	if ((g_shell.positions.current.col + buff->len - buff->pos) %
+		g_shell.winsize.ws_col == 0)
 	{
-		ft_printf("%s", buff->data[i++]);
-		tconf("le");
-		cur_mv_right();
+		g_shell.positions.prompt.row--;
+		g_shell.positions.cmd.row--;
+		g_shell.positions.current.row--;
 	}
-	while (i-- > buff->pos)
-		cur_mv_left();
+	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
 int			inp_insert(t_inp_buff *buff, char *sym)

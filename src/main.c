@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 14:55:58 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 21:47:21 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	set_cursor(void)
 	int		n;
 
 	n = 0;
-	ft_printf("\x1b[6n");
+	ft_putstr("\x1b[6n");
 	while (read(0, buff + n, 1))
 	{
 		if (buff[n] == 'R')
@@ -58,6 +58,7 @@ void	show_prompt(void)
 
 	switch_term_to(g_shell.term_typing);
 	set_cursor();
+	tconf("cd");
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);
 	if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
@@ -75,10 +76,14 @@ void	show_prompt(void)
 		len = ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ",
 			SHELL_NAME, cwd) - 13;
 	g_shell.plen = len;
-	g_shell.positions.cmd.col = g_shell.positions.prompt.col + len % g_shell.winsize.ws_col;
-	g_shell.positions.cmd.row = g_shell.positions.prompt.row + len / g_shell.winsize.ws_col;
+	g_shell.positions.cmd.col = g_shell.positions.prompt.col +
+		len % g_shell.winsize.ws_col;
+	g_shell.positions.cmd.row = g_shell.positions.prompt.row +
+		len / g_shell.winsize.ws_col;
 	g_shell.positions.current.col = g_shell.positions.cmd.col;
 	g_shell.positions.current.row = g_shell.positions.cmd.row;
+//ft_printf("(%d, %d)", g_shell.positions.current.row,
+//						g_shell.positions.current.col);
 }
 
 int		process_input(char *input)

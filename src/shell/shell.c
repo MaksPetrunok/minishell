@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:09:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/26 21:54:57 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int			init_shell(char **env)
 	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
 		return (-1);
 	setup_signals();
-ft_printf("history: %p\nh.stack: %p\nh.iter: %p\n",
-		g_shell.history,
-		g_shell.history->stack,
-		g_shell.history->iter);
+//ft_printf("history: %p\nh.stack: %p\nh.iter: %p\n",
+//		g_shell.history,
+//		g_shell.history->stack,
+//		g_shell.history->iter);
 	return (0);
 }
 
