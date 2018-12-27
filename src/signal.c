@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 21:52:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/27 17:26:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,16 @@ t_shell	g_shell;
 
 void	win_size_handler(int __attribute__((unused)) sig)
 {
-//	move_cursor(g_shell.positions.prompt.col, g_shell.positions.prompt.col);
-//	write(1, "X", 1);
-
-	/*
-	int	i;
-
-	if (g_shell.canonical)
-		return ;
-	while (g_shell.positions.current.row > 0)
-		cur_mv_up();
-
-	tconf("cr");
-	tconf("cd");
-	*/
 	ioctl(0, TIOCGWINSZ, &(g_shell.winsize));
-	/*
-	show_prompt();
-	i = 0;
-	while (i < g_shell.input->len)
+	if (!g_shell.canonical)
 	{
-		ft_putstr(g_shell.input->data[i++]);
-		tconf("le");
-		cur_mv_right();
+ft_printf("Cursor setup\n");
+		set_cursor(&(g_shell.positions.current));
+		g_shell.positions.prompt.col = 0;
+		g_shell.positions.prompt.row = g_shell.positions.current.row -
+			(g_shell.plen + g_shell.input->pos) / g_shell.winsize.ws_col;
+		// add for cmd
 	}
-	while (i-- > g_shell.input->pos)
-		cur_mv_left();
-		*/
 }
 
 void	exit_safely(int __attribute__((unused)) sig)

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 21:47:21 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/27 17:50:25 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@ int		process_cmd(char **cmd_lst)
 	return (ret);
 }
 
-void	set_cursor(void)
+void	set_cursor(t_cursor *cursor)
 {
 	char	buff[16];
 	char	*ptr;
 	int		n;
+	int		x;
+	int		y;
 
+	if (g_shell.canonical)
+		return ;
 	n = 0;
 	ft_putstr("\x1b[6n");
 	while (read(0, buff + n, 1))
@@ -45,8 +49,12 @@ void	set_cursor(void)
 		n++;
 	}
 	ptr = ft_strchr(buff + 2, ';');
-	g_shell.positions.prompt.row = ft_atoi(buff + 2) - 1;
-	g_shell.positions.prompt.col = ft_atoi(ptr + 1) - 1;
+	y = ft_atoi(buff + 2) - 1;
+	x = ft_atoi(ptr + 1) - 1;
+	if (x < 0 || y < 0)
+		return  ;
+	cursor->row = y;
+	cursor->col = x;
 }
 
 void	show_prompt(void)
@@ -57,7 +65,7 @@ void	show_prompt(void)
 	int		len;
 
 	switch_term_to(g_shell.term_typing);
-	set_cursor();
+	set_cursor(&(g_shell.positions.prompt));
 	tconf("cd");
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);

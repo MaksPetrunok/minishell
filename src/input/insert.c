@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 20:46:50 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:21:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,22 @@ static void	refresh_ui(t_inp_buff *buff)
 	i = buff->pos;
 	while (buff->data[i])
 		ft_putstr(buff->data[i++]);
-	if ((g_shell.positions.current.col + buff->len - buff->pos) %
+	ft_putstr(" ");
+	tconf("le");
+	if ((g_shell.positions.current.col + buff->len - buff->pos + 1) %
 		g_shell.winsize.ws_col == 0)
 	{
-		g_shell.positions.prompt.row--;
-		g_shell.positions.cmd.row--;
-		g_shell.positions.current.row--;
+		g_shell.positions.current.col = 0;
+		if (g_shell.positions.current.row == g_shell.winsize.ws_row - 1)
+		{
+			g_shell.positions.prompt.row--;
+			g_shell.positions.cmd.row--;
+		}
+		else
+			g_shell.positions.current.row++;
 	}
+	else
+		g_shell.positions.current.col++;
 	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
@@ -66,14 +75,7 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 	}
 	if ((buff->data[buff->pos] = ft_strdup(sym)) == NULL)
 		return (0);
-	if (buff->pos == buff->len)
-	{
-		ft_putstr(buff->data[buff->pos]);
-		tconf("le");
-	}
-	else
-		refresh_ui(buff);
-	cur_mv_right();
+	refresh_ui(buff);
 	buff->pos++;
 	buff->len++;
 	return (1);

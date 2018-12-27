@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 15:05:21 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/27 17:12:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int			execute(char **av, t_env *env)
 
 	if ((child = fork()) == 0)
 	{
-		switch_term_to(g_shell.term_default);
 		launch_process(av, env);
 		exit(127);
 	}
