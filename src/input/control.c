@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:13:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 16:30:35 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 20:45:47 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,85 @@ static t_key	g_table[KEY_NUM] = {
 	{K_SH_END, &inp_end},
 	{K_SH_PGUP, &inp_up},
 	{K_SH_PGDOWN, &inp_down},
+
+	{K_CTRL_A, &inp_copy_all},
+	{K_CTRL_X, &inp_cut_all},
+	{K_CTRL_P, &inp_paste},
+	{K_CTRL_U, &inp_cut_backward},
+	{K_CTRL_K, &inp_cut_forward},
+	{K_ALT_LEFT, &inp_copy_backward},
+	{K_ALT_RIGHT, &inp_copy_forward},
 	{NULL, &inp_ignore}
 };
 
+int	inp_copy_all(t_inp_buff *buff, char *sym)
+{
+	(void)sym;
+	free((void *)(g_shell.clipboard));
+	g_shell.clipboard = inp_to_str(buff->data);
+	return (0);
+}
+int	inp_cut_all(t_inp_buff *buff, char *sym)
+{
+	int	i;
+
+	inp_copy_all(buff, sym);
+	inp_home(buff, sym);
+	clear_from_cursor(buff);
+	i = 0;
+	while (buff->data[i])
+		free((void *)(buff->data[i++]));
+	buff->data[0] = NULL;
+	buff->pos = 0;
+	buff->len = 0;
+	return (0);
+}
+int	inp_paste(t_inp_buff *buff, char *sym)
+{
+//	int		i;
+//	char	sym_buff[2];
+
+	(void)sym;
+	inp_insert_clipboard(buff);
+	/*
+	sym_buff[1] = '\0';
+	i = 0;
+	while (g_shell.clipboard[i])
+	{
+		*sym_buff = g_shell.clipboard[i++];
+		inp_insert(buff, sym_buff);
+	}
+	*/
+	return (0);
+}
+int	inp_cut_backward(t_inp_buff *buff, char *sym)
+{
+	(void)buff;
+	(void)sym;
+	ft_putstr("Ctrl+U");
+	return (0);
+}
+int	inp_cut_forward(t_inp_buff *buff, char *sym)
+{
+	(void)buff;
+	(void)sym;
+	ft_putstr("Ctrl+K");
+	return (0);
+}
+int	inp_copy_backward(t_inp_buff *buff, char *sym)
+{
+	(void)buff;
+	(void)sym;
+	ft_putstr("Alt+Left");
+	return (0);
+}
+int	inp_copy_forward(t_inp_buff *buff, char *sym)
+{
+	(void)buff;
+	(void)sym;
+	ft_putstr("Alt+Right");
+	return (0);
+}
 int	is_control(char *str)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:36:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 17:25:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct		s_shell
 	struct winsize	winsize;
 	t_history		*history;
 	t_list			*childs;
+	char			*clipboard;
 }					t_shell;
 
 /*

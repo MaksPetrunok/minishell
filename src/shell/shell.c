@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 15:41:24 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 17:29:30 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int			init_shell(char **env)
 	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
 		return (-1);
 	setup_signals();
+	g_shell.clipboard = NULL;
 //ft_printf("history: %p\nh.stack: %p\nh.iter: %p\n",
 //		g_shell.history,
 //		g_shell.history->stack,
@@ -80,4 +81,5 @@ void		exit_shell(void)
 	free_history();
 	free_terminals();
 	env_free(g_shell.environ);
+	free((void *)(g_shell.clipboard));
 }

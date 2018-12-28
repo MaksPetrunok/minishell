@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/27 16:21:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 20:45:45 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,78 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 	refresh_ui(buff);
 	buff->pos++;
 	buff->len++;
+	return (1);
+}
+/*
+ * count rows required for prompt + new inp_buff and compare with position
+ * of positions.promopt from bottom. If prompt position is less than number of
+ * rows required for input - scroll up for N lines as required to adjust
+ * prompt position.
+ * Print prompt and input.
+ * Set cursor positions (prompt, cmd, current).
+ */
+static void refresh(t_inp_buff *buff)
+{
+	int	input_rows;
+	int	prompt_diff;
+	
+	clear_from_cursor(buff);
+	input_rows = (g_shell.plen + buff->len) / g_shell.winsize.ws_col;
+	prompt_diff = g_shell.winsize.ws_row - g_shell.positions.prompt.row - 1;
+ft_printf("ir=%d, pd=%d", input_rows, prompt_diff);
+ft_printf("\npd=%d - %d - 1",
+		g_shell.winsize.ws_row,
+		g_shell.positions.prompt.row);
+	if (prompt_diff < input_rows)
+	{
+//		ft_printf("scroll");
+tconf("vb");
+sleep(1);
+		while (prompt_diff < input_rows--)
+			tconf("sf");
+sleep(1);
+		g_shell.positions.prompt.row = g_shell.winsize.ws_row - 1 - prompt_diff;
+		move_cursor(0, g_shell.positions.prompt.row);
+sleep(1);
+		show_prompt();
+	}
+
+
+}
+
+int			inp_insert_clipboard(t_inp_buff *buff)
+{
+	int		i;
+	int		len;
+	char	sym[2];
+
+	if (g_shell.clipboard == NULL)
+		return (0);
+	len = ft_strlen(g_shell.clipboard);
+	if (buff->len >= buff->size - len)
+		if (!increase_buff(buff))
+		{
+			ft_dprintf(2, "\nfailed to increase input buffer\n");
+			return (0);
+		}
+	i = buff->len;
+	while (i >= buff->pos)
+	{
+		buff->data[i + len] = buff->data[i];
+		i--;
+	}
+	i = 0;
+	sym[1] = '\0';
+	while (g_shell.clipboard[i])
+	{
+		*sym = g_shell.clipboard[i++];
+		if ((buff->data[buff->pos] = ft_strdup(sym)) == NULL)
+			return (0);
+	}
+	buff->pos += len;
+	buff->len += len;
+//	clear_from_cursor(buff);
+	refresh(buff);
+sleep(1);
 	return (1);
 }

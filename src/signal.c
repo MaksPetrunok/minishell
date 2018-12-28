@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 15:29:35 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 17:13:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,22 @@ void	exit_safely(int __attribute__((unused)) sig)
 void	stp_handler(int __attribute__((unused)) sig)
 {
 	ft_printf("cursor:");
-	ft_printf(" prompt  (%d, %d)\n", g_shell.positions.prompt.col, g_shell.positions.prompt.row);
-	ft_printf("     cmd     (%d, %d)\n", g_shell.positions.cmd.col, g_shell.positions.cmd.row);
-	ft_printf("     current (%d, %d)\n", g_shell.positions.current.col, g_shell.positions.current.row);
+	ft_printf(" prompt  (%d, %d)\n",
+		g_shell.positions.prompt.col, g_shell.positions.prompt.row);
+	ft_printf("     cmd     (%d, %d)\n",
+		g_shell.positions.cmd.col, g_shell.positions.cmd.row);
+	ft_printf("     current (%d, %d)\n",
+		g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
 void	setup_signals(void)
 {
 	signal(SIGINT, &sh_sigint_handler);
-	signal(SIGTSTP, &stp_handler); //
+	signal(SIGTSTP, &stp_handler); //should child processignore SIGSTP?
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, &exit_safely);
 	signal(SIGHUP, &exit_safely);
-	signal(SIGWINCH, &win_size_handler); // fix me!
+	signal(SIGWINCH, &win_size_handler);
 }
 
 void	sh_sigint_handler(int __attribute__((unused)) sig)
