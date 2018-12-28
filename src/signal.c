@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/27 17:26:43 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 15:29:35 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	win_size_handler(int __attribute__((unused)) sig)
 	ioctl(0, TIOCGWINSZ, &(g_shell.winsize));
 	if (!g_shell.canonical)
 	{
-ft_printf("Cursor setup\n");
+//ft_printf("Cursor setup\n");
 		set_cursor(&(g_shell.positions.current));
 		g_shell.positions.prompt.col = 0;
 		g_shell.positions.prompt.row = g_shell.positions.current.row -
 			(g_shell.plen + g_shell.input->pos) / g_shell.winsize.ws_col;
-		// add for cmd
+		g_shell.positions.cmd.col = g_shell.plen % g_shell.winsize.ws_col;
+		g_shell.positions.cmd.row = g_shell.positions.prompt.row +
+			g_shell.plen / g_shell.winsize.ws_col;
 	}
 }
 

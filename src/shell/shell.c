@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 21:54:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 15:41:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void		exit_shell(void)
 	if (switch_term_to(g_shell.term_default) == -1)
 		ft_dprintf(2, "%s: unable restore terminal settings\n", SHELL_NAME);
 	free_child_list();
+	free_history();
 	free_terminals();
 	env_free(g_shell.environ);
 }

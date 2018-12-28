@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 02:32:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 15:47:06 by mpetruno         ###   ########.fr       */
+/*   Updated: 2018/12/28 15:45:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,20 @@ int	add_child_process(pid_t pid)
 	elem->next = g_shell.childs;
 	g_shell.childs = elem;
 	return (0);
+}
+
+void	free_history(void)
+{
+	t_dlist	*lst;
+	t_dlist *tmp;
+
+	lst = g_shell.history->stack;
+	while (lst)
+	{
+		tmp = lst->next;
+		free((void *)(lst->str));
+		free((void *)lst);
+		lst = tmp;
+	}
+	free((void *)(g_shell.history));
 }
