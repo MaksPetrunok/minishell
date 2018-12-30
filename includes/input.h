@@ -38,8 +38,13 @@
 # define K_SH_PGDOWN	"\x1b\x5b\x36\x7e"
 
 //copy to LEFT/RIGHT from cursor
-# define K_ALT_RIGHT	"\x1b\x66"
-# define K_ALT_LEFT		"\x1b\x62"
+//# define K_ALT_RIGHT	"\x1b\x66"
+//# define K_ALT_LEFT		"\x1b\x62"
+
+//copy forward/backward from cursor
+# define K_CTRL_B		"\x2"
+# define K_CTRL_F		"\x6"
+
 //cut the line before cursor position
 # define K_CTRL_U		"\x15"
 //cut the line from cursor position to right
@@ -90,6 +95,8 @@ int				is_control(char *str);
 
 char			*inp_to_str(char **inp);
 int				increase_buff(t_inp_buff *buff);
+
+void refresh(t_inp_buff *buff, int ins_len);
 
 int				inp_paste(t_inp_buff *buff, char *sym);
 int				inp_copy_all(t_inp_buff *buff, char *sym);

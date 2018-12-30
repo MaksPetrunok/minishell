@@ -88,7 +88,7 @@ int			inp_insert(t_inp_buff *buff, char *sym)
  * Print prompt and input.
  * Set cursor positions (prompt, cmd, current).
  */
-static void refresh(t_inp_buff *buff, int ins_len)
+void refresh(t_inp_buff *buff, int ins_len)
 {
 	t_cursor	cursor;
 	int			i;

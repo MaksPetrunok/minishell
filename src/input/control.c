@@ -32,8 +32,8 @@ static t_key	g_table[KEY_NUM] = {
 	{K_CTRL_P, &inp_paste},
 	{K_CTRL_U, &inp_cut_backward},
 	{K_CTRL_K, &inp_cut_forward},
-	{K_ALT_LEFT, &inp_copy_backward},
-	{K_ALT_RIGHT, &inp_copy_forward},
+	{K_CTRL_B, &inp_copy_backward},
+	{K_CTRL_F, &inp_copy_forward},
 	{NULL, &inp_ignore}
 };
 
@@ -61,48 +61,67 @@ int	inp_cut_all(t_inp_buff *buff, char *sym)
 }
 int	inp_paste(t_inp_buff *buff, char *sym)
 {
-//	int		i;
-//	char	sym_buff[2];
-
 	(void)sym;
 	inp_insert_clipboard(buff);
-	/*
-	sym_buff[1] = '\0';
-	i = 0;
-	while (g_shell.clipboard[i])
-	{
-		*sym_buff = g_shell.clipboard[i++];
-		inp_insert(buff, sym_buff);
-	}
-	*/
 	return (0);
 }
 int	inp_cut_backward(t_inp_buff *buff, char *sym)
 {
-	(void)buff;
-	(void)sym;
-	ft_putstr("Ctrl+U");
+	int	i;
+	int	pos;
+
+	inp_copy_backward(buff, sym);
+	clear_from_cursor(buff);
+	g_shell.positions.current.col = g_shell.positions.cmd.col;
+	g_shell.positions.current.row = g_shell.positions.cmd.row;
+	move_cursor(g_shell.positions.cmd.col,
+				g_shell.positions.cmd.row);
+	clear_from_cursor(buff);
+	i = 0;
+	while (i < buff->pos)
+		free((void *)(buff->data[i++]));
+	i = 0;
+	pos = buff->pos;
+	while (pos <= buff->len)
+		buff->data[i++] = buff->data[pos++];
+	buff->len -= buff->pos;
+	buff->pos = 0;
+	i = 0;
+	while (buff->data[i])
+		ft_putstr(buff->data[i++]);
+	move_cursor(g_shell.positions.current.col,
+				g_shell.positions.current.row);
 	return (0);
 }
 int	inp_cut_forward(t_inp_buff *buff, char *sym)
 {
-	(void)buff;
-	(void)sym;
-	ft_putstr("Ctrl+K");
+	int	i;
+
+	inp_copy_forward(buff, sym);
+	clear_from_cursor(buff);
+	i = buff->pos;
+	while (i < buff->len)
+		free((void *)(buff->data[i++]));
+	buff->data[buff->pos] = NULL;
+	buff->len = buff->pos;
 	return (0);
 }
 int	inp_copy_backward(t_inp_buff *buff, char *sym)
 {
-	(void)buff;
+	char	*tmp;
+
 	(void)sym;
-	ft_putstr("Alt+Left");
+	tmp = buff->data[buff->pos];
+	buff->data[buff->pos] = NULL;
+	inp_copy_all(buff, 0);
+	buff->data[buff->pos] = tmp;
 	return (0);
 }
 int	inp_copy_forward(t_inp_buff *buff, char *sym)
 {
-	(void)buff;
 	(void)sym;
-	ft_putstr("Alt+Right");
+	free((void *)(g_shell.clipboard));
+	g_shell.clipboard = inp_to_str(buff->data + buff->pos);
 	return (0);
 }
 int	is_control(char *str)
