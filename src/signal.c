@@ -38,13 +38,15 @@ void	exit_safely(int __attribute__((unused)) sig)
 
 void	stp_handler(int __attribute__((unused)) sig)
 {
-	ft_printf("cursor:");
-	ft_printf(" prompt  (%d, %d)\n",
+move_cursor(0,0);
+	ft_printf("prompt  (%d, %d) \n",
 		g_shell.positions.prompt.col, g_shell.positions.prompt.row);
-	ft_printf("     cmd     (%d, %d)\n",
+	ft_printf("cmd     (%d, %d) \n",
 		g_shell.positions.cmd.col, g_shell.positions.cmd.row);
-	ft_printf("     current (%d, %d)\n",
+	ft_printf("current (%d, %d) \n",
 		g_shell.positions.current.col, g_shell.positions.current.row);
+	ft_printf("buff.pos=%d ", g_shell.input->pos);
+move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
 void	setup_signals(void)

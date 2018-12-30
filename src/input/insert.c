@@ -88,33 +88,33 @@ int			inp_insert(t_inp_buff *buff, char *sym)
  * Print prompt and input.
  * Set cursor positions (prompt, cmd, current).
  */
-static void refresh(t_inp_buff *buff)
+static void refresh(t_inp_buff *buff, int ins_len)
 {
-	int	input_rows;
-	int	prompt_diff;
+	t_cursor	cursor;
+	int			i;
 	
 	clear_from_cursor(buff);
-	input_rows = (g_shell.plen + buff->len) / g_shell.winsize.ws_col;
-	prompt_diff = g_shell.winsize.ws_row - g_shell.positions.prompt.row - 1;
-ft_printf("ir=%d, pd=%d", input_rows, prompt_diff);
-ft_printf("\npd=%d - %d - 1",
-		g_shell.winsize.ws_row,
-		g_shell.positions.prompt.row);
-	if (prompt_diff < input_rows)
+	i = buff->pos;
+	while (buff->data[i])
+		ft_putstr(buff->data[i++]);
+	if ((g_shell.plen + buff->len + ins_len) % g_shell.winsize.ws_col == 0)
 	{
-//		ft_printf("scroll");
-tconf("vb");
-sleep(1);
-		while (prompt_diff < input_rows--)
-			tconf("sf");
-sleep(1);
-		g_shell.positions.prompt.row = g_shell.winsize.ws_row - 1 - prompt_diff;
-		move_cursor(0, g_shell.positions.prompt.row);
-sleep(1);
-		show_prompt();
+		ft_putstr(" ");
+		tconf("le");
 	}
-
-
+	set_cursor(&(cursor));
+	if (g_shell.positions.prompt.row + (g_shell.plen + buff->len + ins_len) /
+		g_shell.winsize.ws_col > g_shell.winsize.ws_row - 1)
+		g_shell.positions.prompt.row = g_shell.winsize.ws_row - 1 - 
+			(g_shell.plen + buff->len + ins_len) / g_shell.winsize.ws_col;
+	g_shell.positions.cmd.col = g_shell.plen % g_shell.winsize.ws_col;
+	g_shell.positions.cmd.row = g_shell.positions.prompt.row +
+		g_shell.plen / g_shell.winsize.ws_col;
+	g_shell.positions.current.col = (g_shell.plen + buff->pos + ins_len) %
+		g_shell.winsize.ws_col;
+	g_shell.positions.current.row = g_shell.positions.cmd.row +
+		(g_shell.plen + buff->pos + ins_len) / g_shell.winsize.ws_col;
+	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
 int			inp_insert_clipboard(t_inp_buff *buff)
@@ -126,7 +126,7 @@ int			inp_insert_clipboard(t_inp_buff *buff)
 	if (g_shell.clipboard == NULL)
 		return (0);
 	len = ft_strlen(g_shell.clipboard);
-	if (buff->len >= buff->size - len)
+	while (buff->len + len >= buff->size)
 		if (!increase_buff(buff))
 		{
 			ft_dprintf(2, "\nfailed to increase input buffer\n");
@@ -142,14 +142,12 @@ int			inp_insert_clipboard(t_inp_buff *buff)
 	sym[1] = '\0';
 	while (g_shell.clipboard[i])
 	{
-		*sym = g_shell.clipboard[i++];
-		if ((buff->data[buff->pos] = ft_strdup(sym)) == NULL)
+		*sym = g_shell.clipboard[i];
+		if ((buff->data[buff->pos + i++] = ft_strdup(sym)) == NULL)
 			return (0);
 	}
+	refresh(buff, len);
 	buff->pos += len;
 	buff->len += len;
-//	clear_from_cursor(buff);
-	refresh(buff);
-sleep(1);
 	return (1);
 }

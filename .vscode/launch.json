@@ -4,8 +4,10 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "(lldb) Launch",
+            "miDebuggerPath": "/usr/bin/gdb",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/minishell",
@@ -15,7 +17,7 @@
             "environment": [],
             "internalConsoleOptions": "openOnFirstSessionStart",
             "externalConsole": true,
-            "MIMode": "lldb"
+            "MIMode": "lldb",
         }
     ]
 }

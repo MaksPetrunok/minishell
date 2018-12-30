@@ -12,9 +12,9 @@
 
 NAME = minishell
 
-CC = clang
+CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
