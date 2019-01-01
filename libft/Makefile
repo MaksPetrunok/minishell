@@ -41,6 +41,7 @@ FUNC_LIST = memset \
 			strncat \
 			strlcat \
 			strchr \
+			strchrr \
 			strrchr \
 			strstr \
 			strnstr \
