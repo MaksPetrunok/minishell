@@ -50,7 +50,8 @@ char	*convert_pattern(t_inp_buff *buff)
 		buff->data[buff->len - 1][0] == '\t' || buff->len == 0)
 		return (0);
 	i = buff->len - 1;
-	while (i >= 0 && buff->data[i][0] != ' ' && buff->data[i][0] != '\t')
+	while (i >= 0 && buff->data[i][0] != ' ' && buff->data[i][0] != '\t' &&
+			buff->data[i][0] != '/')
 		i--;
 	start = buff->data + i + 1;
 	patt = inp_to_str(start);

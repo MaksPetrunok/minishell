@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+static void		get_dir(t_inp_buff *buff, char *dir, size_t size)
+{
+	char	*inp;
+	char	*path;
+	char	*slash;
+	int		i;
+	int		len;
+
+	i = -1;
+	inp = inp_to_str(buff->data);
+	while (inp[++i])
+		if (inp[i] == ' ' || inp[i] == '\t')
+			path = inp + i + 1;
+	getcwd(dir, size);
+	slash = ft_strchrr(path, '/');
+	if (*path == '/')
+		ft_strcpy(dir, path);
+	else if (slash != NULL && slash - path + ft_strlen(dir) < size - 1)
+	{
+		len = ft_strlen(dir);
+		*slash = '\0';
+		dir[len] = '/';
+		ft_strcpy(dir + len + 1, path);
+	}
+	free((void *)inp);
+}
+
 static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
 {
 	struct dirent	*dirp;
@@ -20,13 +47,13 @@ static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
 	t_list			*lst;
 	int				i;
 
-	getcwd(dir, 4100);
+	get_dir(buff, dir, 4100);
 	patt = convert_pattern(buff);
 	if ((dstr = opendir(dir)) == 0)
 		return (0);
 	lst = 0;
 	while ((dirp = readdir(dstr)) != 0)
-		if (patt == 0)
+		if (patt == 0 || *patt == '\0')
 			add_file(dirp->d_name, &lst);
 		else
 		{
