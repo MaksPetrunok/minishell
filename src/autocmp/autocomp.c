@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 13:56:33 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:17:46 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,12 @@ void	add_file(char *file, t_list **lst)
 		return ;
 	}
 	new->content = (void *)data;
-	ft_lstins(lst, new, sort);
+	new->content_size = ft_strlen(data);
+	if (ft_lstinsuniq(lst, new, sort) == 0)
+	{
+		free((void *)data);
+		free((void *)new);
+	}
 }
 
 char	*convert_pattern(t_inp_buff *buff)

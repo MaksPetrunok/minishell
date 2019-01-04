@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/11/21 14:51:44 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/01/04 15:40:48 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,7 @@ FUNC_LIST = memset \
 			lstfree \
 			lstadd \
 			lstins \
+			lstinsuniq \
 			lstiter \
 			lstsize \
 			lstmap \

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 18:27:52 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/26 14:27:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 15:59:18 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define OS_LINUX
+//# define OS_LINUX
 # ifdef OS_LINUX
 typedef __uintmax_t	uintmax_t;
 typedef __intmax_t	intmax_t;
@@ -102,6 +102,8 @@ void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstfree(t_list **alst);
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstins(t_list **alst, t_list *new,
+						int (*sort)(void *, void*));
+int					ft_lstinsuniq(t_list **alst, t_list *new,
 						int (*sort)(void *, void*));
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 int					ft_lstsize(t_list *lst);

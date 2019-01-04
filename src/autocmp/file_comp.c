@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 20:30:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:28:17 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
 		return (0);
 	lst = 0;
 	while ((dirp = readdir(dstr)) != 0)
-		if (patt == 0 || *patt == '\0')
+		if ((patt == NULL || *patt == '\0') && *(dirp->d_name) != '.')
 			add_file(dirp->d_name, &lst);
-		else
+		else if (patt != NULL)
 		{
 			i = 0;
 			while (patt[i] && dirp->d_name[i] == patt[i])
 				i++;
 			if (i > 0 && dirp->d_name[i] && patt[i] == '\0')
-				add_file(dirp->d_name + i, &lst);
+				add_file(dirp->d_name, &lst);
 		}
 	closedir(dstr);
 	free((void *)patt);

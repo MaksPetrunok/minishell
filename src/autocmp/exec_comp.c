@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 13:57:05 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:20:15 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	get_builtins(t_inp_buff *buff, t_list **lst)
 
 	get_builtin_list(names);
 	patt = convert_pattern(buff);
-	lst = 0;
 	n = -1;
 	while (names[++n])
-		if (patt == 0)
+	{
+		if (patt == NULL || *patt == '\0')
 			add_file(names[n], lst);
 		else
 		{
@@ -32,8 +32,9 @@ void	get_builtins(t_inp_buff *buff, t_list **lst)
 			while (patt[i] && names[n][i] == patt[i])
 				i++;
 			if (i > 0 && names[n][i] && patt[i] == '\0')
-				add_file(names[n] + i, lst);
+				add_file(names[n], lst);
 		}
+	}
 	free((void *)patt);
 }
 

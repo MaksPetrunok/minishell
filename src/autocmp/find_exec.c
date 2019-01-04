@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 13:57:05 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:20:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	add_execs(t_list **lst, char *dir, char *patt)
 	struct dirent	*dirp;
 	struct stat		st;
 	char			*pathname;
-	t_list			*new;
 
 	if ((dstr = opendir(dir)) == NULL)
 		return ;
@@ -29,34 +28,30 @@ static void	add_execs(t_list **lst, char *dir, char *patt)
 		if (S_ISREG(st.st_mode) && access(pathname, X_OK) == 0 &&
 			ft_strstr(dirp->d_name, patt) == dirp->d_name)
 		{
-			new = ft_lstnew((void *)(dirp->d_name), ft_strlen(dirp->d_name) + 1);
-			ft_lstins(lst, new, &sort);
-//			new->next = *lst;
-//			*lst = new;
+			add_file(dirp->d_name, lst);
 		}
 		free((void *)pathname);
 	}
 	closedir(dstr);
 }
 
-t_list	*get_bin_lst(t_inp_buff *buff)
+void	get_bin_lst(t_inp_buff *buff, t_list **lst)
 {
-	t_list	*lst;
 	char	**path_lst;
 	char	*path;
 	int		i;
 	char	*patt;
 
-	lst = NULL;
 	path = get_var("PATH", g_shell.environ);
 	patt = convert_pattern(buff);
 	if (path == NULL)
-		return (NULL);
+		return ;
 	path_lst = ft_strsplit(path, ':');
 	i = 0;
 	while (path_lst[i])
-		add_execs(&lst, path_lst[i++], patt);
+	{
+		add_execs(lst, path_lst[i++], patt);
+	}
 	arr_free((void **)path_lst);
 	free((void *)patt);
-	return (lst);
 }
