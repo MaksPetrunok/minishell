@@ -30,7 +30,7 @@ int	increase_buff(t_inp_buff *buff)
 	return (1);
 }
 
-static void	refresh_ui(t_inp_buff *buff)
+static void	refresh_inp(t_inp_buff *buff)
 {
 	int	i;
 
@@ -75,7 +75,7 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 	}
 	if ((buff->data[buff->pos] = ft_strdup(sym)) == NULL)
 		return (0);
-	refresh_ui(buff);
+	refresh_inp(buff);
 	buff->pos++;
 	buff->len++;
 	return (1);

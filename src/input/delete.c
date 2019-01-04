@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-static void	refresh_ui(t_inp_buff *buff)
+static void	refresh_inp(t_inp_buff *buff)
 {
 	int	i;
 
@@ -64,6 +64,6 @@ int	inp_delete(t_inp_buff *buff, char *sym)
 		i++;
 	}
 	buff->len--;
-	refresh_ui(buff);
+	refresh_inp(buff);
 	return (1);
 }
