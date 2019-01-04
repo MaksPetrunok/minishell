@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 18:20:15 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 20:56:28 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	get_builtins(t_inp_buff *buff, t_list **lst)
 	while (names[++n])
 	{
 		if (patt == NULL || *patt == '\0')
-			add_file(names[n], lst);
+			add_file(names[n], lst, 0);
 		else
 		{
 			i = 0;
 			while (patt[i] && names[n][i] == patt[i])
 				i++;
 			if (i > 0 && names[n][i] && patt[i] == '\0')
-				add_file(names[n], lst);
+				add_file(names[n], lst, 0);
 		}
 	}
 	free((void *)patt);
@@ -56,15 +56,10 @@ int		exec_complete(t_inp_buff *buff)
 
 	match = get_execs(buff);
 	head = match;
-	while (match && ft_lstsize(head) > 1)
-	{
-		techo("\n");
-		techo((char *)(match->content));
-		match = match->next;
-	}
+	if (ft_lstsize(head) > 1)
+		print_options(head);
 	if (ft_lstsize(head) > 1)
 	{
-		techo("\n");
 		show_prompt();
 		if (*(str = inp_to_str(buff->data)))
 			techo(str);

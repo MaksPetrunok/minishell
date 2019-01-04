@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 17:17:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 23:12:40 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,42 @@ static void		get_dir(t_inp_buff *buff, char *dir, size_t size)
 	int		i;
 	int		len;
 
-	i = -1;
+	i = 0;
 	inp = inp_to_str(buff->data);
+	path = inp;
 	while (inp[++i])
 		if (inp[i] == ' ' || inp[i] == '\t')
 			path = inp + i + 1;
 	getcwd(dir, size);
-	slash = ft_strchrr(path, '/');
-	if (*path == '/')
+	if ((slash = ft_strrchr(path, '/')) != NULL)
+		*slash = '\0';
+	if (path == slash)
+		ft_strcpy(dir, "/");
+	else if (*path == '/')
 		ft_strcpy(dir, path);
-	else if (slash != NULL && slash - path + ft_strlen(dir) < size - 1)
+	else if (slash && slash - path + ft_strlen(dir) < size - 1)
 	{
 		len = ft_strlen(dir);
-		*slash = '\0';
 		dir[len] = '/';
 		ft_strcpy(dir + len + 1, path);
 	}
 	free((void *)inp);
+}
+
+static int		is_dir(char *name, char *dir)
+{
+	char		*path;
+	struct stat	st;
+	int			res;
+
+	if ((path = ft_strjoin3(dir, "/", name)) == NULL)
+		return (0);
+	res = 0;
+	if (stat(path, &st) == 0)
+		if (S_ISDIR(st.st_mode))
+			res = 1;
+	free((void *)path);
+	return (res);
 }
 
 static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
@@ -54,14 +73,14 @@ static t_list	*get_files(t_inp_buff *buff, DIR *dstr)
 	lst = 0;
 	while ((dirp = readdir(dstr)) != 0)
 		if ((patt == NULL || *patt == '\0') && *(dirp->d_name) != '.')
-			add_file(dirp->d_name, &lst);
+			add_file(dirp->d_name, &lst, is_dir(dirp->d_name, dir));
 		else if (patt != NULL)
 		{
 			i = 0;
 			while (patt[i] && dirp->d_name[i] == patt[i])
 				i++;
 			if (i > 0 && dirp->d_name[i] && patt[i] == '\0')
-				add_file(dirp->d_name, &lst);
+				add_file(dirp->d_name, &lst, is_dir(dirp->d_name, dir));
 		}
 	closedir(dstr);
 	free((void *)patt);
@@ -78,15 +97,10 @@ int				file_complete(t_inp_buff *buff)
 	dstr = 0;
 	match = get_files(buff, dstr);
 	head = match;
-	while (match && ft_lstsize(head) > 1)
-	{
-		techo("\n");
-		techo((char *)(match->content));
-		match = match->next;
-	}
+	if (ft_lstsize(head) > 1)
+		print_options(head);
 	if (ft_lstsize(head) > 1)
 	{
-		techo("\n");
 		show_prompt();
 		if (*(str = inp_to_str(buff->data)))
 			techo(str);

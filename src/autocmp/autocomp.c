@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 16:58:34 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 22:21:07 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,23 @@ int		sort(void *a, void *b)
 	return (ft_strcmp(aa, bb));
 }
 
-void	add_file(char *file, t_list **lst)
+void	add_file(char *file, t_list **lst, int is_dir)
 {
 	t_list	*new;
 	char	*data;
+	size_t	len;
 
-	new = malloc(sizeof(t_list));
-	if (!new)
+	if ((new = malloc(sizeof(t_list))) == NULL)
 		return ;
-	data = ft_strdup(file);
-	if (!data)
+	len = ft_strlen(file);
+	if ((data = malloc(len + 2)) == NULL)
 	{
 		free((void *)new);
 		return ;
 	}
+	ft_strcpy(data, file);
+	data[len++] = (is_dir) ? '/' : ' ';
+	data[len] = '\0';
 	new->content = (void *)data;
 	new->content_size = ft_strlen(data);
 	if (ft_lstinsuniq(lst, new, sort) == 0)
@@ -63,6 +66,30 @@ char	*convert_pattern(t_inp_buff *buff)
 	return (patt);
 }
 
+static int	is_relative_path(t_inp_buff *buff)
+{
+	char    *inp;
+	char    *ptr;
+	int		res;
+
+	if ((inp = inp_to_str(buff->data)) == NULL)
+		return (0);
+	ptr = inp;
+	while (*ptr && (*ptr == ' ' || *ptr == '\t'))
+		ptr++;
+	if (*ptr &&
+		(*ptr == '/' ||
+		ft_strstr(ptr, "./") == ptr ||
+		ft_strstr(ptr, "../") == ptr))
+	{
+ 		res = 1;
+	}
+	else
+		res = 0;
+	free((void *)inp);
+	return (res);
+}
+
 int		auto_complete(t_inp_buff *buff)
 {
 	int	i;
@@ -81,7 +108,7 @@ int		auto_complete(t_inp_buff *buff)
 			words = 0;
 		i++;
 	}
-	if (words > 0)
+	if (words > 0 || is_relative_path(buff))
 	{
 		file_complete(buff);
 	}
