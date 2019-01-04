@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 16:20:15 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 18:20:15 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		exec_complete(t_inp_buff *buff)
 	head = match;
 	while (match && ft_lstsize(head) > 1)
 	{
-		techo("\n --- ");
+		techo("\n");
 		techo((char *)(match->content));
 		match = match->next;
 	}
@@ -70,7 +70,7 @@ int		exec_complete(t_inp_buff *buff)
 			techo(str);
 		free((void *)str);
 	}
-	fill_input(buff, head);
+	refresh_ui(buff, head);
 	ft_lstfree(&head);
 	return (1);
 }

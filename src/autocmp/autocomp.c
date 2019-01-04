@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 16:17:46 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:58:34 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,35 +61,6 @@ char	*convert_pattern(t_inp_buff *buff)
 	start = buff->data + i + 1;
 	patt = inp_to_str(start);
 	return (patt);
-}
-
-void	fill_input(t_inp_buff *buff, t_list *head)
-{
-	t_list	*lst;
-	int		i;
-	int		add;
-	char	*tmp;
-	char	sym[2];
-
-	i = 0;
-	add = 1;
-	sym[1] = '\0';
-	while (head && add)
-	{
-		lst = head;
-		add = 1;
-		sym[0] = *(char *)((lst->content) + i);
-		while (lst && add)
-		{
-			tmp = (char *)(lst->content);
-			if (!tmp[i] || tmp[i] != sym[0])
-				add = 0;
-			lst = lst->next;
-		}
-		if (add)
-			inp_insert(buff, sym);
-		i++;
-	}
 }
 
 int		auto_complete(t_inp_buff *buff)

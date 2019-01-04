@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 16:28:17 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/04 17:17:57 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int				file_complete(t_inp_buff *buff)
 			techo(str);
 		free((void *)str);
 	}
-	fill_input(buff, head);
+	refresh_ui(buff, head);
 	ft_lstfree(&head);
 	return (1);
 }

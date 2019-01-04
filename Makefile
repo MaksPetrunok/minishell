@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2018/12/26 20:48:42 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/01/04 17:19:06 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ MAIN_FILES = main.c \
 			shell/ui.c \
 			\
 			autocmp/autocomp.c \
+			autocmp/refresh_ui.c \
 			autocmp/file_comp.c \
 			autocmp/exec_comp.c \
 			autocmp/find_exec.c
