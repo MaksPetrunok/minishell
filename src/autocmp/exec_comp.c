@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-t_list	*get_execs(t_inp_buff *buff)
+void	get_builtins(t_inp_buff *buff, t_list **lst)
 {
 	char	*names[BUILTINS_BUFF_SIZE];
 	char	*patt;
-	t_list	*lst;
 	int		i;
 	int		n;
 
@@ -26,16 +25,25 @@ t_list	*get_execs(t_inp_buff *buff)
 	n = -1;
 	while (names[++n])
 		if (patt == 0)
-			add_file(names[n], &lst);
+			add_file(names[n], lst);
 		else
 		{
 			i = 0;
 			while (patt[i] && names[n][i] == patt[i])
 				i++;
 			if (i > 0 && names[n][i] && patt[i] == '\0')
-				add_file(names[n] + i, &lst);
+				add_file(names[n] + i, lst);
 		}
 	free((void *)patt);
+}
+
+t_list	*get_execs(t_inp_buff *buff)
+{
+	t_list	*lst;
+
+	lst = NULL;
+	get_builtins(buff, &lst);
+	get_bin_lst(buff, &lst);
 	return (lst);
 }
 
@@ -49,7 +57,7 @@ int		exec_complete(t_inp_buff *buff)
 	head = match;
 	while (match && ft_lstsize(head) > 1)
 	{
-		techo("\n");
+		techo("\n --- ");
 		techo((char *)(match->content));
 		match = match->next;
 	}

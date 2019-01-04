@@ -18,6 +18,7 @@ void	add_file(char *file, t_list **lst);
 char	*convert_pattern(t_inp_buff *buff);
 int		auto_complete(t_inp_buff *buff);
 int		sort(void *a, void *b);
+t_list	*get_bin_lst(t_inp_buff *buff);
 
 int		exec_complete(t_inp_buff *buff);
 int		file_complete(t_inp_buff *buff);

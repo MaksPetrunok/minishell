@@ -54,7 +54,8 @@ MAIN_FILES = main.c \
 			\
 			autocmp/autocomp.c \
 			autocmp/file_comp.c \
-			autocmp/exec_comp.c
+			autocmp/exec_comp.c \
+			autocmp/find_exec.c
 
 
 BUILTIN = builtin.c \

@@ -48,7 +48,7 @@ static char	*get_exec_path(const char *name)
 
 	if (ft_strchr(name, '/') != 0)
 	{
-		getcwd(cwd, 400);
+		getcwd(cwd, 4000);
 		if (*name == '/')
 			ret = ft_strdup(name);
 		else
