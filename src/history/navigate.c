@@ -6,25 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 16:49:46 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 15:17:20 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 21:00:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	clean_down(t_inp_buff *buff)
-{
-//check if it's last row
-	if (g_shell.positions.cmd.col + buff->len > g_shell.winsize.ws_col - 1)
-	{
-		move_cursor(0, g_shell.positions.cmd.row + 1);
-		tconf("cd");
-	}
-	move_cursor(g_shell.positions.cmd.col, g_shell.positions.cmd.row);
-	tconf("ce");
-	g_shell.positions.current.col = g_shell.positions.cmd.col;
-	g_shell.positions.current.row = g_shell.positions.cmd.row;
-}
 
 static void	free_buff_data(t_inp_buff *buff)
 {
@@ -43,7 +29,9 @@ static int	update_input(t_inp_buff *buff, char *str)
 {
 	char	sym[2];
 
-	clean_down(buff);
+	move_cursor(0, g_shell.positions.prompt.row);
+	tconf("cd");
+	show_prompt();
 	free_buff_data(buff);
 	sym[1] = '\0';
 	while (*str)

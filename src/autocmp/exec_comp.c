@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 20:56:28 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 19:53:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,12 @@ int		exec_complete(t_inp_buff *buff)
 {
 	t_list	*match;
 	t_list	*head;
-	char	*str;
 
 	match = get_execs(buff);
 	head = match;
+	refresh_ui(buff, head);
 	if (ft_lstsize(head) > 1)
 		print_options(head);
-	if (ft_lstsize(head) > 1)
-	{
-		show_prompt();
-		if (*(str = inp_to_str(buff->data)))
-			techo(str);
-		free((void *)str);
-	}
-	refresh_ui(buff, head);
 	ft_lstfree(&head);
 	return (1);
 }

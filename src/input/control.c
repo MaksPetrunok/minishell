@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:13:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 20:45:47 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 19:42:11 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,8 @@ int	inp_up(t_inp_buff *buff, char *sym)
 	pos = &(g_shell.positions);
 	if (pos->current.row == pos->cmd.row)
 		return (0);
-	if (pos->current.col < pos->cmd.col)
+	if (pos->current.col < pos->cmd.col &&
+		pos->current.row - pos->cmd.row == 1)
 	{
 		buff->pos = 0;
 		pos->current.col = pos->cmd.col;

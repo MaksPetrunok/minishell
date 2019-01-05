@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 13:52:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 17:01:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 18:16:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,13 @@ static void			read_input(t_inp_buff *buff, int fd)
 			inp_insert(buff, sym);
 	}
 	inp_end(buff, 0);
+	clear_from_cursor(buff);
 	switch_term_to(g_shell.term_default);
 	if (buff->len > 0)
-		write(1, "\n", 1); 
+	{
+		write(1, "\n", 1);
+//		tconf("ce");
+	}
 }
 
 /*

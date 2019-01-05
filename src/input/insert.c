@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 20:45:45 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 20:55:40 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,27 @@ static void	refresh_inp(t_inp_buff *buff)
 {
 	int	i;
 
-	clear_from_cursor(buff);
 	i = buff->pos;
 	while (buff->data[i])
 		ft_putstr(buff->data[i++]);
 	ft_putstr(" ");
+	tconf("ce");
 	tconf("le");
-	if ((g_shell.positions.current.col + buff->len - buff->pos + 1) %
-		g_shell.winsize.ws_col == 0)
+	if ((g_shell.plen + buff->len + 1) % g_shell.winsize.ws_col == 0)
 	{
-		g_shell.positions.current.col = 0;
-		if (g_shell.positions.current.row == g_shell.winsize.ws_row - 1)
+		if (g_shell.positions.prompt.row + ((g_shell.plen + buff->len + 1) /
+			   g_shell.winsize.ws_col) > g_shell.winsize.ws_row - 1)
 		{
 			g_shell.positions.prompt.row--;
 			g_shell.positions.cmd.row--;
+			g_shell.positions.current.row = g_shell.positions.prompt.row +
+				(g_shell.plen + buff->pos) / g_shell.winsize.ws_col;
 		}
-		else
-			g_shell.positions.current.row++;
+	}
+	if ((g_shell.plen + buff->pos + 1) % g_shell.winsize.ws_col == 0)
+	{
+		g_shell.positions.current.col = 0;
+		g_shell.positions.current.row++;
 	}
 	else
 		g_shell.positions.current.col++;

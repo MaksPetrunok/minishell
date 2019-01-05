@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 22:21:07 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 19:48:34 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		sort(void *a, void *b)
+int			sort(void *a, void *b)
 {
 	char	*aa;
 	char	*bb;
@@ -22,7 +22,7 @@ int		sort(void *a, void *b)
 	return (ft_strcmp(aa, bb));
 }
 
-void	add_file(char *file, t_list **lst, int is_dir)
+void		add_file(char *file, t_list **lst, int is_dir)
 {
 	t_list	*new;
 	char	*data;
@@ -48,7 +48,7 @@ void	add_file(char *file, t_list **lst, int is_dir)
 	}
 }
 
-char	*convert_pattern(t_inp_buff *buff)
+char		*convert_pattern(t_inp_buff *buff)
 {
 	char	**start;
 	char	*patt;
@@ -68,8 +68,8 @@ char	*convert_pattern(t_inp_buff *buff)
 
 static int	is_relative_path(t_inp_buff *buff)
 {
-	char    *inp;
-	char    *ptr;
+	char	*inp;
+	char	*ptr;
 	int		res;
 
 	if ((inp = inp_to_str(buff->data)) == NULL)
@@ -82,7 +82,7 @@ static int	is_relative_path(t_inp_buff *buff)
 		ft_strstr(ptr, "./") == ptr ||
 		ft_strstr(ptr, "../") == ptr))
 	{
- 		res = 1;
+		res = 1;
 	}
 	else
 		res = 0;
@@ -90,7 +90,7 @@ static int	is_relative_path(t_inp_buff *buff)
 	return (res);
 }
 
-int		auto_complete(t_inp_buff *buff)
+int			auto_complete(t_inp_buff *buff)
 {
 	int	i;
 	int	words;
@@ -109,12 +109,8 @@ int		auto_complete(t_inp_buff *buff)
 		i++;
 	}
 	if (words > 0 || is_relative_path(buff))
-	{
 		file_complete(buff);
-	}
 	else
-	{
 		exec_complete(buff);
-	}
 	return (1);
 }

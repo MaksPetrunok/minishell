@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 20:43:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 16:37:10 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		refresh_ui(t_inp_buff *buff, t_list *lst)
 {
 	int	i;
 
-	set_cursor(&(g_shell.positions.current));
+//	set_cursor(&(g_shell.positions.current));
 	if (lst == NULL)
 		return ;
 	while (buff->pos > 0)

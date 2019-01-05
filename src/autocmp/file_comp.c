@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 23:12:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/05 19:54:04 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,14 @@ int				file_complete(t_inp_buff *buff)
 {
 	t_list	*match;
 	t_list	*head;
-	char	*str;
 	DIR		*dstr;
 
 	dstr = 0;
 	match = get_files(buff, dstr);
 	head = match;
+	refresh_ui(buff, head);
 	if (ft_lstsize(head) > 1)
 		print_options(head);
-	if (ft_lstsize(head) > 1)
-	{
-		show_prompt();
-		if (*(str = inp_to_str(buff->data)))
-			techo(str);
-		free((void *)str);
-	}
-	refresh_ui(buff, head);
 	ft_lstfree(&head);
 	return (1);
 }
