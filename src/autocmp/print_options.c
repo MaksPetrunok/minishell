@@ -48,8 +48,6 @@ static void	refresh_inp(void)
 		(g_shell.plen + g_shell.input->len) / g_shell.winsize.ws_col;
 	g_shell.positions.cmd.row = g_shell.positions.prompt.row +
 		g_shell.plen / g_shell.winsize.ws_col;
-
-
 }
 
 static void	print_table(char **names, int size, int max_len)
@@ -74,9 +72,10 @@ static void	print_table(char **names, int size, int max_len)
 		ft_printf("%s", names[i * cols + j]);
 		i++;
 	}
-	update_cursor(rows);
 	if (rows + 1 >= g_shell.winsize.ws_row)
 		refresh_inp();
+	else
+		update_cursor(rows);
 }
 
 void		print_options(t_list *lst)
