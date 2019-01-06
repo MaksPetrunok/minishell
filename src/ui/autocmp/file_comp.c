@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 18:04:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:42:02 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		set_path_start(char **path, char *inp)
 	*path = inp;
 	while (inp[i])
 	{
-		if (inp[i] == ' ' || inp[i] == '\t')
+		if (inp[i] == ' ' || inp[i] == '\t' || inp[i] == ';')
 			*path = inp + i + 1;
 		i++;
 	}

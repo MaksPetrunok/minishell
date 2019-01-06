@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 17:57:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:47:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		refresh_ui(t_inp_buff *buff, t_list *lst)
 
 	if (lst == NULL)
 		return ;
-	while (buff->pos > 0)
+	while (buff->pos > 0 && buff->data[buff->pos - 1][0] != ';')
 	{
 		i = buff->pos;
 		if (buff->data[i - 1][0] == ' ' || buff->data[i - 1][0] == '\t' ||

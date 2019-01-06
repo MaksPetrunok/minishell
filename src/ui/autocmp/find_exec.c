@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 21:12:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:50:03 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void		get_bin_lst(t_inp_buff *buff, t_list **lst)
 		free((void *)patt);
 		return ;
 	}
-ft_printf("|%s|", patt);
 	i = 0;
 	while (path_lst[i])
 	{

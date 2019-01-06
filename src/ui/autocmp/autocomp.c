@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 21:05:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:47:19 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char		*convert_pattern(t_inp_buff *buff)
 		return (0);
 	i = buff->len - 1;
 	while (i >= 0 && buff->data[i][0] != ' ' && buff->data[i][0] != '\t' &&
-			buff->data[i][0] != '/')
+			buff->data[i][0] != '/' && buff->data[i][0] != ';')
 		i--;
 	start = buff->data + i + 1;
 	patt = inp_to_str(start);
@@ -73,20 +73,13 @@ static int	is_relative_path(t_inp_buff *buff)
 	char	*ptr;
 	int		res;
 
+	res = 0;
 	if ((inp = inp_to_str(buff->data)) == NULL)
 		return (0);
-	ptr = inp;
-	while (*ptr && (*ptr == ' ' || *ptr == '\t'))
-		ptr++;
-	if (*ptr &&
-		(*ptr == '/' ||
-		ft_strstr(ptr, "./") == ptr ||
-		ft_strstr(ptr, "../") == ptr))
-	{
-		res = 1;
-	}
-	else
-		res = 0;
+	ptr = inp + ft_strlen(inp);
+	while (--ptr >= inp && *ptr != ' ' && *ptr != '\t' && *ptr != ';')
+		if (*ptr == '/')
+			res = 1;
 	free((void *)inp);
 	return (res);
 }

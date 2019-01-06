@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 21:05:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:48:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_list	*get_execs(t_inp_buff *buff)
 
 	lst = NULL;
 	get_builtins(buff, &lst);
-ft_printf("HERE");
 	get_bin_lst(buff, &lst);
 	return (lst);
 }
