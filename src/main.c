@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 16:02:02 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:25:15 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	show_prompt(void)
 			len = ft_printf("%s: ", SHELL_NAME);
 		else
 			len = ft_printf("\x1b[1m%s:\x1b[0;94m%s\x1b[0m$ ",
-				SHELL_NAME, cwd);
+				SHELL_NAME, cwd) - 15;
 	}
 	else if (ft_strstr(cwd, tmp) == cwd)
 		len = ft_printf("\x1b[1m%s:\x1b[94m~%s\x1b[0m$ ",
@@ -89,8 +89,6 @@ void	show_prompt(void)
 		len / g_shell.winsize.ws_col;
 	g_shell.positions.current.col = g_shell.positions.cmd.col;
 	g_shell.positions.current.row = g_shell.positions.cmd.row;
-//ft_printf("(%d, %d)", g_shell.positions.current.row,
-//						g_shell.positions.current.col);
 }
 
 int		process_input(char *input)
