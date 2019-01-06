@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 17:56:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:12:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static void	add_execs(t_list **lst, char *dir, char *patt)
 	{
 		pathname = ft_strjoin3(dir, "/", dirp->d_name);
 		stat(pathname, &st);
-		if (S_ISREG(st.st_mode) && access(pathname, X_OK) == 0 &&
-			ft_strstr(dirp->d_name, patt) == dirp->d_name)
+		if (patt == NULL ||
+			(S_ISREG(st.st_mode) && access(pathname, X_OK) == 0 &&
+			ft_strstr(dirp->d_name, patt) == dirp->d_name))
 		{
 			add_file(dirp->d_name, lst, 0);
 		}
@@ -51,6 +52,7 @@ void		get_bin_lst(t_inp_buff *buff, t_list **lst)
 		free((void *)patt);
 		return ;
 	}
+ft_printf("|%s|", patt);
 	i = 0;
 	while (path_lst[i])
 	{

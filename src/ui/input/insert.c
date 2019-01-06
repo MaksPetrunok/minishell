@@ -6,29 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 18:57:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 20:17:35 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	increase_buff(t_inp_buff *buff)
-{
-	int		new_size;
-	size_t	new_bytes;
-	size_t	old_bytes;
-	char	**new_data;
-
-	new_size = buff->size + INP_BUFF_SIZE;
-	old_bytes = buff->size * sizeof(char **);
-	new_bytes = new_size * sizeof(char **);
-	new_data = ft_realloc((void *)(buff->data), old_bytes, new_bytes);
-	if (new_data == buff->data || new_data == NULL)
-		return (0);
-	buff->data = new_data;
-	buff->size = new_size;
-	return (1);
-}
+t_shell	g_shell;
 
 static void	refresh_inp(t_inp_buff *buff)
 {
@@ -40,16 +24,14 @@ static void	refresh_inp(t_inp_buff *buff)
 	ft_putstr(" ");
 	tconf("ce");
 	tconf("le");
-	if ((g_shell.plen + buff->len + 1) % g_shell.winsize.ws_col == 0)
+	if ((g_shell.plen + buff->len + 1) % g_shell.winsize.ws_col == 0 &&
+		g_shell.positions.prompt.row + ((g_shell.plen + buff->len + 1) /
+		g_shell.winsize.ws_col) > g_shell.winsize.ws_row - 1)
 	{
-		if (g_shell.positions.prompt.row + ((g_shell.plen + buff->len + 1) /
-			g_shell.winsize.ws_col) > g_shell.winsize.ws_row - 1)
-		{
-			g_shell.positions.prompt.row--;
-			g_shell.positions.cmd.row--;
-			g_shell.positions.current.row = g_shell.positions.prompt.row +
-				(g_shell.plen + buff->pos) / g_shell.winsize.ws_col;
-		}
+		g_shell.positions.prompt.row--;
+		g_shell.positions.cmd.row--;
+		g_shell.positions.current.row = g_shell.positions.prompt.row +
+			(g_shell.plen + buff->pos) / g_shell.winsize.ws_col;
 	}
 	if ((g_shell.plen + buff->pos + 1) % g_shell.winsize.ws_col == 0)
 	{
@@ -85,7 +67,7 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 	return (1);
 }
 
-void		refresh(t_inp_buff *buff, int ins_len)
+static void	refresh(t_inp_buff *buff, int ins_len)
 {
 	t_cursor	cursor;
 	int			i;
@@ -114,11 +96,27 @@ void		refresh(t_inp_buff *buff, int ins_len)
 	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
+static int	insert(t_inp_buff *buff)
+{
+	int		i;
+	char	sym[2];
+
+	i = 0;
+	sym[1] = '\0';
+	while (g_shell.clipboard[i])
+	{
+		*sym = g_shell.clipboard[i];
+		if ((buff->data[buff->pos + i] = ft_strdup(sym)) == NULL)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int			inp_insert_clipboard(t_inp_buff *buff)
 {
 	int		i;
 	int		len;
-	char	sym[2];
 
 	if (g_shell.clipboard == NULL)
 		return (0);
@@ -135,14 +133,8 @@ int			inp_insert_clipboard(t_inp_buff *buff)
 		buff->data[i + len] = buff->data[i];
 		i--;
 	}
-	i = 0;
-	sym[1] = '\0';
-	while (g_shell.clipboard[i])
-	{
-		*sym = g_shell.clipboard[i];
-		if ((buff->data[buff->pos + i++] = ft_strdup(sym)) == NULL)
-			return (0);
-	}
+	if (insert(buff) == 0)
+		return (0);
 	refresh(buff, len);
 	buff->pos += len;
 	buff->len += len;

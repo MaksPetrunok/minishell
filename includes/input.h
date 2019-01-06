@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 18:26:44 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 20:07:13 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				is_control(char *str);
 char			*inp_to_str(char **inp);
 int				increase_buff(t_inp_buff *buff);
 
-void refresh(t_inp_buff *buff, int ins_len);
+//void refresh(t_inp_buff *buff, int ins_len);
 
 int				inp_paste(t_inp_buff *buff, char *sym);
 int				inp_copy_all(t_inp_buff *buff, char *sym);

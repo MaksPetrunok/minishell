@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/05 19:48:34 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 21:05:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ char		*convert_pattern(t_inp_buff *buff)
 	char	*patt;
 	int		i;
 
-	if (buff->data[buff->len - 1][0] == ' ' ||
-		buff->data[buff->len - 1][0] == '\t' || buff->len == 0)
+	if (buff->len > 0 &&
+		(buff->data[buff->len - 1][0] == ' ' ||
+		buff->data[buff->len - 1][0] == '\t'))
 		return (0);
 	i = buff->len - 1;
 	while (i >= 0 && buff->data[i][0] != ' ' && buff->data[i][0] != '\t' &&

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 17:25:15 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 20:42:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,6 @@ int		process_cmd(char **cmd_lst)
 		ret = execute(cmd_lst, g_shell.environ);
 	arr_free((void **)cmd_lst);
 	return (ret);
-}
-
-void	set_cursor(t_cursor *cursor)
-{
-	char	buff[16];
-	char	*ptr;
-	int		n;
-	int		x;
-	int		y;
-
-	if (g_shell.canonical)
-		return ;
-	n = 0;
-	ft_putstr("\x1b[6n");
-	while (read(0, buff + n, 1))
-	{
-		if (buff[n] == 'R')
-			break ;
-		n++;
-	}
-	ptr = ft_strchr(buff + 2, ';');
-	y = ft_atoi(buff + 2) - 1;
-	x = ft_atoi(ptr + 1) - 1;
-	if (x < 0 || y < 0)
-		return  ;
-	cursor->row = y;
-	cursor->col = x;
 }
 
 void	show_prompt(void)
@@ -84,7 +57,7 @@ void	show_prompt(void)
 		len = ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ",
 			SHELL_NAME, cwd) - 13;
 	g_shell.plen = len;
-	g_shell.positions.cmd.col =	len % g_shell.winsize.ws_col;
+	g_shell.positions.cmd.col = len % g_shell.winsize.ws_col;
 	g_shell.positions.cmd.row = g_shell.positions.prompt.row +
 		len / g_shell.winsize.ws_col;
 	g_shell.positions.current.col = g_shell.positions.cmd.col;

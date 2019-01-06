@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:13:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 19:22:30 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 20:49:20 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,9 @@ int	inp_control(t_inp_buff *buff, char *sym)
 
 int	inp_tab(t_inp_buff *buff, char *sym)
 {
-	int	i;
-
-	i = buff->pos;
-	while (i >= 0)
-	{
-		if (buff->data[i] &&
-			buff->data[i][0] != ' ' &&
-			buff->data[i][0] != '\t')
-		{
-			auto_complete(buff);
-			return (1);
-		}
-		i--;
-	}
-	inp_insert(buff, sym);
+	(void)sym;
+	if (buff->pos == buff->len)
+		auto_complete(buff);
 	return (1);
 }
 

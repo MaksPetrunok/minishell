@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/01/06 19:20:36 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/01/06 20:40:47 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)shell/ \
 			$(OBJ_DIR)sig/ \
 			$(OBJ_DIR)ui/ \
+			$(OBJ_DIR)ui/cursor \
 			$(OBJ_DIR)ui/term/ \
 			$(OBJ_DIR)ui/history/ \
 			$(OBJ_DIR)ui/input/ \
@@ -56,6 +57,7 @@ MAIN_FILES = main.c \
 			shell/shell.c \
 			shell/shell_exit.c \
 			\
+			ui/input/buffer.c \
 			ui/input/read_inp.c \
 			ui/input/read_symbol.c \
 			ui/input/insert.c \
@@ -80,7 +82,8 @@ MAIN_FILES = main.c \
 			ui/term/config.c \
 			ui/term/output.c \
 			\
-			ui/cursor.c \
+			ui/cursor/move.c \
+			ui/cursor/set.c \
 			ui/util.c \
 
 
