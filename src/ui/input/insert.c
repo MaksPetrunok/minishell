@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/05 20:55:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 18:57:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	refresh_inp(t_inp_buff *buff)
 	if ((g_shell.plen + buff->len + 1) % g_shell.winsize.ws_col == 0)
 	{
 		if (g_shell.positions.prompt.row + ((g_shell.plen + buff->len + 1) /
-			   g_shell.winsize.ws_col) > g_shell.winsize.ws_row - 1)
+			g_shell.winsize.ws_col) > g_shell.winsize.ws_row - 1)
 		{
 			g_shell.positions.prompt.row--;
 			g_shell.positions.cmd.row--;
@@ -84,19 +84,12 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 	buff->len++;
 	return (1);
 }
-/*
- * count rows required for prompt + new inp_buff and compare with position
- * of positions.promopt from bottom. If prompt position is less than number of
- * rows required for input - scroll up for N lines as required to adjust
- * prompt position.
- * Print prompt and input.
- * Set cursor positions (prompt, cmd, current).
- */
-void refresh(t_inp_buff *buff, int ins_len)
+
+void		refresh(t_inp_buff *buff, int ins_len)
 {
 	t_cursor	cursor;
 	int			i;
-	
+
 	clear_from_cursor(buff);
 	i = buff->pos;
 	while (buff->data[i])
@@ -109,7 +102,7 @@ void refresh(t_inp_buff *buff, int ins_len)
 	set_cursor(&(cursor));
 	if (g_shell.positions.prompt.row + (g_shell.plen + buff->len + ins_len) /
 		g_shell.winsize.ws_col > g_shell.winsize.ws_row - 1)
-		g_shell.positions.prompt.row = g_shell.winsize.ws_row - 1 - 
+		g_shell.positions.prompt.row = g_shell.winsize.ws_row - 1 -
 			(g_shell.plen + buff->len + ins_len) / g_shell.winsize.ws_col;
 	g_shell.positions.cmd.col = g_shell.plen % g_shell.winsize.ws_col;
 	g_shell.positions.cmd.row = g_shell.positions.prompt.row +

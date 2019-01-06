@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/01/06 16:49:46 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/01/06 19:20:36 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)shell/ \
 			$(OBJ_DIR)sig/ \
 			$(OBJ_DIR)ui/ \
+			$(OBJ_DIR)ui/term/ \
 			$(OBJ_DIR)ui/history/ \
 			$(OBJ_DIR)ui/input/ \
 			$(OBJ_DIR)ui/autocmp/
@@ -60,7 +61,11 @@ MAIN_FILES = main.c \
 			ui/input/insert.c \
 			ui/input/control.c \
 			ui/input/move.c \
+			ui/input/smart_move.c \
 			ui/input/delete.c \
+			ui/input/copy.c \
+			ui/input/cut.c \
+			ui/input/paste.c \
 			\
 			ui/history/history.c \
 			ui/history/navigate.c \
@@ -72,10 +77,11 @@ MAIN_FILES = main.c \
 			ui/autocmp/exec_comp.c \
 			ui/autocmp/find_exec.c \
 			\
-			ui/terminal.c \
+			ui/term/config.c \
+			ui/term/output.c \
+			\
 			ui/cursor.c \
-			ui/ui.c \
-			ui/terminal_outp.c
+			ui/util.c \
 
 
 BUILTIN = builtin.c \

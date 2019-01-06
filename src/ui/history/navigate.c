@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 16:49:46 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/05 21:00:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:54:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	free_buff_data(t_inp_buff *buff)
 	buff->len = 0;
 	buff->data[0] = NULL;
 }
-
 
 static int	update_input(t_inp_buff *buff, char *str)
 {
@@ -42,7 +41,7 @@ static int	update_input(t_inp_buff *buff, char *str)
 	return (1);
 }
 
-int	inp_hist_prev(t_inp_buff *buff, char *sym)
+int			inp_hist_prev(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
 	if (g_shell.history->stack == NULL)
@@ -66,7 +65,7 @@ int	inp_hist_prev(t_inp_buff *buff, char *sym)
 	return (1);
 }
 
-int	inp_hist_next(t_inp_buff *buff, char *sym)
+int			inp_hist_next(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
 	if (g_shell.history->stack == NULL || g_shell.history->tmp == NULL)

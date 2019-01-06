@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 18:47:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/21 16:55:54 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:43:32 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			tconf(char *s)
 	return (0);
 }
 
-void	move_cursor(int col, int row)
+void		move_cursor(int col, int row)
 {
 	tputs(tgoto(tgetstr("cm", 0), col, row), 1, putchar_conf);
 }

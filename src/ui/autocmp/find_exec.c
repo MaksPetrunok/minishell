@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 19:34:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 22:05:20 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:56:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	add_execs(t_list **lst, char *dir, char *patt)
 	closedir(dstr);
 }
 
-void	get_bin_lst(t_inp_buff *buff, t_list **lst)
+void		get_bin_lst(t_inp_buff *buff, t_list **lst)
 {
 	char	**path_lst;
 	char	*path;

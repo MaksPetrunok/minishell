@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 02:32:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 15:58:22 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:39:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,20 @@
 
 t_shell	g_shell;
 
-int	finish_child_processes(void)
+static void	free_child_list(void)
+{
+	t_list	*tmp;
+
+	while (g_shell.childs)
+	{
+		tmp = g_shell.childs->next;
+		free((void *)g_shell.childs->content);
+		free((void *)g_shell.childs);
+		g_shell.childs = tmp;
+	}
+}
+
+int			finish_child_processes(void)
 {
 	t_list		*lst;
 	t_list		*tmp;
@@ -37,21 +50,7 @@ int	finish_child_processes(void)
 	return (count);
 }
 
-// move somewhere
-int	add_child_process(pid_t pid)
-{
-	t_list		*elem;
-	t_process	process;
-
-	process.pid = pid;
-	if ((elem = ft_lstnew((void *)(&process), sizeof(t_process))) == 0)
-		return (-1);
-	elem->next = g_shell.childs;
-	g_shell.childs = elem;
-	return (0);
-}
-
-void	free_history(void)
+void		free_history(void)
 {
 	t_dlist	*lst;
 	t_dlist *tmp;
@@ -65,4 +64,16 @@ void	free_history(void)
 		lst = tmp;
 	}
 	free((void *)(g_shell.history));
+}
+
+void		exit_shell(void)
+{
+	finish_child_processes();
+	if (switch_term_to(g_shell.term_default) == -1)
+		ft_dprintf(2, "%s: unable restore terminal settings\n", SHELL_NAME);
+	free_child_list();
+	free_history();
+	free_terminals();
+	env_free(g_shell.environ);
+	free((void *)(g_shell.clipboard));
 }

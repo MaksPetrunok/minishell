@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:58:48 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/21 16:59:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:43:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	cur_mv_right(void)
 	move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
-int	init_cursor(void)
+int		init_cursor(void)
 {
 	g_shell.positions.prompt.col = 0;
 	g_shell.positions.prompt.row = 0;

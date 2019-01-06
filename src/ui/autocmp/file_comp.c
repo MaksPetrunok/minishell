@@ -6,26 +6,35 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:30:36 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/05 19:54:04 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 18:04:57 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void		set_path_start(char **path, char *inp)
+{
+	int	i;
+
+	i = 0;
+	*path = inp;
+	while (inp[i])
+	{
+		if (inp[i] == ' ' || inp[i] == '\t')
+			*path = inp + i + 1;
+		i++;
+	}
+}
 
 static void		get_dir(t_inp_buff *buff, char *dir, size_t size)
 {
 	char	*inp;
 	char	*path;
 	char	*slash;
-	int		i;
 	int		len;
 
-	i = 0;
 	inp = inp_to_str(buff->data);
-	path = inp;
-	while (inp[++i])
-		if (inp[i] == ' ' || inp[i] == '\t')
-			path = inp + i + 1;
+	set_path_start(&path, inp);
 	getcwd(dir, size);
 	if ((slash = ft_strrchr(path, '/')) != NULL)
 		*slash = '\0';

@@ -6,26 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 17:29:30 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:38:44 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_shell	g_shell;
-
-static void	free_child_list(void)
-{
-	t_list	*tmp;
-
-	while (g_shell.childs)
-	{
-		tmp = g_shell.childs->next;
-		free((void *)g_shell.childs->content);
-		free((void *)g_shell.childs);
-		g_shell.childs = tmp;
-	}
-}
 
 static void	set_shlvl(void)
 {
@@ -47,6 +34,19 @@ static void	set_shlvl(void)
 	free((void *)lvl_str);
 }
 
+int			add_child_process(pid_t pid)
+{
+	t_list		*elem;
+	t_process	process;
+
+	process.pid = pid;
+	if ((elem = ft_lstnew((void *)(&process), sizeof(t_process))) == 0)
+		return (-1);
+	elem->next = g_shell.childs;
+	g_shell.childs = elem;
+	return (0);
+}
+
 int			init_shell(char **env)
 {
 	g_shell.childs = NULL;
@@ -65,21 +65,5 @@ int			init_shell(char **env)
 		return (-1);
 	setup_signals();
 	g_shell.clipboard = NULL;
-//ft_printf("history: %p\nh.stack: %p\nh.iter: %p\n",
-//		g_shell.history,
-//		g_shell.history->stack,
-//		g_shell.history->iter);
 	return (0);
-}
-
-void		exit_shell(void)
-{
-	finish_child_processes();
-	if (switch_term_to(g_shell.term_default) == -1)
-		ft_dprintf(2, "%s: unable restore terminal settings\n", SHELL_NAME);
-	free_child_list();
-	free_history();
-	free_terminals();
-	env_free(g_shell.environ);
-	free((void *)(g_shell.clipboard));
 }

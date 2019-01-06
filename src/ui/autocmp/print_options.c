@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 19:13:03 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/05 20:23:37 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 18:06:12 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	print_table(char **names, int size, int max_len)
 	while (i < rows)
 	{
 		j = 0;
-	write(1, "\n", 1);
+		write(1, "\n", 1);
 		while (j < cols - 1 && i * cols + j < size - 1)
 		{
 			ft_printf("%-*s", max_len, names[i * cols + j]);

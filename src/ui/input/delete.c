@@ -6,19 +6,22 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:24 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/20 20:17:01 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 18:14:28 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// refactor using move_cursor()
 static void	refresh_inp(t_inp_buff *buff)
 {
 	int	i;
 
-	tconf("ce"); //clear curent line from cursor to end
-	if (g_shell.positions.current.col + buff->len - buff->pos >= g_shell.winsize.ws_col - 1)
+	tconf("ce");
+	if (g_shell.positions.current.col + buff->len - buff->pos >=
+		g_shell.winsize.ws_col - 1)
 	{
-		tconf("do"); //move cursor down
+		tconf("do");
 		tconf("cr"); //return to begining of current line
 		tconf("cd"); //clear curent line and to bottom
 		i = 0;
@@ -36,6 +39,7 @@ static void	refresh_inp(t_inp_buff *buff)
 	while (i-- > buff->pos)
 		cur_mv_left();
 }
+
 int	inp_backsp(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
@@ -54,8 +58,6 @@ int	inp_delete(t_inp_buff *buff, char *sym)
 	(void)sym;
 	if (buff->pos == buff->len)
 		return (0);
-//	tconf("dc");
-	
 	free((void *)(buff->data[buff->pos]));
 	i = buff->pos;
 	while (i < buff->len)

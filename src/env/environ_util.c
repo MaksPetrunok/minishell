@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:10 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 16:24:39 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:33:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	*make_var_line(const char *name, const char *value, char *old)
 	return (tmp);
 }
 
-// move to libft?
 void	arr_free(void **arr)
 {
 	void	**ptr;
