@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 15:40:04 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 16:22:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,4 +167,17 @@ t_token			*tokenize(char *input)
 		return (0);
 	}
 	return (token);
+}
+
+void	tknlst_free(t_token *lst)
+{
+	t_token	*tmp;
+
+	while (lst)
+	{
+		tmp = lst->next;
+		free((void *)(lst->data));
+		free((void *)lst);
+		lst = tmp;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:21 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 11:48:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:16:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*get_path(char *arg)
 {
 	char	*path;
 
-	path = 0;
+	path = NULL;
 	if (!arg || ft_strcmp(arg, "--") == 0)
 		path = get_var("HOME", g_shell.environ);
 	else if (ft_strcmp(arg, "-") == 0)
@@ -49,12 +49,10 @@ static int	try_cd(char *dir)
 			ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		else
 			ft_dprintf(2, "cd: no such directory: %s\n", dir);
-		return (0);
 	}
 	else if (!is_dir(path))
 	{
 		ft_dprintf(2, "cd: %s: not a directory\n", path);
-		return (0);
 	}
 	else if (chdir(path) != 0)
 	{
@@ -62,9 +60,10 @@ static int	try_cd(char *dir)
 			ft_dprintf(2, "cd: cannot open: %s\n", path);
 		else
 			ft_dprintf(2, "cd: access denied: %s\n", path);
-		return (0);
 	}
-	return (1);
+	else
+		return (1);
+	return (0);
 }
 
 int			builtin_cd(char **av)

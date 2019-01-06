@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/01/04 19:32:39 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/01/06 16:49:46 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,40 +24,58 @@ BUILTIN_DIR = builtin/
 LIB_INC_DIR = $(LIB_DIR)includes/
 LIB = $(LIB_DIR)libft.a
 
+DIR_LST = $(OBJ_DIR) \
+			$(OBJ_DIR)$(BUILTIN_DIR) \
+			$(OBJ_DIR)env/ \
+			$(OBJ_DIR)err/ \
+			$(OBJ_DIR)lex/ \
+			$(OBJ_DIR)parser/ \
+			$(OBJ_DIR)exec/ \
+			$(OBJ_DIR)shell/ \
+			$(OBJ_DIR)sig/ \
+			$(OBJ_DIR)ui/ \
+			$(OBJ_DIR)ui/history/ \
+			$(OBJ_DIR)ui/input/ \
+			$(OBJ_DIR)ui/autocmp/
+
 MAIN_FILES = main.c \
-			execute.c \
-			signal.c \
-			environ.c \
-			environ_util.c \
-			lexer.c \
-			lexer_util.c \
-			parser.c \
-			free_util.c \
-			err.c \
-			terminal_outp.c \
+			exec/execute.c \
+			err/err.c \
 			\
-			input/read_inp.c \
-			input/read_symbol.c \
-			input/insert.c \
-			input/control.c \
-			input/move.c \
-			input/delete.c \
+			sig/signal.c \
 			\
-			history/history.c \
-			history/navigate.c \
+			env/environ.c \
+			env/environ_util.c \
 			\
-			shell/terminal.c \
-			shell/cursor.c \
+			lex/lexer.c \
+			lex/lexer_util.c \
+			\
+			parser/parser.c \
+			\
 			shell/shell.c \
 			shell/shell_exit.c \
-			shell/ui.c \
 			\
-			autocmp/autocomp.c \
-			autocmp/print_options.c \
-			autocmp/refresh_ui.c \
-			autocmp/file_comp.c \
-			autocmp/exec_comp.c \
-			autocmp/find_exec.c
+			ui/input/read_inp.c \
+			ui/input/read_symbol.c \
+			ui/input/insert.c \
+			ui/input/control.c \
+			ui/input/move.c \
+			ui/input/delete.c \
+			\
+			ui/history/history.c \
+			ui/history/navigate.c \
+			\
+			ui/autocmp/autocomp.c \
+			ui/autocmp/print_options.c \
+			ui/autocmp/refresh_ui.c \
+			ui/autocmp/file_comp.c \
+			ui/autocmp/exec_comp.c \
+			ui/autocmp/find_exec.c \
+			\
+			ui/terminal.c \
+			ui/cursor.c \
+			ui/ui.c \
+			ui/terminal_outp.c
 
 
 BUILTIN = builtin.c \
@@ -76,20 +94,17 @@ OBJ_LIST = $(addprefix $(OBJ_DIR), $(SRC_LIST:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(OBJ_LIST)
+$(NAME): $(LIB) $(DIR_LST) $(OBJ_LIST)
 	@$(CC) $(OBJ_LIST) $(LIB) -o $(NAME) -ltermcap
 	@echo "$(NAME) - Done."
 
 $(LIB):
 	@make -C $(LIB_DIR) all --silent
 
+$(DIR_LST):
+	@mkdir -p $@
+
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)$(BUILTIN_DIR)
-	@mkdir -p $(OBJ_DIR)history/
-	@mkdir -p $(OBJ_DIR)input/
-	@mkdir -p $(OBJ_DIR)shell/
-	@mkdir -p $(OBJ_DIR)autocmp/
 	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
 
 

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 02:32:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 15:45:43 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 15:58:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	finish_child_processes(void)
 	return (count);
 }
 
+// move somewhere
 int	add_child_process(pid_t pid)
 {
 	t_list		*elem;

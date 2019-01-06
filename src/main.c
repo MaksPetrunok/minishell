@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 15:50:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 16:02:02 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	show_prompt(void)
 		len = ft_printf("\x1b[1m%s:\x1b[94m%s\x1b[0m$ ",
 			SHELL_NAME, cwd) - 13;
 	g_shell.plen = len;
-	g_shell.positions.cmd.col = g_shell.positions.prompt.col +
-		len % g_shell.winsize.ws_col;
+	g_shell.positions.cmd.col =	len % g_shell.winsize.ws_col;
 	g_shell.positions.cmd.row = g_shell.positions.prompt.row +
 		len / g_shell.winsize.ws_col;
 	g_shell.positions.current.col = g_shell.positions.cmd.col;

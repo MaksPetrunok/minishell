@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 17:13:22 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/06 16:02:12 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	win_size_handler(int __attribute__((unused)) sig)
 	ioctl(0, TIOCGWINSZ, &(g_shell.winsize));
 	if (!g_shell.canonical)
 	{
-//ft_printf("Cursor setup\n");
 		set_cursor(&(g_shell.positions.current));
-		g_shell.positions.prompt.col = 0;
 		g_shell.positions.prompt.row = g_shell.positions.current.row -
 			(g_shell.plen + g_shell.input->pos) / g_shell.winsize.ws_col;
 		g_shell.positions.cmd.col = g_shell.plen % g_shell.winsize.ws_col;
@@ -49,16 +47,6 @@ move_cursor(0,0);
 move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 }
 
-void	setup_signals(void)
-{
-	signal(SIGINT, &sh_sigint_handler);
-	signal(SIGTSTP, &stp_handler); //should child processignore SIGSTP?
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, &exit_safely);
-	signal(SIGHUP, &exit_safely);
-	signal(SIGWINCH, &win_size_handler);
-}
-
 void	sh_sigint_handler(int __attribute__((unused)) sig)
 {
 	if (g_shell.input != NULL)
@@ -76,4 +64,14 @@ void	sh_sigint_handler(int __attribute__((unused)) sig)
 	write(1, "\n", 1);
 	if (finish_child_processes() == 0)
 		show_prompt();
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, &sh_sigint_handler);
+	signal(SIGTSTP, &stp_handler); //should child processignore SIGSTP?
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, &exit_safely);
+	signal(SIGHUP, &exit_safely);
+	signal(SIGWINCH, &win_size_handler);
 }
