@@ -36,3 +36,4 @@ TAB      - launch autocompletion.
 Also terminating of launched commmand is available with Ctrl+C.
 
 Pipes and IO redirection are being implemented.
+
