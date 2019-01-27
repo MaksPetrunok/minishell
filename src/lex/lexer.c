@@ -6,11 +6,40 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 17:33:43 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/27 18:07:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+ * 1. Form the token as described in 2.3 Token Recognition.
+ * 2. Once token delimited - categorize it per 2.10 Shell Grammar.
+ *
+ */
+
+/*
+ * Tokens:
+ * NEWLINE
+ * IO_NUMBER (I/O redirection: pipe, >, <, >> or <<)
+ * WORD
+ * ASSIGN (variable assignment - only if it is first token, or there is preceeding
+ * 			NEWLINE
+ * AND
+ * OR
+ *
+ */
+
+/*
+ * States: S_GEN - general (inside word)
+ *         S_WSP - whitespace (between words) // not needed? close token upon witespace and go further
+ *         S_IOR - I/O redirection (after > or <)
+ *         S_SQT - single quote
+ *         S_DQT - double quote
+ *         S_ESC - escape sequense
+ *         S_LOG - logical operator? (after | or &) check if it's pipe, &, && or ||
+ *         
+ *
+ */
 
 t_state_trans	g_fsm_table[7][8] =
 {
