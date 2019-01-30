@@ -53,6 +53,7 @@ FUNC_LIST = memset \
 			islower \
 			isalpha \
 			isdigit \
+			isnumeric \
 			isalnum \
 			isascii \
 			isprint \

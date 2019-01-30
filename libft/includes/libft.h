@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-//# define OS_LINUX
+# define OS_LINUX
 # ifdef OS_LINUX
 typedef __uintmax_t	uintmax_t;
 typedef __intmax_t	intmax_t;
@@ -62,6 +62,7 @@ int					ft_isupper(int c);
 int					ft_islower(int c);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
+int					ft_isnumeric(char *s);
 int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isprint(int c);
