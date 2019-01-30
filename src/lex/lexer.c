@@ -32,7 +32,9 @@
  *         S_LOG - logical operator? (after | or &) check if it's pipe, &, && or ||
  */
 
-t_state_trans	g_fsm_table[7][8] =
+// Add hash # recognition for comments handling
+
+t_state_trans	g_fsm_table[3][9] =
 {
 	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
 	[S_GEN][CH_NLN] = {S_GEN, &tkn_newline},
@@ -87,12 +89,27 @@ enum e_signal	get_signal(char c)
 		return (CH_GEN);
 }
 
-t_token			*init_token(int size)
+static void		connect_tokens(t_token *prev, t_token *new)
+{
+	if (prev != NULL)
+	{
+		prev->next = new;
+		prev->complete = 1;
+	}
+	//check token type here???
+}
+
+/*
+** Initiates new empty token with 'size' bytes allocated for data.
+*/
+
+t_token			*init_token(int size, t_token *prev)
 {
 	t_token	*tkn;
 
 	if ((tkn = malloc(sizeof(t_token))) == NULL)
 		return (NULL);
+	connect_tokens(prev, tkn);
 	if (size > 0)
 	{
 		if ((tkn->data = malloc(size + 1)) == NULL)
@@ -149,6 +166,8 @@ static char *get_type(enum e_tkn_type type)
 		case T_ASSIGN: 	return "ASSI"; break;
 		case T_AND: 	return " AND"; break;
 		case T_OR:		return "  OR"; break;
+		case T_AMP:		return " AMP"; break;
+		case T_PIPE:	return "PIPE"; break;
 		case T_NEWLINE: return " N/L"; break;
 		default:		return "!N/A";
 	}
@@ -171,6 +190,7 @@ t_token			*tokenize(char *input)
 
 	if (!input)
 		return (0);
+ft_printf("DEBUG: start tokenizing\n");
 	token = 0;
 	st = S_GEN;
 	if (iterate(input, &token, &st) == -1)

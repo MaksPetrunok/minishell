@@ -79,7 +79,7 @@ int		process_input(char *input)
 	while (tkn_ptr && run && g_shell.run)
 	{
 		run = process_cmd(parse_cmd(&tkn_ptr));
-		if (tkn_ptr && tkn_ptr->type == CH_SEMICOLON)
+		if (tkn_ptr && tkn_ptr->type == T_NEWLINE)
 			tkn_ptr = tkn_ptr->next;
 	}
 	tknlst_free(tkn_lst);

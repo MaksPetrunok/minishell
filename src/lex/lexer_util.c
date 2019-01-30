@@ -20,10 +20,8 @@ int		tkn_newline(t_token **tkn, char **s)
 	t_token	*new;
 
 	(void)s;
-	(*tkn)->complete = 1;
-	if ((new = init_token(0)) == NULL)
+	if ((new = init_token(0, *tkn)) == NULL)
 		return (-1);
-	(*tkn)->next = new;
 	new->type = T_NEWLINE;
 	new->complete = 1;
 	*tkn = new;
@@ -36,27 +34,10 @@ int		tkn_newline(t_token **tkn, char **s)
 int		tkn_create(t_token **tkn, char **s)
 {
 	t_token			*new;
-	enum e_signal	sig;
 
-	sig = get_signal(**s);
-	if (**s && (new = init_token(
-		(sig == CH_SEMICOLON) ? 2 : ft_strlen(*s))) == 0)
+	if ((new = init_token(ft_strlen(*s), *tkn)) == NULL)
 		return (-1);
-	if (sig == CH_EXPR || sig == CH_SEMICOLON)
-		new->type = sig;
-	else
-		new->type = CH_GENERAL;
-	if (sig == CH_GENERAL || sig == CH_VARNAME || sig == CH_EXPR)
-		append_tkn(&new, s);
-	else
-		new->data[new->pos] = '\0';
-	if (*tkn == 0)
-		*tkn = new;
-	else
-	{
-		(*tkn)->next = new;
-		*tkn = new;
-	}
+	tkn_append(tkn, s);	
 	return (0);
 }
 
@@ -65,6 +46,16 @@ int		tkn_create(t_token **tkn, char **s)
  */
 int		tkn_append(t_token **tkn, char **s)
 {
+	if (*tkn == NULL)
+	{
+		if ((*tkn = init_token(ft_strlen(*s), NULL)) == NULL)
+			return (-1);
+	}
+	else if ((*tkn)->complete)
+	{
+		if ((*tkn = init_token(ft_strlen(*s), *tkn)) == NULL)
+			return (-1);
+	}
 	(*tkn)->data[(*tkn)->pos++] = **s;
 	(*tkn)->data[(*tkn)->pos] = '\0';
 	return (0);
@@ -75,25 +66,64 @@ int		tkn_append(t_token **tkn, char **s)
  */
 int		tkn_escgen(t_token **tkn, char **s)
 {
-	(*s)++;
-	return (append_tkn(tkn, s));
+	if (*(*s + 1) == '\n')
+		*s += 2;
+	else
+	{
+		tkn_append(tkn, s);
+		if (**s != '\0')
+			tkn_append(tkn, s);
+	}
+	return (0);
 }
 
 /*
- * Process escape sequense according to POSIX for esc. sequense within double quotes.
+ * Append backslash and escaped character to token.
  */
 int		tkn_escdqt(t_token **tkn, char **s)
 {
-	(*s)++;
-	return (append_tkn(tkn, s));
+	tkn_append(tkn, s);
+	if (**s != '\0')
+		tkn_append(tkn, s);
+	return (0);
+}
+
+int		open_braces(t_token **tkn, char **s, char br)
+{
+	int	count;
+
+	count = 1;
+	while (**s)
+	{
+		if (**s == br)
+			count++;
+		else if (**s == '}')
+			count--;
+		tkn_append(tkn, s);
+		if (count == 0)
+			break ;
+	}
+	return (count);
 }
 
 /*
  * Find all characters related to expansion and add to current token.
  */
-int		tkn_expans(t_token **tkn, char __attribute__((unused)) **s)
+int		tkn_expans(t_token **tkn, char **s)
 {
-	(*tkn)->complete = 1;
+	tkn_append(tkn, s);
+	if (**s == '{')
+	{
+		tkn_append(tkn, s);
+		if (open_braces(tkn, s, '{') != 0)
+		{
+			ft_dprintf(2, "no matching '}' brace found\n");
+			return (-1);
+		}
+	}
+	else
+		while (**s && ft_isalnum(**s))
+			tkn_append(tkn, s);
 	return (0);
 }
 
@@ -104,30 +134,67 @@ int		tkn_expans(t_token **tkn, char __attribute__((unused)) **s)
  * token with default file descriptor for current redirection.
  * After characters added, mark token as complete.
  */
-int		tkn_ionumb(t_token __attribute__((unused)) **tkn, char **s)
+int		tkn_ionumb(t_token **tkn, char **s)
 {
-	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n",
-													SHELL_NAME, **s);
-	return (-2);
+	t_token	*new;
+
+	if (!(*tkn) || !(*tkn)->complete || !ft_isnumeric((*tkn)->data))
+	{
+		if ((new = init_token(ft_strlen((*tkn)->data), *tkn)) == NULL)
+			return (-1);
+		*tkn = new;
+	}
+	if (ft_strnstr(*s, ">>", 2) == *s || ft_strnstr(*s, "<<", 2) == *s ||
+		ft_strnstr(*s, ">&", 2) == *s || ft_strnstr(*s, "<&", 2) == *s)
+	{
+		tkn_append(tkn, s);
+		tkn_append(tkn, s);
+	}
+	else
+		tkn_append(tkn, s);
+	if (*(*s - 1) == '&' && **s == '-')
+		tkn_append(tkn, s);
+	else if (*(*s - 1) == '&')
+		while (ft_isdigit(**s))
+			tkn_append(tkn, s);
+	(*tkn)->type = T_IO_NUM;
+	(*tkn)->complete = 1;
+	return (0);
 }
 
 /*
  * Mark current token as complete.
  */
-int		tkn_complete(t_token __attribute__((unused)) **tkn, char **s)
+int		tkn_complete(t_token **tkn, char **s)
 {
-	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n",
-													SHELL_NAME, **s);
-	return (-2);
+	(void)s;
+	(*tkn)->complete = 1;
+	return (0);
 }
 
 /*
  * Find all characters related to &&, ||, & or |, create corresponding token
  * and mark it as complete.
  */
-int		tkn_logic(t_token __attribute__((unused)) **tkn, char **s)
+int		tkn_logic(t_token **tkn, char **s)
 {
-	ft_dprintf(2, "%s: syntax error near unexpected token '%c'\n",
-													SHELL_NAME, **s);
-	return (-2);
+	t_token	*new;
+
+	if ((new = init_token(0, *tkn)) == NULL)
+		return (-1);
+	if (**s == '|' && *(*s + 1) == '|')
+		new->type = T_OR;
+	else if (**s == '&' && *(*s + 1) == '&')
+		new->type = T_AND;
+	else if (**s == '|')
+		new->type = T_PIPE;
+	else
+		new->type = T_AMP;
+	if (**s == *(*s + 1))
+		*s += 2;
+	else
+		*s += 1;
+	new->complete = 1;
+	*tkn = new;
+	return (0);
 }

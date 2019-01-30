@@ -43,6 +43,8 @@ enum	e_tkn_type
 	T_ASSIGN,
 	T_AND,
 	T_OR,
+	T_PIPE,
+	T_AMP,
 	T_NEWLINE
 };
 
@@ -66,7 +68,7 @@ typedef struct		s_state_trans
 }					t_state_trans;
 
 enum e_signal		get_signal(char c);
-t_token				*init_token(int size);
+t_token				*init_token(int size, t_token *prev);
 
 /*
 ** FSM transition functions:

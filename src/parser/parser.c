@@ -21,7 +21,7 @@ static int	vector_size(t_token *tkn)
 	size = 0;
 	while (tkn)
 	{
-		if (tkn->type == CH_SEMICOLON)
+		if (tkn->type == T_NEWLINE)
 			return (size);
 		size++;
 		tkn = tkn->next;
@@ -34,7 +34,7 @@ static char	*get_value(t_token *tkn)
 	char	*tmp;
 	char	*ret;
 
-	if (tkn->type == CH_GENERAL)
+	if (tkn->type == T_WORD)
 		tmp = tkn->data;
 	else if (tkn->data[0] == '~')
 	{
