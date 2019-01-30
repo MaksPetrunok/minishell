@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/30 15:43:23 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:01:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int					tkn_append(t_token **tkn, char **s);
 // depending on curent status opens escape sequense:
 // S_GEN : |  &  ;  <  >  (  )  $  `  \  "  '  <space> \t \n #
 // S_DQT : $   `   "   \   \t \n
-int					tkn_escgen(t_token **tkn, char **s);
-int					tkn_escdqt(t_token **tkn, char **s);
+int					tkn_escape(t_token **tkn, char **s);
 
 // find all characters related to expansion and add them to token
 int					tkn_expans(t_token **tkn, char **s);

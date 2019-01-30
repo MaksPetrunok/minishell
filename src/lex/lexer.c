@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/30 17:09:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:10:13 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_state_trans	g_fsm_table[4][12] =
 	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
 	[S_GEN][CH_NLN] = {S_GEN, &tkn_newline},
 	[S_GEN][CH_SCL] = {S_GEN, &tkn_newline}, // semicolon
-	[S_GEN][CH_ESC] = {S_GEN, &tkn_escgen},
+	[S_GEN][CH_ESC] = {S_GEN, &tkn_escape},
 	[S_GEN][CH_SQT] = {S_SQT, &tkn_append},
 	[S_GEN][CH_DQT] = {S_DQT, &tkn_append},
 	[S_GEN][CH_EXP] = {S_GEN, &tkn_expans},
@@ -61,9 +61,9 @@ t_state_trans	g_fsm_table[4][12] =
 	[S_SQT][CH_HSH] = {S_SQT, &tkn_append},
 	[S_SQT][CH_WSP] = {S_SQT, &tkn_append},
 
-	[S_DQT][CH_GEN] = {S_GEN, &tkn_append},
+	[S_DQT][CH_GEN] = {S_DQT, &tkn_append},
 	[S_DQT][CH_NLN] = {S_DQT, &tkn_append},
-	[S_DQT][CH_ESC] = {S_DQT, &tkn_escdqt},
+	[S_DQT][CH_ESC] = {S_DQT, &tkn_escape},
 	[S_DQT][CH_SQT] = {S_DQT, &tkn_append},
 	[S_DQT][CH_DQT] = {S_GEN, &tkn_append},
 	[S_DQT][CH_EXP] = {S_DQT, &tkn_expans},
@@ -120,7 +120,7 @@ static void		connect_tokens(t_token *prev, t_token *new)
 	if (prev != NULL)
 	{
 		prev->next = new;
-		prev->complete = 1;
+		tkn_complete(&prev, 0);
 		new->prev = prev;
 	}
 	else
@@ -220,7 +220,7 @@ t_token			*tokenize(char *input)
 
 	if (!input)
 		return (0);
-ft_printf("DEBUG: start tokenizing\n");
+ft_printf("DEBUG: start tokenizing ----------------------------\n");
 	token = 0;
 	st = S_GEN;
 	if (iterate(input, &token, &st) == -1)
@@ -229,14 +229,14 @@ ft_printf("DEBUG: start tokenizing\n");
 		exit(0);                              // for debug
 		return (0);
 	}
-	debug_tknlist(token); // for debug
-	exit(0);              // for debug
 	if (st == S_SQT || st == S_DQT)
 	{
 		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
 		tknlst_free(token);
 		return (0);
 	}
+	debug_tknlist(token); // for debug
+	exit(0);              // for debug
 	return (token);
 }
 

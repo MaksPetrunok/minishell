@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/30 16:55:53 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:00:47 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,19 @@ int		tkn_append(t_token **tkn, char **s)
 /*
  * Process escape sequense according to POSIX for esc. sequense out of quotes.
  */
-int		tkn_escgen(t_token **tkn, char **s)
+int		tkn_escape(t_token **tkn, char **s)
 {
 	if (*(*s + 1) == '\n')
-		*s += 2;
+		*s += 1;
 	else
 	{
 		tkn_append(tkn, s);
 		if (**s != '\0')
+		{
+			(*s)++;
 			tkn_append(tkn, s);
+		}
 	}
-	return (0);
-}
-
-/*
- * Append backslash and escaped character to token.
- */
-int		tkn_escdqt(t_token **tkn, char **s)
-{
-	tkn_append(tkn, s);
-	if (**s != '\0')
-		tkn_append(tkn, s);
 	return (0);
 }
 
@@ -127,6 +119,24 @@ int		tkn_expans(t_token **tkn, char **s)
 	return (0);
 }
 
+
+
+static void	append_fd(t_token **tkn, char **s)
+{
+	if (*(*s + 1) == '-')
+	{
+		(*s)++;
+		tkn_append(tkn, s);
+	}
+	else
+	{
+		while (ft_isdigit(*(*s + 1)))
+		{
+			(*s)++;
+			tkn_append(tkn, s);
+		}
+	}
+}
 /*
  * Find all characters related to I/O redirection token and add to current token.
  * If all data contained at this point in the token represents a number - append 
@@ -138,25 +148,22 @@ int		tkn_ionumb(t_token **tkn, char **s)
 {
 	t_token	*new;
 
-	if (!(*tkn) || !(*tkn)->complete || !ft_isnumeric((*tkn)->data))
+	if (!(*tkn) || (*tkn)->complete || !ft_isnumeric((*tkn)->data))
 	{
-		if ((new = init_token(ft_strlen((*tkn)->data), *tkn)) == NULL)
+		if ((new = init_token(ft_strlen(*s), *tkn)) == NULL)
 			return (-1);
 		*tkn = new;
 	}
+	tkn_append(tkn, s);
 	if (ft_strnstr(*s, ">>", 2) == *s || ft_strnstr(*s, "<<", 2) == *s ||
 		ft_strnstr(*s, ">&", 2) == *s || ft_strnstr(*s, "<&", 2) == *s)
 	{
-		tkn_append(tkn, s);
+		(*s)++;
 		tkn_append(tkn, s);
 	}
-	else
-		tkn_append(tkn, s);
-	if (*(*s - 1) == '&' && **s == '-')
-		tkn_append(tkn, s);
-	else if (*(*s - 1) == '&')
-		while (ft_isdigit(**s))
-			tkn_append(tkn, s);
+
+	if (**s == '&')
+		append_fd(tkn, s);
 	(*tkn)->type = T_IO_NUM;
 	(*tkn)->complete = 1;
 	return (0);
@@ -187,17 +194,15 @@ int		tkn_logic(t_token **tkn, char **s)
 
 	if ((new = init_token(0, *tkn)) == NULL)
 		return (-1);
-	if (**s == '|' && *(*s + 1) == '|')
+	if (ft_strnstr(*s, "||", 2) == *s)
 		new->type = T_OR;
-	else if (**s == '&' && *(*s + 1) == '&')
+	else if (ft_strnstr(*s, "&&", 2) == *s)
 		new->type = T_AND;
 	else if (**s == '|')
 		new->type = T_PIPE;
 	else
 		new->type = T_AMP;
 	if (**s == *(*s + 1))
-		*s += 2;
-	else
 		*s += 1;
 	new->complete = 1;
 	*tkn = new;
