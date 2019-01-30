@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/28 18:37:36 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/30 15:43:23 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,36 @@ enum	e_state
 {
 	S_GEN,
 	S_SQT,
-	S_DQT
+	S_DQT,
+	S_HSH
 };
 
 enum	e_signal
 {
 	CH_GEN,
 	CH_NLN,
+	CH_SCL,
 	CH_ESC,
 	CH_SQT,
 	CH_DQT,
 	CH_EXP,
 	CH_IOR,
 	CH_LOG,
-	CH_WSP
+	CH_EQU,
+	CH_WSP,
+	CH_HSH
 };
 
 enum	e_tkn_type
 {
 	T_WORD,
-	T_IO_NUM,
+	T_IO_NUM,	// auto
 	T_ASSIGN,
-	T_AND,
-	T_OR,
-	T_PIPE,
-	T_AMP,
-	T_NEWLINE
+	T_AND,		//auto
+	T_OR,		//auto
+	T_PIPE,		//auto
+	T_AMP,		//auto
+	T_NEWLINE	//auto
 };
 
 typedef struct s_token	t_token;
@@ -56,6 +60,7 @@ struct				s_token
 	int				pos;
 	int				complete;
 	char			type;
+	t_token			*prev;
 	t_token			*next;
 };
 
@@ -95,5 +100,7 @@ int					tkn_complete(t_token **tkn, char **s);
 // check if it is logical operator (&& or ||), pipe(|) or single &
 // delimit current tkn, create new corresponding token and delimit it as well
 int					tkn_logic(t_token **tkn, char **s);
+// check if it is valid variable assignment and make corresponding token
+int					tkn_assign(t_token **tkn, char **s);
 
 #endif

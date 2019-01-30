@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/28 19:28:07 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/30 16:55:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,12 @@ int		tkn_ionumb(t_token **tkn, char **s)
 int		tkn_complete(t_token **tkn, char **s)
 {
 	(void)s;
-	(*tkn)->complete = 1;
+	if (*tkn)
+	{
+		(*tkn)->complete = 1;
+		if ((*tkn)->type == -1)
+			(*tkn)->type = T_WORD;
+	}
 	return (0);
 }
 
@@ -196,5 +201,38 @@ int		tkn_logic(t_token **tkn, char **s)
 		*s += 1;
 	new->complete = 1;
 	*tkn = new;
+	return (0);
+}
+
+static int	contains_name(char *str)
+{
+	if (!(*str) || (!ft_isalpha(*str) && *str != '_'))
+		return (0);
+	else
+		str++;
+	while (*str)
+	{
+		if (ft_isalnum(*str) || *str == '_')
+			str++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+int		tkn_assign(t_token **tkn, char **s)
+{
+	if (*tkn && !((*tkn)->complete) &&
+		(
+			(*tkn)->prev == NULL ||
+			(*tkn)->prev->type == T_NEWLINE ||
+			(*tkn)->prev->type == T_ASSIGN
+		) &&
+		contains_name((*tkn)->data)
+	)
+	{
+		(*tkn)->type = T_ASSIGN;
+	}
+	tkn_append(tkn, s);
 	return (0);
 }

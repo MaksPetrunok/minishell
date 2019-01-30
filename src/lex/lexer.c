@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/28 19:12:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/01/30 17:09:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,19 @@
 
 // Add hash # recognition for comments handling
 
-t_state_trans	g_fsm_table[3][9] =
+t_state_trans	g_fsm_table[4][12] =
 {
 	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
 	[S_GEN][CH_NLN] = {S_GEN, &tkn_newline},
+	[S_GEN][CH_SCL] = {S_GEN, &tkn_newline}, // semicolon
 	[S_GEN][CH_ESC] = {S_GEN, &tkn_escgen},
 	[S_GEN][CH_SQT] = {S_SQT, &tkn_append},
 	[S_GEN][CH_DQT] = {S_DQT, &tkn_append},
 	[S_GEN][CH_EXP] = {S_GEN, &tkn_expans},
 	[S_GEN][CH_IOR] = {S_GEN, &tkn_ionumb},
 	[S_GEN][CH_LOG] = {S_GEN, &tkn_logic},
+	[S_GEN][CH_EQU] = {S_GEN, &tkn_assign},
+	[S_GEN][CH_HSH] = {S_HSH, NULL},
 	[S_GEN][CH_WSP] = {S_GEN, &tkn_complete},
 
 	[S_SQT][CH_GEN] = {S_SQT, &tkn_append},
@@ -54,6 +57,8 @@ t_state_trans	g_fsm_table[3][9] =
 	[S_SQT][CH_EXP] = {S_SQT, &tkn_append},
 	[S_SQT][CH_IOR] = {S_SQT, &tkn_append},
 	[S_SQT][CH_LOG] = {S_SQT, &tkn_append},
+	[S_SQT][CH_EQU] = {S_SQT, &tkn_append},
+	[S_SQT][CH_HSH] = {S_SQT, &tkn_append},
 	[S_SQT][CH_WSP] = {S_SQT, &tkn_append},
 
 	[S_DQT][CH_GEN] = {S_GEN, &tkn_append},
@@ -64,7 +69,22 @@ t_state_trans	g_fsm_table[3][9] =
 	[S_DQT][CH_EXP] = {S_DQT, &tkn_expans},
 	[S_DQT][CH_IOR] = {S_DQT, &tkn_append},
 	[S_DQT][CH_LOG] = {S_DQT, &tkn_append},
-	[S_DQT][CH_WSP] = {S_DQT, &tkn_append}
+	[S_DQT][CH_EQU] = {S_DQT, &tkn_append},
+	[S_DQT][CH_HSH] = {S_DQT, &tkn_append},
+	[S_DQT][CH_WSP] = {S_DQT, &tkn_append},
+
+	[S_HSH][CH_GEN] = {S_HSH, NULL},
+	[S_HSH][CH_NLN] = {S_GEN, NULL},
+	[S_HSH][CH_SCL] = {S_HSH, NULL},
+	[S_HSH][CH_ESC] = {S_HSH, NULL},
+	[S_HSH][CH_SQT] = {S_HSH, NULL},
+	[S_HSH][CH_DQT] = {S_HSH, NULL},
+	[S_HSH][CH_EXP] = {S_HSH, NULL},
+	[S_HSH][CH_IOR] = {S_HSH, NULL},
+	[S_HSH][CH_LOG] = {S_HSH, NULL},
+	[S_HSH][CH_EQU] = {S_HSH, NULL},
+	[S_HSH][CH_HSH] = {S_HSH, NULL},
+	[S_HSH][CH_WSP] = {S_HSH, NULL}
 };
 
 enum e_signal	get_signal(char c)
@@ -83,8 +103,14 @@ enum e_signal	get_signal(char c)
 		return (CH_LOG);
 	else if (c == ' ' || c == '\t')
 		return (CH_WSP);
-	else if (c == ';' || c == '\n' || c == '\0')
+	else if (c == '\n')
 		return (CH_NLN);
+	else if (c == ';')
+		return (CH_SCL);
+	else if (c == '#')
+		return (CH_HSH);
+	else if (c == '=')
+		return (CH_EQU);
 	else 
 		return (CH_GEN);
 }
@@ -95,8 +121,10 @@ static void		connect_tokens(t_token *prev, t_token *new)
 	{
 		prev->next = new;
 		prev->complete = 1;
+		new->prev = prev;
 	}
-	//check token type here???
+	else
+		new->prev = NULL;
 }
 
 /*
@@ -154,6 +182,8 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 		input++;
 	}
 	*lst = head;
+	if (token && token->type == -1)
+		token->type = T_WORD;
 	return (0);
 }
 
@@ -177,7 +207,7 @@ static void	debug_tknlist(t_token *lst)
 {
 	while (lst)
 	{
-		ft_printf("Type: %s, data: %s\n", get_type(lst->type), lst->data);
+		ft_printf("%s: %s\n", get_type(lst->type), lst->data);
 		lst = lst->next;
 	}
 }
