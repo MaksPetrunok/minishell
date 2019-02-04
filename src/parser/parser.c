@@ -12,6 +12,28 @@
 
 #include "minishell.h"
 
+/* Syntax:
+
+T_WORD
+T_IO_NUM
+T_ASSIGN
+T_AND
+T_OR
+T_PIPE
+T_AMP
+T_NEWLINE
+
+input			: command_list
+
+command_list	: logic_list
+				  logic_list delimiter
+
+
+delimiter		: T_NEWLINE
+
+ */
+
+
 t_shell	g_shell;
 
 static int	vector_size(t_token *tkn)
