@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+char *get_tkn_type(enum e_tkn_type type)
+{
+	switch (type)
+	{
+		case T_WORD: 	return "WORD"; break;
+		case T_IO_NUM: 	return "I/O"; break;
+		case T_ASSIGN: 	return "ASSI"; break;
+		case T_AND: 	return "&&"; break;
+		case T_OR:		return "||"; break;
+		case T_AMP:		return "&"; break;
+		case T_PIPE:	return "|"; break;
+		case T_NEWLINE: return "N/L"; break;
+		default:		return "!N/A";
+	}
+}
+
 /*
  * Mark current token as complete, make T_NEWLINE token and mark as complete.
  */

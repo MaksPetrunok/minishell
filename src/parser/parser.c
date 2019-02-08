@@ -22,117 +22,68 @@ T_OR
 T_PIPE
 T_AMP
 T_NEWLINE
+*/
 
-input			: command_list
+/*
+ * Takes a list of tokens as input and returns an executable tree.
+ * If input is NULL or there is a syntax error returns NULL.
+*/
 
-command_list	: logic_list
-				  logic_list delimiter
+/*
+ * NoTES:
+ * |, &&, || operators must have not empty right child node!
+*/
 
-
-delimiter		: T_NEWLINE
-
- */
-
-
-t_shell	g_shell;
-
-static int	vector_size(t_token *tkn)
+t_exec_tree	*parse(t_token *tkn)
 {
-	int	size;
+	t_exec_tree	*root;
+	t_exec_tree	*node;
 
-	size = 0;
+	if (tkn == NULL || (root = init_node(NULL)) == NULL)
+		return (NULL);
+	node = root;
 	while (tkn)
 	{
-		if (tkn->type == T_NEWLINE)
-			return (size);
-		size++;
+		if (tkn->type == T_IO_NUM &&
+			(tkn->next == NULL || tkn->next->type != T_WORD))
+		{
+			ft_dprintf(2, "syntax error near unexpected token: '%s'\n",
+			(tkn->next == NULL) ? "newline" : get_tkn_type(tkn->next->type));
+			// free root
+			return (NULL);
+		}
+		if (node->left == NULL)
+		{
+			// handle T_NEWLINEs properly
+			if (tkn->type == T_WORD || tkn->type == T_IO_NUM)
+			{
+				if ((node->left = init_node(tkn)) == NULL) // create new node with data=current token
+				{
+					// free root
+					return (NULL);
+				}
+				ft_printf("New left token: %s\n", tkn->data); // debug
+			}
+			else
+			{
+				ft_dprintf(2, "syntax error near unexpected token: '%s'\n",
+				(tkn->data == NULL) ? get_tkn_type(tkn->type) : tkn->data);
+				// use proper token name for error report
+				// free memory used by exec_tree
+				return (NULL);
+			}
+		}
+		else if (tkn->type != T_WORD && tkn->type != T_IO_NUM && tkn->type != T_PIPE)
+		{
+			node->tkn = tkn;			// set current node data to tkn
+			node->right = init_node(NULL);	// create empty node on right
+			node = node->right;			// and make it current node
+			tkn->prev->next = NULL;		// break token chain for left node, leave only words and IO_redir.
+			ft_printf("Add operator: %d\n", tkn->type);
+		}
+ft_printf("Adding token: %s\n", tkn->data);
 		tkn = tkn->next;
 	}
-	return (size);
-}
-
-static char	*get_value(t_token *tkn)
-{
-	char	*tmp;
-	char	*ret;
-
-	if (tkn->type == T_WORD)
-		tmp = tkn->data;
-	else if (tkn->data[0] == '~')
-	{
-		if (tkn->data[1] == '\0')
-			tmp = get_var("HOME", g_shell.environ);
-		else
-			tmp = ft_strdup(tkn->data);
-	}
-	else if (tkn->data[0] == '$' && tkn->data[1] == '?')
-	{
-		tmp = ft_itoa(g_shell.last_ret);
-		ret = ft_strjoin(tmp, tkn->data + 2);
-		free((void *)tmp);
-		return (ret);
-	}
-	else
-		tmp = get_var(tkn->data + 1, g_shell.environ);
-	ret = (tmp == 0) ? ft_strnew(0) : ft_strdup(tmp);
-	return (ret);
-}
-
-static char	*join(char *s1, char *s2)
-{
-	char	*tmp;
-
-	if (s1 == 0 && s2 == 0)
-		return (0);
-	else if (s1 == 0)
-		tmp = ft_strdup(s2);
-	else if (s2 == 0)
-		tmp = ft_strdup(s1);
-	else
-		tmp = ft_strjoin(s1, s2);
-	free((void *)s1);
-	free((void *)s2);
-	return (tmp);
-}
-
-static int	set_argument(char ***vect, t_token **tkn)
-{
-	char	*buff;
-	char	**av;
-
-	av = *vect;
-	buff = get_value(*tkn);
-	if (!buff && !(*av))
-		return (0);
-	if ((*tkn)->complete)
-	{
-		*av = join(*av, buff);
-		(*vect)++;
-	}
-	else
-		*av = join(*av, buff);
-	return (1);
-}
-
-char		**parse_cmd(t_token **tkn)
-{
-	char	**av;
-	char	**ref;
-	int		size;
-	int		increment;
-
-	size = vector_size(*tkn);
-	if (size == 0 || (av = ft_memalloc(sizeof(char **) * (size + 1))) == 0)
-		return (0);
-	ref = av;
-	while (*tkn && size-- > 0)
-	{
-		increment = (*tkn)->complete;
-		if (set_argument(&av, tkn) == 0)
-			return (0);
-		*tkn = (*tkn)->next;
-	}
-	av = increment ? av : av + 1;
-	*av = 0;
-	return (ref);
+	ft_printf("END PARSING\n-----------------------------------\n"); // debug
+	return (root);
 }

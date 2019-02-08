@@ -78,7 +78,8 @@ int		process_input(char *input)
 	tkn_ptr = tkn_lst;
 	while (tkn_ptr && run && g_shell.run)
 	{
-		run = process_cmd(parse_cmd(&tkn_ptr));
+//		run = process_cmd(parse_cmd(&tkn_ptr));
+		run = execute_tree(parse(tkn_lst)); // return proper value
 		if (tkn_ptr && tkn_ptr->type == T_NEWLINE)
 			tkn_ptr = tkn_ptr->next;
 	}

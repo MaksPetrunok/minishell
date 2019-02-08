@@ -236,7 +236,8 @@ ft_printf("DEBUG: start tokenizing ----------------------------\n");
 		return (0);
 	}
 	debug_tknlist(token); // for debug
-	exit(0);              // for debug
+	//exit(0);              // for debug
+	ft_printf("========== END LEXER ===============\n");
 	return (token);
 }
 

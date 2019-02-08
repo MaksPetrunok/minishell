@@ -72,8 +72,11 @@ typedef struct		s_state_trans
 	t_lex_func		func;
 }					t_state_trans;
 
+t_token				*tokenize(char *s);
+
 enum e_signal		get_signal(char c);
 t_token				*init_token(int size, t_token *prev);
+char				*get_tkn_type(enum e_tkn_type type);
 
 /*
 ** FSM transition functions:

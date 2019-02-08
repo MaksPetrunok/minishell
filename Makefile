@@ -42,6 +42,8 @@ DIR_LST = $(OBJ_DIR) \
 
 MAIN_FILES = main.c \
 			exec/execute.c \
+			exec/tree.c \
+			exec/exec_tree.c \
 			err/err.c \
 			\
 			sig/signal.c \

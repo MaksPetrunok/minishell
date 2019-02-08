@@ -20,6 +20,8 @@
 # include "err.h"
 # include "builtin.h"
 # include "lexer.h"
+# include "parser.h"
+# include "exec.h"
 # include "autocomp.h"
 # include "cursor.h"
 # include "history.h"
@@ -39,8 +41,7 @@
 extern t_shell	g_shell;
 
 void	show_prompt(void);
-t_token	*tokenize(char *s);
-char	**parse_cmd(t_token **tkn);
+//char	**parse_cmd(t_token **tkn);
 
 /*
 ** Freeing allocated data.
