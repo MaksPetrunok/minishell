@@ -4,3 +4,25 @@
 
 
 REMOVE tree.c
+
+
+
+complete_command		: command_redir
+						| assign command_redir
+
+command_redir			: command
+						| redir
+						| command_redir command
+						| command_redir	redir
+
+assign					: assign T_ASSIGN
+						| T_ASSIGN
+
+redir					: redir redir_num
+						| redir_num
+
+redir_num				: T_IO_NUM T_WORD
+
+command					: command T_WORD
+						| T_WORD
+
