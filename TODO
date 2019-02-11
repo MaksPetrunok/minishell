@@ -1,3 +1,6 @@
 1. Spaces within expansion ${...} works as token delimiters. Need fix.
 2. No warning/error for ... ${ (not enclosed).
 3. Do not recognize [n]>&[number]. Just [n]>& word.
+
+
+REMOVE tree.c

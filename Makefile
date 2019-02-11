@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/01/06 20:40:47 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/11 22:23:52 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,6 @@ DIR_LST = $(OBJ_DIR) \
 
 MAIN_FILES = main.c \
 			exec/execute.c \
-			exec/tree.c \
 			exec/exec_tree.c \
 			err/err.c \
 			\
