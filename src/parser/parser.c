@@ -99,11 +99,14 @@ t_token	*get_next(enum e_ntype type, t_token *lst)
 int		split_node(t_ast *node, t_token *delim)
 {
 	//handle multiple newline tokens
-	if (node->tkn_lst == delim || delim->next == NULL)
+	if ((node->tkn_lst == delim || delim->next == NULL) && delim->type != T_NEWLINE)
 	{
 		ft_dprintf(2, "syntax error near token '%d', two operands expected\n", delim->type);
 		return (0);
 	}
+	//if (!tokens || tokens->type == T_NEWLINE)
+	//	return (NULL);
+	// check conditions here and assign NULL to child nodes if required
 	if ((node->left = make_node(node->type - 1, node->tkn_lst)) == NULL ||
 		(node->right = make_node(node->type, delim->next)) == NULL)
 	{
