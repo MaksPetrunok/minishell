@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/11 22:44:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/12 23:08:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,34 @@ split_node(t_ast node,
 							- build_tree_from(right)
 */
 
+t_token	*skip_token(t_token *tkn)
+{
+	t_token	*tmp;
+
+	tmp = tkn;
+	tkn = tkn->next;
+	if (tkn)
+		tkn->prev = NULL;
+	free(tmp->data);
+	free(tmp);
+	return (tkn);
+}
+
 int		build_tree_from(t_ast *node)
 {
 	t_token	*delim;
 
-	if (node->type == COMMAND)
+	if (node->type == COMMAND || node->tkn_lst == NULL)
 		return (1);
+	while (node->tkn_lst && node->tkn_lst->type == T_NEWLINE)
+		node->tkn_lst = skip_token(node->tkn_lst);
 	if ((delim = get_next(node->type, node->tkn_lst)) == NULL)
 	{
 		node->type--;
 		return (build_tree_from(node));
 	}
+	else if (delim->type == T_NEWLINE && delim->next == NULL)
+		return (1);
 	else
 		return (split_node(node, delim));
 }
@@ -98,15 +115,11 @@ t_token	*get_next(enum e_ntype type, t_token *lst)
 // returns 0 on error (syntax, allocation, etc)
 int		split_node(t_ast *node, t_token *delim)
 {
-	//handle multiple newline tokens
 	if ((node->tkn_lst == delim || delim->next == NULL) && delim->type != T_NEWLINE)
 	{
 		ft_dprintf(2, "syntax error near token '%d', two operands expected\n", delim->type);
 		return (0);
 	}
-	//if (!tokens || tokens->type == T_NEWLINE)
-	//	return (NULL);
-	// check conditions here and assign NULL to child nodes if required
 	if ((node->left = make_node(node->type - 1, node->tkn_lst)) == NULL ||
 		(node->right = make_node(node->type, delim->next)) == NULL)
 	{

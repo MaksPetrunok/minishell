@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 20:42:56 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/12 22:43:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		process_input(char *input)
 {
 	t_token	*tkn_lst;
 	t_token	*tkn_ptr;
+	t_ast	*root;
 	int		run;
 
 	run = 1;
@@ -76,14 +77,17 @@ int		process_input(char *input)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
 	tkn_ptr = tkn_lst;
-	while (tkn_ptr && run && g_shell.run)
-	{
+//	while (tkn_ptr && run && g_shell.run)
+//	{
 //		run = process_cmd(parse_cmd(&tkn_ptr));
-		run = execute_tree(parse(tkn_lst)); // return proper value
-		if (tkn_ptr && tkn_ptr->type == T_NEWLINE)
-			tkn_ptr = tkn_ptr->next;
-	}
-	tknlst_free(tkn_lst);
+		root = parse(tkn_lst);
+		run = execute_tree(root); // return proper value
+//		if (tkn_ptr && tkn_ptr->type == T_NEWLINE)
+//			tkn_ptr = tkn_ptr->next;
+//		ft_printf("----------------- yoyo -------------\n");
+//	}
+//	free_tree(root);
+	//tknlst_free(tkn_lst);
 	return (run);
 }
 

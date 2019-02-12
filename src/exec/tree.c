@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/27 17:12:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/12 22:42:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_exec_tree	*init_node(t_token *token)
 	return (node);
 }
 
-void		free_tree(t_exec_tree *root)
+void		free_tree(t_ast *root)
 {
 	if (root->left)
 		free_tree(root->left);
