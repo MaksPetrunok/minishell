@@ -127,7 +127,7 @@ int		split_node(t_ast *node, t_token *delim)
 		return (0);
 	}
 	delim->prev->next = NULL;
-	// free node properly !!!!!!!!!!!!!!! IMPORTANT !!!
+	skip_token(delim);	// free delim token
 	return (build_tree_from(node->left) &&
 			build_tree_from(node->right));
 }

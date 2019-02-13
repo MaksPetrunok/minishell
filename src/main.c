@@ -67,7 +67,7 @@ void	show_prompt(void)
 int		process_input(char *input)
 {
 	t_token	*tkn_lst;
-	t_token	*tkn_ptr;
+//	t_token	*tkn_ptr;
 	t_ast	*root;
 	int		run;
 
@@ -76,7 +76,7 @@ int		process_input(char *input)
 	if (!g_shell.canonical)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
-	tkn_ptr = tkn_lst;
+//	tkn_ptr = tkn_lst;
 //	while (tkn_ptr && run && g_shell.run)
 //	{
 //		run = process_cmd(parse_cmd(&tkn_ptr));
