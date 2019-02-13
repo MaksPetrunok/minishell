@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/12 22:39:42 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/13 18:11:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	execute_tree(t_ast *root)
 			root->tkn_lst = root->tkn_lst->next;
 		}
 		ft_putstr("\n");
-		return (1);
+		return (1); //
 	}
 	else
 	{

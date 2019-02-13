@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 16:55:03 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/11 22:16:14 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/13 17:44:05 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void				free_tree(t_ast *root);
 /*
 ** node.c
 */
+
 // try to build tree starting from node
 // if successfull - return 1, else return 0
 int					build_tree_from(t_ast *node);
@@ -59,5 +60,7 @@ t_ast				*make_node(enum e_ntype type, t_token *tkn);
 
 t_ast				*parse(t_token *lst);
 
+// free passed token and return pointer to the next token
+t_token				*skip_token(t_token *tkn);
 
 #endif

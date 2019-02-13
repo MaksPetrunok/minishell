@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/12 23:08:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/13 20:43:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ split_node(t_ast node,
 							- build_tree_from(left)
 							- build_tree_from(right)
 */
+static char	*token_to_str(t_token *tkn)
+{
+	if (tkn->type == T_NEWLINE)
+		return (";");
+	else if (tkn->type == T_PIPE)
+		return ("|");
+	else if (tkn->type == T_OR)
+		return ("||");
+	else if (tkn->type == T_AND)
+		return ("&&");
+	else
+		return (tkn->data);
+}
 
 t_token	*skip_token(t_token *tkn)
 {
@@ -70,12 +83,31 @@ t_token	*skip_token(t_token *tkn)
 	return (tkn);
 }
 
+
+int		check_cmd(t_token *tkn)
+{
+	while (tkn)
+	{
+		if (tkn->type == T_IO_NUM &&
+			(tkn->next == NULL || tkn->next->type != T_WORD))
+		{
+			ft_printf("syntax error after token '%s'\n", token_to_str(tkn));
+			return (0);
+		}
+		tkn = (tkn->type == T_IO_NUM) ? tkn->next->next : tkn->next;
+	}
+	return (1);
+}
+
 int		build_tree_from(t_ast *node)
 {
 	t_token	*delim;
-
-	if (node->type == COMMAND || node->tkn_lst == NULL)
+	if (node->tkn_lst == NULL)
 		return (1);
+	if (node->type == COMMAND)
+		//return (1);
+		return (check_cmd(node->tkn_lst));
+
 	while (node->tkn_lst && node->tkn_lst->type == T_NEWLINE)
 		node->tkn_lst = skip_token(node->tkn_lst);
 	if ((delim = get_next(node->type, node->tkn_lst)) == NULL)
@@ -84,7 +116,12 @@ int		build_tree_from(t_ast *node)
 		return (build_tree_from(node));
 	}
 	else if (delim->type == T_NEWLINE && delim->next == NULL)
-		return (1);
+	{
+		delim->prev->next = NULL;
+		skip_token(delim);
+		node->type--;
+		return (build_tree_from(node));
+	}
 	else
 		return (split_node(node, delim));
 }
@@ -111,13 +148,24 @@ t_token	*get_next(enum e_ntype type, t_token *lst)
 	return (lst);
 }
 
+static void	print_tokens(t_token *tkn)
+{
+	while (tkn)
+	{
+		char *s = token_to_str(tkn);
+		ft_printf("%s ", s);
+		tkn=tkn->next;
+	}
+	ft_putstr("\n");
+}
+
 // returns 1 upon successfull subtree creation (recursively)
 // returns 0 on error (syntax, allocation, etc)
 int		split_node(t_ast *node, t_token *delim)
 {
 	if ((node->tkn_lst == delim || delim->next == NULL) && delim->type != T_NEWLINE)
 	{
-		ft_dprintf(2, "syntax error near token '%d', two operands expected\n", delim->type);
+		ft_dprintf(2, "syntax error near token '%s'\n", token_to_str(delim));
 		return (0);
 	}
 	if ((node->left = make_node(node->type - 1, node->tkn_lst)) == NULL ||
@@ -127,7 +175,11 @@ int		split_node(t_ast *node, t_token *delim)
 		return (0);
 	}
 	delim->prev->next = NULL;
-	skip_token(delim);	// free delim token
+	delim->next = NULL;
+	node->tkn_lst = delim;
+ft_printf("NODE: "); print_tokens(node->tkn_lst);
+ft_printf("   L: "); print_tokens(node->left->tkn_lst);
+ft_printf("   R: "); print_tokens(node->right->tkn_lst);
 	return (build_tree_from(node->left) &&
 			build_tree_from(node->right));
 }
@@ -144,6 +196,8 @@ t_ast	*make_node(enum e_ntype type, t_token *tokens)
 	}
 	node->tkn_lst = tokens;
 	node->type = type;
+	node->left = NULL;
+	node->right = NULL;
 	return (node);
 }
 
@@ -152,14 +206,17 @@ t_ast	*parse(t_token *lst)
 {
 	t_ast *root;
 
-	if (!lst ||
-		(root = make_node(NEWLINE, lst)) == NULL)
+	if (!lst || (root = make_node(NEWLINE, lst)) == NULL)
 		return (NULL);
-	if (build_tree_from(root))
-		return (root);
+	build_tree_from(root);
+	return (root);
+	/*
 	else
 	{
-		//free_tree(root); write implementation
+		ft_printf("----------- freeing tree on error -------------\n");
+		free_tree(root);
+		ft_printf("----------- freeing tree on error /-------------\n");
 		return (NULL);
 	}
+	*/
 }

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/12 22:43:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/13 20:43:44 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	show_prompt(void)
 int		process_input(char *input)
 {
 	t_token	*tkn_lst;
-//	t_token	*tkn_ptr;
 	t_ast	*root;
 	int		run;
 
@@ -76,18 +75,17 @@ int		process_input(char *input)
 	if (!g_shell.canonical)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
-//	tkn_ptr = tkn_lst;
-//	while (tkn_ptr && run && g_shell.run)
-//	{
-//		run = process_cmd(parse_cmd(&tkn_ptr));
-		root = parse(tkn_lst);
-		run = execute_tree(root); // return proper value
-//		if (tkn_ptr && tkn_ptr->type == T_NEWLINE)
-//			tkn_ptr = tkn_ptr->next;
-//		ft_printf("----------------- yoyo -------------\n");
-//	}
-//	free_tree(root);
-	//tknlst_free(tkn_lst);
+	ft_printf("INPUT: %s<<<\n", input);
+	root = NULL;
+	if ((root = parse(tkn_lst)) != NULL)
+	; //	run = execute_tree(root); // return proper value
+	free_tree(root);
+	ft_printf("Token list tip: %p\n", tkn_lst);
+	root = NULL;
+	tkn_lst = NULL;
+	ft_printf("---------------------------------------\n");
+	system("leaks minishell");
+	ft_printf("---------------------------------------\n");
 	return (run);
 }
 
