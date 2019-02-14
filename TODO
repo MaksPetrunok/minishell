@@ -11,6 +11,10 @@
 
 4. Make function which performs expansions.
 
+5. Handle && ||.
+
+
+
 
 
 
@@ -37,3 +41,17 @@ redir_num				: T_IO_NUM T_WORD
 command					: command T_WORD
 						| T_WORD
 
+1. Path rights
+
+2. Autocompletion
+
+3. Ctrl+R history search
+
+4. Hash-table for binaries
+
+5. Other
+5.1. Local variable or assignment to PATH with VAR=Value
+5.2. && ||
+5.3. Reading instructions from file
+5.4. Accomplish instructions in sub-shell?
+5.5. export builtin
