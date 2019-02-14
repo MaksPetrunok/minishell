@@ -21,7 +21,8 @@ enum	e_ntype
 	PIPE = 1,
 	AND = 2,
 	OR = 3,
-	NEWLINE = 4
+	SEMI = 4,
+	NEWLINE = 5
 };
 
 typedef struct s_ast	t_ast;

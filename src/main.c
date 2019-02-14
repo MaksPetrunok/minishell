@@ -78,7 +78,7 @@ int		process_input(char *input)
 	ft_printf("INPUT: %s<<<\n", input);
 	root = NULL;
 	if ((root = parse(tkn_lst)) != NULL)
-	; //	run = execute_tree(root); // return proper value
+		{}; //	run = execute_tree(root); // return proper value
 	free_tree(root);
 	ft_printf("Token list tip: %p\n", tkn_lst);
 	root = NULL;

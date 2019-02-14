@@ -1,1 +1,0 @@
-kill `ps | grep -v grep | grep minishell | cut -f 1 -d " "`

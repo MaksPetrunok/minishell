@@ -49,6 +49,7 @@ enum	e_tkn_type
 	T_OR,		//auto
 	T_PIPE,		//auto
 	T_AMP,		//auto
+	T_SEMI,
 	T_NEWLINE	//auto
 };
 

@@ -24,6 +24,7 @@ char *get_tkn_type(enum e_tkn_type type)
 		case T_AMP:		return "&"; break;
 		case T_PIPE:	return "|"; break;
 		case T_NEWLINE: return "N/L"; break;
+		case T_SEMI:	return ";"; break;
 		default:		return "!N/A";
 	}
 }
@@ -38,7 +39,7 @@ int		tkn_newline(t_token **tkn, char **s)
 	(void)s;
 	if ((new = init_token(0, *tkn)) == NULL)
 		return (-1);
-	new->type = T_NEWLINE;
+	new->type = (**s == ';') ? T_SEMI : T_NEWLINE;
 	new->complete = 1;
 	*tkn = new;
 	return (0);
@@ -108,9 +109,12 @@ int		open_braces(t_token **tkn, char **s, char br)
 		else if (**s == '}')
 			count--;
 		tkn_append(tkn, s);
+		(*s)++;
 		if (count == 0)
 			break ;
 	}
+	if (**s == '\0' || count == 0)
+		(*s)--;
 	return (count);
 }
 
@@ -119,40 +123,26 @@ int		open_braces(t_token **tkn, char **s, char br)
  */
 int		tkn_expans(t_token **tkn, char **s)
 {
+	int	braces_rem;
+
+	// unquoted $ on input
 	tkn_append(tkn, s);
+	(*s)++;
 	if (**s == '{')
 	{
 		tkn_append(tkn, s);
-		if (open_braces(tkn, s, '{') != 0)
+		(*s)++;
+		braces_rem = open_braces(tkn, s, '{');
+		if (braces_rem != 0)
 		{
 			ft_dprintf(2, "no matching '}' brace found\n");
 			return (-1);
 		}
+ft_printf("(((BRACES REMAINING: %d)))\n", braces_rem);
 	}
-	else
-		while (**s && ft_isalnum(**s))
-			tkn_append(tkn, s);
 	return (0);
 }
 
-
-
-static void	append_fd(t_token **tkn, char **s)
-{
-	if (*(*s + 1) == '-')
-	{
-		(*s)++;
-		tkn_append(tkn, s);
-	}
-	else
-	{
-		while (ft_isdigit(*(*s + 1)))
-		{
-			(*s)++;
-			tkn_append(tkn, s);
-		}
-	}
-}
 /*
  * Find all characters related to I/O redirection token and add to current token.
  * If all data contained at this point in the token represents a number - append 
@@ -178,8 +168,8 @@ int		tkn_ionumb(t_token **tkn, char **s)
 		tkn_append(tkn, s);
 	}
 
-	if (**s == '&')
-		append_fd(tkn, s);
+//	if (**s == '&')
+//		append_fd(tkn, s);
 	(*tkn)->type = T_IO_NUM;
 	(*tkn)->complete = 1;
 	return (0);
@@ -247,6 +237,7 @@ int		tkn_assign(t_token **tkn, char **s)
 		(
 			(*tkn)->prev == NULL ||
 			(*tkn)->prev->type == T_NEWLINE ||
+			(*tkn)->prev->type == T_SEMI ||
 			(*tkn)->prev->type == T_ASSIGN
 		) &&
 		contains_name((*tkn)->data)

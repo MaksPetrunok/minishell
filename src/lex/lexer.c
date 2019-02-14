@@ -199,6 +199,7 @@ static char *get_type(enum e_tkn_type type)
 		case T_AMP:		return " AMP"; break;
 		case T_PIPE:	return "PIPE"; break;
 		case T_NEWLINE: return " N/L"; break;
+		case T_SEMI:	return "SEMI"; break;
 		default:		return "!N/A";
 	}
 }

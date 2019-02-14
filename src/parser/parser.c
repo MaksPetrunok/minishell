@@ -22,6 +22,7 @@ T_OR
 T_PIPE
 T_AMP
 T_NEWLINE
+T_SEMI
 
 ALGORYTHM DESCRIPTION:
 
@@ -58,8 +59,10 @@ split_node(t_ast node,
 */
 static char	*token_to_str(t_token *tkn)
 {
-	if (tkn->type == T_NEWLINE)
+	if (tkn->type == T_SEMI)
 		return (";");
+	else if (tkn->type == T_NEWLINE)
+		return ("newline");
 	else if (tkn->type == T_PIPE)
 		return ("|");
 	else if (tkn->type == T_OR)
@@ -105,7 +108,6 @@ int		build_tree_from(t_ast *node)
 	if (node->tkn_lst == NULL)
 		return (1);
 	if (node->type == COMMAND)
-		//return (1);
 		return (check_cmd(node->tkn_lst));
 
 	while (node->tkn_lst && node->tkn_lst->type == T_NEWLINE)
@@ -131,13 +133,15 @@ static enum e_ntype	type_trans(enum e_tkn_type type)
 {
 	if (type == T_NEWLINE)
 		return NEWLINE;
-   else if (type == T_OR)
+	else if (type == T_SEMI)
+		return SEMI;
+	else if (type == T_OR)
 		return OR;
-   else if (type == T_AND)
+	else if (type == T_AND)
 		return AND;
-   else if (type == T_PIPE)
+	else if (type == T_PIPE)
 		return PIPE;
-   else
+	else
 		return COMMAND;
 }
 
@@ -163,11 +167,17 @@ static void	print_tokens(t_token *tkn)
 // returns 0 on error (syntax, allocation, etc)
 int		split_node(t_ast *node, t_token *delim)
 {
-	if ((node->tkn_lst == delim || delim->next == NULL) && delim->type != T_NEWLINE)
+	ft_printf("Before ERROR\n");
+	if ((node->tkn_lst == delim && delim->type != T_NEWLINE) ||
+		(delim->next == NULL && delim->type != T_NEWLINE && delim->type != T_SEMI))
 	{
 		ft_dprintf(2, "syntax error near token '%s'\n", token_to_str(delim));
 		return (0);
 	}
+print_tokens(node->tkn_lst);
+print_tokens(delim);
+ft_printf("%p\n%p\n", node->tkn_lst, delim);
+	ft_printf("After ERROR\n");
 	if ((node->left = make_node(node->type - 1, node->tkn_lst)) == NULL ||
 		(node->right = make_node(node->type, delim->next)) == NULL)
 	{
@@ -177,9 +187,9 @@ int		split_node(t_ast *node, t_token *delim)
 	delim->prev->next = NULL;
 	delim->next = NULL;
 	node->tkn_lst = delim;
-ft_printf("NODE: "); print_tokens(node->tkn_lst);
-ft_printf("   L: "); print_tokens(node->left->tkn_lst);
-ft_printf("   R: "); print_tokens(node->right->tkn_lst);
+ft_printf("NODE: "); print_tokens(node->tkn_lst); //
+ft_printf("   L: "); print_tokens(node->left->tkn_lst); //
+ft_printf("   R: "); print_tokens(node->right->tkn_lst); //
 	return (build_tree_from(node->left) &&
 			build_tree_from(node->right));
 }
