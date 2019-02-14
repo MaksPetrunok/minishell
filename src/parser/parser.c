@@ -167,17 +167,12 @@ static void	print_tokens(t_token *tkn)
 // returns 0 on error (syntax, allocation, etc)
 int		split_node(t_ast *node, t_token *delim)
 {
-	ft_printf("Before ERROR\n");
 	if ((node->tkn_lst == delim && delim->type != T_NEWLINE) ||
 		(delim->next == NULL && delim->type != T_NEWLINE && delim->type != T_SEMI))
 	{
 		ft_dprintf(2, "syntax error near token '%s'\n", token_to_str(delim));
 		return (0);
 	}
-print_tokens(node->tkn_lst);
-print_tokens(delim);
-ft_printf("%p\n%p\n", node->tkn_lst, delim);
-	ft_printf("After ERROR\n");
 	if ((node->left = make_node(node->type - 1, node->tkn_lst)) == NULL ||
 		(node->right = make_node(node->type, delim->next)) == NULL)
 	{

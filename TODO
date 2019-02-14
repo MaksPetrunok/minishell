@@ -1,14 +1,22 @@
-+ 0. Separate tokens ; and newline (for handling heredoc later)
+0. Add support of local variables.
+	(add export builtin to make local variable environment variable)
+
+1. Make function which iterates over tokens in COMMAND node and:
+	- if there is T_ASSIGN tokens - assign corresponding variables
+	- makes argument array from T_WORD tokens
+	- makes redirection list from T_IO_NUM + T_WORD tokens
+
+2. If there is no words in argument array - skip redirectioin.
+3. Else accomplish all redirection in specified sequense (!) and try to launch new process from args.
+
+4. Make function which performs expansions.
 
 
-+ 1. Spaces within expansion ${...} works as token delimiters. Need fix.
-+ 2. No warning/error for ... ${ (not enclosed).
-+ 3. Do not recognize [n]>&[number]. Just [n]>& word.
 
 
 REMOVE tree.c
 
-
+Command graammar:
 
 complete_command		: command_redir
 						| assign command_redir
