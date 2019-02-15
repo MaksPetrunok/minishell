@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/13 17:29:50 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/15 10:33:52 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)ui/input/ \
 			$(OBJ_DIR)ui/autocmp/
 
+#			exec/expansion.c 
 MAIN_FILES = main.c \
 			exec/execute.c \
 			exec/tree.c \

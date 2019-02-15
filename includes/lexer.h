@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/30 19:01:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 10:18:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ enum	e_state
 	S_GEN,
 	S_SQT,
 	S_DQT,
+	S_BQT,
 	S_HSH
 };
 
@@ -32,6 +33,7 @@ enum	e_signal
 	CH_ESC,
 	CH_SQT,
 	CH_DQT,
+	CH_BQT,
 	CH_EXP,
 	CH_IOR,
 	CH_LOG,
@@ -59,6 +61,7 @@ struct				s_token
 {
 	char			*data;
 	int				pos;
+	int				size;
 	int				complete;
 	char			type;
 	t_token			*prev;

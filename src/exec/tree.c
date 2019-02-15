@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/13 18:39:37 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 10:50:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void		free_tree(t_ast *root)
 {
+	if (!root)
+		return ;
 	ft_printf("Freeing Tree: %p\n", root); //
-	ft_printf("        left: %p\n", root->left);
-	ft_printf("       right: %p\n", root->right);
+	ft_printf("        left: %p\n", root->left); //
+	ft_printf("       right: %p\n", root->right); //
 	if (root->left)
 		free_tree(root->left);
 	if (root->right)

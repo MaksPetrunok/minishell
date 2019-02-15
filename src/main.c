@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/13 20:43:44 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 10:50:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ int		process_input(char *input)
 	if (!g_shell.canonical)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
+ft_printf("TKN_LST=%p\n", tkn_lst);
 	ft_printf("INPUT: %s<<<\n", input);
-	root = NULL;
+
 	if ((root = parse(tkn_lst)) != NULL)
 		{}; //	run = execute_tree(root); // return proper value
 	free_tree(root);

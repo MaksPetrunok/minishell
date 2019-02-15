@@ -13,12 +13,8 @@
 
 5. Handle && ||.
 
+6. Handle backquotes.
 
-
-
-
-
-REMOVE tree.c
 
 Command graammar:
 
