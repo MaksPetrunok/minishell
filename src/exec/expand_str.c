@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 11:55:26 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 16:19:41 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 19:30:14 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,87 @@ int	expand_tilde(t_token *tkn)
 
 int	expand_ss_to(char delim, t_token *tkn, char **inp)
 {
-	(void)delim;
-	(void)tkn;
-	(void)inp;
+	char	*end;
+
+	end = ft_strchr(*inp, delim);
+	*end = '\0';
+// execute subshell from here
+// !don't forget to join string after 'end'
+(void)tkn;
+
+ft_printf("debug> expand_ss_to: %s\n", *inp);
+	return (0);
+}
+
+int	open_var(t_token *tkn, char *name)
+{
+	char	*str;
+	char	*join;
+
+	if (*name == '?')
+		str = ft_itoa(g_shell.last_ret);
+	else if (*name == '$')
+		str = ft_itoa((int)getpid());
+	else
+		str = get_var(name, g_shell.environ);
+	if (str == NULL)
+		return (0);
+	if ((join = ft_strjoin(tkn->data, str)) == NULL)
+	{
+		ft_dprintf(2, "allocation error\n");
+		return (-1);
+	}
+	free((void *)(tkn->data));
+	tkn->data = join;
+	tkn->pos = ft_strlen(join);
+	tkn->size = ft_strlen(join);
+	if (*name == '?' || *name == '$')
+		free((void *)str);
 	return (0);
 }
 
 int	expand_var(t_token *tkn, char **inp)
 {
-	(void)tkn;
-	(void)inp;
-	return (0);
+	char	*name;
+	int		i;
+	int		ret;
+
+	name = NULL;
+	if (**inp == '?' || **inp == '$')
+		name = *inp;
+	else
+	{
+		if ((name = ft_strnew(ft_strlen(*inp) + 1)) == NULL)
+		{
+			ft_dprintf(2, "allocation error\n");
+			return (-1);
+		}
+		i = 0;
+		while (ft_isalnum(**inp) || **inp == '_')
+		{
+			name[i++] = **inp;
+			*inp += 1;
+		}
+	}
+	ret = open_var(tkn, name);
+	if (name != *inp)
+		free((void *)name);
+	return (ret);
 }
 
 int	expand_str(t_token **tkn, char **inp)
 {
-
 	if (**inp == '~')
 		return (expand_tilde(*tkn));
 	else if (**inp == '`')
 	{
 		*inp += 1;
 		return (expand_ss_to('`', *tkn, inp));
+	}
+	else if (**inp == '$' && *(*inp + 1) == '\0')
+	{
+		tkn_add(tkn, inp);
+		return (0);
 	}
 	else if (**inp == '$' && *(*inp + 1) == '(')
 	{

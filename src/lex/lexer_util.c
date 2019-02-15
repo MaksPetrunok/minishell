@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 12:09:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 19:02:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int		open_braces(t_token **tkn, char **s, char br)
 	{
 		if (**s == br)
 			count++;
-		else if (**s == '}')
+		else if (**s == ')')
 			count--;
 		tkn_append(tkn, s);
 		(*s)++;
@@ -150,9 +150,9 @@ int		tkn_expans(t_token **tkn, char **s)
 
 	// unquoted $ on input
 	tkn_append(tkn, s);
-	(*s)++;
-	if (**s == '(')
+	if (*(*s + 1) == '(')
 	{
+		(*s)++;
 		tkn_append(tkn, s);
 		(*s)++;
 		braces_rem = open_braces(tkn, s, '(');
@@ -161,7 +161,7 @@ int		tkn_expans(t_token **tkn, char **s)
 			ft_dprintf(2, "no matching ')' brace found\n");
 			return (-1);
 		}
-ft_printf("(((BRACES REMAINING: %d)))\n", braces_rem);
+//ft_printf("(((BRACES REMAINING: %d)))\n", braces_rem);
 	}
 	return (0);
 }

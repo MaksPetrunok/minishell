@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 16:45:50 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 17:30:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ int			init_shell(char **env)
 	init_cursor();
 	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
 		return (-1);
-ft_printf("WinSize: %p, %dx%d\n", g_shell.winsize,
-								g_shell.winsize.ws_col,
-								g_shell.winsize.ws_row);
 	setup_signals();
 	g_shell.clipboard = NULL;
 	return (0);
