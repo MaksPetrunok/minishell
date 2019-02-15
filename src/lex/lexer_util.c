@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/30 19:00:47 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 12:09:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,29 @@ int		tkn_append(t_token **tkn, char **s)
 /*
  * Process escape sequense according to POSIX for esc. sequense out of quotes.
  */
+int		tkn_escgen(t_token **tkn, char **s)
+{
+	if (*(*s + 1) != '\0')
+	{
+		*s += 1;
+		tkn_append(tkn, s);
+	}
+	return (0);
+}
+
+int		tkn_escdqt(t_token **tkn, char **s)
+{
+	char	next;
+
+	next = *(*s + 1);
+	if (next == '$' || next == '`' || next == '\"' || next == '\\')
+	{
+		*s += 1;
+	}
+	tkn_append(tkn, s);
+	return (0);
+}
+
 int		tkn_escape(t_token **tkn, char **s)
 {
 	if (*(*s + 1) == '\n')
@@ -128,14 +151,14 @@ int		tkn_expans(t_token **tkn, char **s)
 	// unquoted $ on input
 	tkn_append(tkn, s);
 	(*s)++;
-	if (**s == '{')
+	if (**s == '(')
 	{
 		tkn_append(tkn, s);
 		(*s)++;
-		braces_rem = open_braces(tkn, s, '{');
+		braces_rem = open_braces(tkn, s, '(');
 		if (braces_rem != 0)
 		{
-			ft_dprintf(2, "no matching '}' brace found\n");
+			ft_dprintf(2, "no matching ')' brace found\n");
 			return (-1);
 		}
 ft_printf("(((BRACES REMAINING: %d)))\n", braces_rem);

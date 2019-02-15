@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 10:44:44 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 11:52:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 // Add hash # recognition for comments handling
 
-t_state_trans	g_fsm_table[5][13] =
+static t_state_trans	g_fsm_table[5][13] =
 {
 	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
 	[S_GEN][CH_NLN] = {S_GEN, &tkn_newline},
@@ -104,7 +104,7 @@ t_state_trans	g_fsm_table[5][13] =
 	[S_HSH][CH_WSP] = {S_HSH, NULL}
 };
 
-enum e_signal	get_signal(char c)
+static enum e_signal	get_signal(char c)
 {
 	if (c == '\\')
 		return (CH_ESC);

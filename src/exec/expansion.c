@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 09:18:16 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 10:16:13 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 16:51:13 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,23 @@
 
 static t_state_trans	g_fsm_table[4][12] =
 {
-	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
+	[S_GEN][CH_GEN] = {S_GEN, &tkn_add},
 	[S_GEN][CH_ESC] = {S_GEN, &tkn_escgen},
 	[S_GEN][CH_SQT] = {S_SQT, NULL},
 	[S_GEN][CH_DQT] = {S_DQT, NULL},
-	[S_GEN][CH_EXP] = {S_GEN, &tkn_expans},
+	[S_GEN][CH_EXP] = {S_GEN, &expand_str},
 
-	[S_SQT][CH_GEN] = {S_SQT, &tkn_append},
-	[S_SQT][CH_ESC] = {S_SQT, &tkn_append},
+	[S_SQT][CH_GEN] = {S_SQT, &tkn_add},
+	[S_SQT][CH_ESC] = {S_SQT, &tkn_add},
 	[S_SQT][CH_SQT] = {S_GEN, NULL},
-	[S_SQT][CH_DQT] = {S_SQT, &tkn_append},
-	[S_SQT][CH_EXP] = {S_SQT, &tkn_append},
+	[S_SQT][CH_DQT] = {S_SQT, &tkn_add},
+	[S_SQT][CH_EXP] = {S_SQT, &tkn_add},
 
-	[S_DQT][CH_GEN] = {S_DQT, &tkn_append},
+	[S_DQT][CH_GEN] = {S_DQT, &tkn_add},
 	[S_DQT][CH_ESC] = {S_DQT, &tkn_escdqt},
-	[S_DQT][CH_SQT] = {S_DQT, &tkn_append},
+	[S_DQT][CH_SQT] = {S_DQT, &tkn_add},
 	[S_DQT][CH_DQT] = {S_GEN, NULL},
-	[S_DQT][CH_EXP] = {S_DQT, &tkn_expans}
+	[S_DQT][CH_EXP] = {S_DQT, &expand_str}
 };
 
 static enum e_signal	get_signal(char c)
@@ -83,87 +83,54 @@ static enum e_signal	get_signal(char c)
 ** Initiates new empty token with 'size' bytes allocated for data.
 */
 
-static int		iterate(char *input, t_token **lst, enum e_state *st)
+static int		iterate(char *input, t_token *token, enum e_state *st)
 {
-	t_token			*head;
-	t_token			*token;
 	enum e_signal	sig;
 	t_lex_func		do_action;
 
-	head = 0;
-	token = *lst;
+//ft_printf("\nExpanding string: %s\n", input);
 	while (*input)
 	{
+//		ft_printf("Reading token input: %c\n", *input);
 		sig = get_signal(*input);
 		if ((do_action = g_fsm_table[*st][sig].func) != 0)
 			if (do_action(&token, &input) < 0)
 			{
-				tknlst_free(head);
 				ft_dprintf(2, "%s: error while parsing input\n",
 														SHELL_NAME);
 				return (-1);
 			}
-		head = (!head && token) ? token : head;
 		*st = g_fsm_table[*st][sig].state;
 		input++;
 	}
-	*lst = head;
-	if (token && token->type == -1)
-		token->type = T_WORD;
 	return (0);
 }
 
-static char *get_type(enum e_tkn_type type)
-{
-	switch (type)
-	{
-		case T_WORD: 	return "WORD"; break;
-		case T_IO_NUM: 	return " I/O"; break;
-		case T_ASSIGN: 	return "ASSI"; break;
-		case T_AND: 	return " AND"; break;
-		case T_OR:		return "  OR"; break;
-		case T_AMP:		return " AMP"; break;
-		case T_PIPE:	return "PIPE"; break;
-		case T_NEWLINE: return " N/L"; break;
-		case T_SEMI:	return "SEMI"; break;
-		default:		return "!N/A";
-	}
-}
 
-static void	debug_tknlist(t_token *lst)
+int	expand_token(t_token *tkn)
 {
-	while (lst)
-	{
-		ft_printf("%s: %s\n", get_type(lst->type), lst->data);
-		lst = lst->next;
-	}
-}
-
-
-t_token			*tokenize(char *input)
-{
-	t_token			*token;
 	enum e_state	st;
+	char			*tmp;
 
-	if (!input)
+//ft_printf("\nExpanding TOKEN: %s\n", tkn->data);
+	tmp = tkn->data;
+	tkn->size = ft_strlen(tmp);
+	tkn->complete = 0;
+	if ((tkn->data = malloc(tkn->size + 1)) == NULL)
+	{
+		tkn->data = tmp;
+		ft_dprintf(2, "allocation error\n");
 		return (0);
-ft_printf("DEBUG: start tokenizing ----------------------------\n");
-	token = 0;
+	}
+	*(tkn->data) = '\0';
+	tkn->pos = 0;
 	st = S_GEN;
-	if (iterate(input, &token, &st) == -1)
+	if (iterate(tmp, tkn, &st) == -1)
 	{
-		ft_printf("debug: NULL returned.\n"); // for debug
-		exit(0);                              // for debug
+		ft_dprintf(2, "error during parameters expansion in: %s\n", tmp);
+		free((void *)tmp);
 		return (0);
 	}
-	if (st == S_SQT || st == S_DQT)
-	{
-		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
-		tknlst_free(token);
-		return (0);
-	}
-	debug_tknlist(token); // for debug
-	//exit(0);              // for debug
-	ft_printf("========== END LEXER ===============\n");
-	return (token);
+	free((void *)tmp);
+	return (1);
 }

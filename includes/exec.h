@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/11 22:22:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/15 16:56:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,21 @@
 int	execute_tree(t_ast *root);
 
 typedef int			(*t_exec_func)(t_ast *node);
+
+/*
+** tkn_add.c
+*/
+int					tkn_add(t_token **tkn, char **inp);
+
+/*
+** expansion.c
+*/
+int					expand_token(t_token *tkn);
+
+/*
+** expand_str.c
+*/
+int					expand_str(t_token **tkn, char **input);
 
 /*
 ** exec_func.c
