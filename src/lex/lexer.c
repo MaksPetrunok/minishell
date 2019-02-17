@@ -232,6 +232,19 @@ static void	debug_tknlist(t_token *lst)
 	}
 }
 
+void	update_const_inp(char *str)
+{
+	char	*tmp;
+
+	if (g_shell.const_inp == NULL)
+		g_shell.const_inp = str;
+	else
+	{
+		tmp = g_shell.const_inp;
+		g_shell.const_inp = ft_strjoin(g_shell.const_inp, str);
+		free((void *)tmp);
+	}
+}
 
 t_token			*tokenize(char *input)
 {
@@ -240,22 +253,25 @@ t_token			*tokenize(char *input)
 
 	if (!input)
 		return (0);
-ft_printf("DEBUG: start tokenizing ----------------------------\n");
+ft_printf("--------------------- DEBUG: start tokenizing -----------------------\n");
 	token = 0;
-	st = S_GEN;
+	st = g_shell.inp_state;
 	if (iterate(input, &token, &st) == -1)
 	{
 		ft_printf("debug: NULL returned.\n"); // for debug
 		exit(0);                              // for debug
 		return (0);
 	}
+	g_shell.inp_state = st;
 	if (st == S_SQT || st == S_DQT || st == S_BQT)
 	{
+		update_const_inp(input);
+		
 		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
 		tknlst_free(token);
 		return (NULL);
 	}
-	debug_tknlist(token); // for debug
+//	debug_tknlist(token); // for debug
 	//exit(0);              // for debug
 	ft_printf("========== END LEXER ===============\n");
 	return (token);

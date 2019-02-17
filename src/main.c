@@ -74,7 +74,10 @@ int		process_input(char *input)
 	g_shell.run = 1;
 	if (!g_shell.canonical)
 		write(1, "\n", 1);
-	tkn_lst = tokenize(input);
+	if (g_shell.inp_state == S_GEN || g_shell.inp_state == S_HSH)
+		tkn_lst = tokenize(input);
+	else
+		tkn_lst = NULL;
 
 	ft_printf("INPUT: %s<<<\n", input);
 

@@ -52,6 +52,8 @@ int			init_shell(char **env)
 	g_shell.childs = NULL;
 	g_shell.input = NULL;
 	g_shell.last_ret = 0;
+	g_shell.inp_state = S_GEN;
+	g_shell.const_input = NULL;
 	if ((g_shell.environ = init_environment(env)) == 0)
 		return (-1);
 	set_shlvl();

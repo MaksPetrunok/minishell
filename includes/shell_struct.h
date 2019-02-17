@@ -29,6 +29,8 @@ typedef struct		s_shell
 {
 	struct termios	*term_typing;
 	struct termios	*term_default;
+	enum e_state	inp_state;	// input state
+	char			*const_input;	// constant buffer
 	int				run;
 	int				canonical;
 	int				last_ret;
