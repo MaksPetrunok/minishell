@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:09:12 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 13:13:19 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	exit_safely(int __attribute__((unused)) sig)
 
 void	stp_handler(int __attribute__((unused)) sig)
 {
+// just debug function
 move_cursor(0,0);
 	ft_printf("prompt  (%d, %d) \n",
 		g_shell.positions.prompt.col, g_shell.positions.prompt.row);
@@ -57,6 +58,9 @@ void	sh_sigint_handler(int __attribute__((unused)) sig)
 		g_shell.input->len = 0;
 		g_shell.input->data[0] = NULL;
 	}
+	g_shell.inp_state = S_GEN;
+	free((void *)(g_shell.const_input));
+	g_shell.const_input = NULL;
 	g_shell.history->iter = g_shell.history->stack;
 	g_shell.run = 0;
 	write(1, "\n", 1);

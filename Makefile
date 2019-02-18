@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/15 16:55:50 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/18 13:20:25 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,7 @@ MAIN_FILES = main.c \
 			ui/cursor/move.c \
 			ui/cursor/set.c \
 			ui/util.c \
+			ui/prompt.c
 
 
 BUILTIN = builtin.c \

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 09:18:16 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 16:51:13 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 13:26:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static t_state_trans	g_fsm_table[4][12] =
 	[S_DQT][CH_ESC] = {S_DQT, &tkn_escdqt},
 	[S_DQT][CH_SQT] = {S_DQT, &tkn_add},
 	[S_DQT][CH_DQT] = {S_GEN, NULL},
-	[S_DQT][CH_EXP] = {S_DQT, &expand_str}
+	[S_DQT][CH_EXP] = {S_DQT, &tkn_add}
 };
 
 static enum e_signal	get_signal(char c)

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 09:50:40 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 12:25:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 	return (0);
 }
 
-/*
+
 static char *get_type(enum e_tkn_type type)
 {
 	switch (type)
@@ -232,21 +232,7 @@ static void	debug_tknlist(t_token *lst)
 		lst = lst->next;
 	}
 }
-*/
 
-void	update_const_inp(char *str)
-{
-	char	*tmp;
-
-	if (g_shell.const_input == NULL)
-		g_shell.const_input = str;
-	else
-	{
-		tmp = g_shell.const_input;
-		g_shell.const_input = ft_strjoin3(g_shell.const_input, "\n", str);
-		free((void *)tmp);
-	}
-}
 
 t_token			*tokenize(char *input)
 {
@@ -257,7 +243,7 @@ t_token			*tokenize(char *input)
 		return (0);
 ft_printf("--------------------- DEBUG: start tokenizing -----------------------\n");
 	token = 0;
-	st = g_shell.inp_state;
+	st = S_GEN;
 	if (iterate(input, &token, &st) == -1)
 	{
 		ft_printf("debug: NULL returned.\n"); // for debug
@@ -267,13 +253,13 @@ ft_printf("--------------------- DEBUG: start tokenizing -----------------------
 	g_shell.inp_state = st;
 	if (st == S_SQT || st == S_DQT || st == S_BQT)
 	{
-		update_const_inp(input);
+		g_shell.const_input = ft_strdup(input);
 		
 //		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
 		tknlst_free(token);
 		return (NULL);
 	}
-//	debug_tknlist(token); // for debug
+	debug_tknlist(token); // for debug
 	//exit(0);              // for debug
 	ft_printf("========== END LEXER ===============\n");
 	return (token);

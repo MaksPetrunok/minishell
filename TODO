@@ -1,4 +1,6 @@
-1. Manage quotes (', ", `) (and \n).
+1. Manage quotes (', ", `) (and \n):
+	- segfault within quotes when press arrow down
+	- s/f when ` inside ""
 2. Assignments.
 3. Command execution.
 4. Pipes.
@@ -71,3 +73,4 @@ command					: command T_WORD
 5.3. Reading instructions from file
 5.4. Accomplish instructions in sub-shell?
 5.5. export builtin
+5.6. comment support

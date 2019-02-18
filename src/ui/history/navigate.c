@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 16:49:46 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 17:54:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 12:41:13 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	update_input(t_inp_buff *buff, char *str)
 int			inp_hist_prev(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
+//ft_printf("HISTORY PREV\n");
 	if (g_shell.history->stack == NULL)
 		return (0);
 	if (g_shell.history->tmp && g_shell.history->iter->next == NULL)

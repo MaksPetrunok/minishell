@@ -1,2 +1,2 @@
 echo 'minishell pid = ' `ps ax | grep -v grep | grep minishell | cut -f 1  -d " "`
-kill `ps ax | grep -v grep | grep minishell | cut -f 2  -d " "`
+kill `ps ax | grep -v grep | grep minishell | cut -f 1  -d " "`
