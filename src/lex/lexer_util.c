@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 19:02:48 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 16:26:22 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int		tkn_newline(t_token **tkn, char **s)
 	t_token	*new;
 
 	(void)s;
-	if ((new = init_token(0, *tkn)) == NULL)
+	if ((new = init_token(1, *tkn)) == NULL)
 		return (-1);
 	new->type = (**s == ';') ? T_SEMI : T_NEWLINE;
+	tkn_append(&new, s);
 	new->complete = 1;
 	*tkn = new;
 	return (0);
@@ -221,7 +222,7 @@ int		tkn_logic(t_token **tkn, char **s)
 {
 	t_token	*new;
 
-	if ((new = init_token(0, *tkn)) == NULL)
+	if ((new = init_token(2, *tkn)) == NULL)
 		return (-1);
 	if (ft_strnstr(*s, "||", 2) == *s)
 		new->type = T_OR;
@@ -231,8 +232,13 @@ int		tkn_logic(t_token **tkn, char **s)
 		new->type = T_PIPE;
 	else
 		new->type = T_AMP;
+
+	tkn_append(&new, s);
 	if (**s == *(*s + 1))
+	{
 		*s += 1;
+		tkn_append(&new, s);
+	}
 	new->complete = 1;
 	*tkn = new;
 	return (0);
