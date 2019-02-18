@@ -1,6 +1,4 @@
-1. Manage quotes (', ", `) (and \n):
-	- segfault within quotes when press arrow down
-	- s/f when ` inside ""
++1. Manage quotes (', ", `) (and \n):
 2. Assignments.
 3. Command execution.
 4. Pipes.

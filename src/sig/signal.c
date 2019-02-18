@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 13:13:19 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 13:40:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	sh_sigint_handler(int __attribute__((unused)) sig)
 	write(1, "\n", 1);
 	if (finish_child_processes() == 0)
 		show_prompt();
+	g_shell.last_ret = 130;
 }
 
 void	setup_signals(void)
