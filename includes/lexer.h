@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 15:46:59 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:26:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_token	t_token;
 struct				s_token
 {
 	char			*data;
+	char			*src;
 	int				pos;
 	int				size;
 	int				complete;

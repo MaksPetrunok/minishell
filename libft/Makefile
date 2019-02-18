@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/01/04 15:40:48 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/18 19:56:14 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ FUNC_LIST = memset \
 			numlen \
 			strdup \
 			strcpy \
+			substr \
 			strncpy \
 			strcat \
 			strncat \

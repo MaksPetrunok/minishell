@@ -6,14 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 14:34:06 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 18:17:25 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 20:14:43 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// on success returns 1, on failure 0
-
 
 static t_token		*get_next_token(t_token *tkn)
 {
@@ -31,26 +28,24 @@ static t_token		*get_next_token(t_token *tkn)
 
 static int	append_hd(t_token *hd, t_token *t, char *delim)
 {
-	char	*tmp;
 	t_token	*start;
+	char	*from;
+	char	*to;
 
 	start = t;
+	from = start->src;
+	to = NULL;
 	while (t && t->next)
 	{
 		if (t->type == T_NEWLINE && ft_strequ(t->next->data, delim) &&
 			(t->next->next == NULL || t->next->next->type == T_NEWLINE))
 		{
 			start->next = get_next_token(get_next_token(t));
-			if (hd->next)
-				hd->next->prev = hd;
+			to = t->src;
+			
+			hd->data = (from != to) ? ft_substr(from + 1, to) : ft_strnew(0);
 			return (1);
 		}
-		tmp = hd->data;
-		if (hd->data == NULL)
-			hd->data = ft_strnew(0); //ft_strdup(t->data);
-		else
-			hd->data = ft_strjoin(hd->data, t->data);
-		free((void *)tmp);
 		t = get_next_token(t);
 	}
 	return (0);
@@ -78,7 +73,6 @@ static int	move_hd_into(t_token *tkn)
 		free((void *)delim);
 		return (0);
 	}
-ft_printf("HD START TKN=%s\n", start->data);
 	free((void *)(tkn->data));
 	tkn->data = NULL;
 	ret = append_hd(tkn, start->next, delim);

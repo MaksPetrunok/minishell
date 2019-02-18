@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 18:27:46 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:43:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int		tkn_newline(t_token **tkn, char **s)
 	t_token	*new;
 
 	(void)s;
-	if (
 	if ((new = init_token(1, *tkn)) == NULL)
 		return (-1);
 	new->type = (**s == ';') ? T_SEMI : T_NEWLINE;
 	tkn_append(&new, s);
 	new->complete = 1;
+	new->src = *s;
 	*tkn = new;
 	return (0);
 }
@@ -56,7 +56,8 @@ int		tkn_create(t_token **tkn, char **s)
 
 	if ((new = init_token(ft_strlen(*s), *tkn)) == NULL)
 		return (-1);
-	tkn_append(tkn, s);	
+	tkn_append(tkn, s);
+	(*tkn)->src = *s;
 	return (0);
 }
 
@@ -77,6 +78,8 @@ int		tkn_append(t_token **tkn, char **s)
 	}
 	(*tkn)->data[(*tkn)->pos++] = **s;
 	(*tkn)->data[(*tkn)->pos] = '\0';
+	if ((*tkn)->src == NULL)
+		(*tkn)->src = *s;
 	return (0);
 }
 
@@ -276,5 +279,7 @@ int		tkn_assign(t_token **tkn, char **s)
 		(*tkn)->type = T_ASSIGN;
 	}
 	tkn_append(tkn, s);
+	if ((*tkn)->src == NULL)
+		(*tkn)->src = *s;
 	return (0);
 }

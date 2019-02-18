@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 18:27:52 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/11 21:56:58 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:56:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ size_t				ft_strlen(const char *s);
 int					ft_numlen(long n);
 char				*ft_strdup(const char *s);
 char				*ft_strcpy(char *dest, const char *src);
+char				*ft_substr(const char *from, const char *to);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
 char				*ft_strcat(char *dest, const char *src);
 char				*ft_strncat(char *dest, const char *src, size_t n);

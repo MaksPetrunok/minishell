@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 17:41:24 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:27:20 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ t_token			*init_token(int size, t_token *prev)
 	tkn->complete = 0;
 	tkn->type = -1;
 	tkn->next = NULL;
+	tkn->src = NULL;
 	return (tkn);
 }
 

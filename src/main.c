@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 18:27:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 20:20:19 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,14 @@ int		process_input(char *input)
 	{
 		g_shell.const_input = ft_strdup(input);
 		g_shell.inp_state = S_HD;
-ft_printf("/// Freeing token list...\n");
 		tknlst_free(tkn_lst);
-ft_printf("\\\\\\ Freeing token list...\n");
 	}
 	free_tree(root);
 	root = NULL;
 	tkn_lst = NULL;
-	ft_printf("---------------------------------------\n");
+	ft_printf("-----------------------------------------------------------\n");
 	system("leaks minishell");
-	ft_printf("---------------------------------------\n");
+	ft_printf("-----------------------------------------------------------\n");
 	return (run);
 }
 
@@ -67,6 +65,18 @@ char	*combine_input(char *inp)
 	return (tmp);
 }
 
+void	append_newline(void)
+{
+	char	*tmp;
+
+	if (g_shell.const_input == NULL)
+		return ;
+	if ((tmp = ft_strjoin(g_shell.const_input, "\n")) == NULL)
+		return ;
+	free((void *)(g_shell.const_input));
+	g_shell.const_input = tmp;
+}
+
 void	sh_loop(void)
 {
 	char	*input;
@@ -82,7 +92,11 @@ void	sh_loop(void)
 				run = process_input(input);
 		}
 		else
+		{
+			if (g_shell.inp_state == S_HD)
+				append_newline();
 			write(1, "\n", 1);
+		}
 		free((void *)input);
 	}
 }
