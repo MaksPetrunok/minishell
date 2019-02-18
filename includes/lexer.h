@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 12:45:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 15:46:59 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ enum	e_state
 	S_SQT,
 	S_DQT,
 	S_BQT,
-	S_HSH
+	S_HSH,
+	S_HD
 };
 
 enum	e_signal
@@ -86,6 +87,11 @@ char				*get_tkn_type(enum e_tkn_type type);
 */
 int					tkn_escgen(t_token **tkn, char **s);
 int					tkn_escdqt(t_token **tkn, char **s);
+
+/*
+** heredoc.c
+*/
+int	open_heredocs(t_token *lst);
 
 
 /*

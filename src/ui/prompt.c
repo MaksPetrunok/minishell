@@ -6,17 +6,18 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:18:53 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 13:19:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 15:50:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*qprompt[4] =
+static char	*qprompt[6] =
 {
 	[S_SQT] = "quote> ",
 	[S_DQT] = "dquote> ",
-	[S_BQT] = "bquote> "
+	[S_BQT] = "bquote> ",
+	[S_HD] = "heredoc> "
 };
 
 static int	print_prompt()

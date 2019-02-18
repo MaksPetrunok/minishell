@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/13 20:43:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 17:59:31 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_token	*skip_token(t_token *tkn)
 {
 	t_token	*tmp;
 
+	if (!tkn)
+		return (NULL);
 	tmp = tkn;
 	tkn = tkn->next;
 	if (tkn)

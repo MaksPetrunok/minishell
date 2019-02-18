@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 12:25:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 17:41:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,9 @@ void			tknlst_free(t_token *lst)
 	while (lst)
 	{
 		tmp = lst->next;
+ft_printf("> Freeing: %s\n", lst->data);
 		free((void *)(lst->data));
+ft_printf("> Token: %p\n", lst);
 		free((void *)lst);
 		lst = tmp;
 	}

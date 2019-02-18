@@ -72,3 +72,4 @@ command					: command T_WORD
 5.4. Accomplish instructions in sub-shell?
 5.5. export builtin
 5.6. comment support
+5.7. help

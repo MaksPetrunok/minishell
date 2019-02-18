@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 13:20:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 18:27:51 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int		process_input(char *input)
 	t_ast	*root;
 	int		run;
 
-	run = 1;
 	g_shell.run = 1;
 
 	if (!g_shell.canonical)
@@ -29,8 +28,21 @@ int		process_input(char *input)
 
 	ft_printf("INPUT: %s<<<\n", input);
 
-	if ((root = parse(tkn_lst)) != NULL)
-		run = execute_tree(root); // return proper value
+	run = 1;
+	root = NULL;
+	if (open_heredocs(tkn_lst))
+	{
+		if ((root = parse(tkn_lst)) != NULL)
+			run = execute_tree(root); // return proper value
+	}
+	else
+	{
+		g_shell.const_input = ft_strdup(input);
+		g_shell.inp_state = S_HD;
+ft_printf("/// Freeing token list...\n");
+		tknlst_free(tkn_lst);
+ft_printf("\\\\\\ Freeing token list...\n");
+	}
 	free_tree(root);
 	root = NULL;
 	tkn_lst = NULL;

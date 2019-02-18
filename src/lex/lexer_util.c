@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 16:26:22 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 18:27:46 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		tkn_newline(t_token **tkn, char **s)
 	t_token	*new;
 
 	(void)s;
+	if (
 	if ((new = init_token(1, *tkn)) == NULL)
 		return (-1);
 	new->type = (**s == ';') ? T_SEMI : T_NEWLINE;

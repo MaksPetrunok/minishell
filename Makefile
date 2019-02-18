@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/18 13:20:25 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/18 15:47:17 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ MAIN_FILES = main.c \
 			\
 			lex/lexer.c \
 			lex/lexer_util.c \
+			lex/heredoc.c \
 			\
 			parser/parser.c \
 			\
