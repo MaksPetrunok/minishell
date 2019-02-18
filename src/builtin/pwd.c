@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:55 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/12 15:54:22 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:06:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 int	builtin_pwd(char __attribute__((unused)) **av)
 {

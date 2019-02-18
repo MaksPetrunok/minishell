@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:58:48 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 20:40:06 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:09:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 void	cur_mv_up(void)
 {

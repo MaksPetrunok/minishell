@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 16:02:12 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:09:12 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 void	win_size_handler(int __attribute__((unused)) sig)
 {

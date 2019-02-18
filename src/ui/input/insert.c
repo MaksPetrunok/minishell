@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 20:17:35 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:10:36 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 static void	refresh_inp(t_inp_buff *buff)
 {

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 17:25:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 09:38:57 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "environ.h"
 # include "cursor.h"
 # include "history.h"
+# include "lexer.h"
 # include <sys/ioctl.h>
 
 typedef	struct		s_process

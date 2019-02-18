@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 20:36:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 20:41:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:09:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 int		init_cursor(void)
 {

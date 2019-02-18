@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 18:59:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 19:09:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:10:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 int	inp_copy_all(t_inp_buff *buff, char *sym)
 {

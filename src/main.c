@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 16:27:38 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 10:06:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,22 @@ void	show_prompt(void)
 	char	*is_wd;
 	int		len;
 
+ft_printf("YOYOYO: %p\n", g_shell.environ);
 	switch_term_to(g_shell.term_typing);
 	set_cursor(&(g_shell.positions.prompt));
 	tconf("cd");
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);
-	if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
+	if (g_shell.inp_state != S_GEN || g_shell.inp_state != S_HSH)
+	{
+		if (g_shell.inp_state == S_SQT)
+			len = ft_printf("quote> ");
+		else if (g_shell.inp_state == S_DQT)
+			len = ft_printf("dquote> ");
+		else
+			len = ft_printf("bquote> ");
+		// careful here
+	} else if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
 	{
 		if (!is_wd)
 			len = ft_printf("%s: ", SHELL_NAME);

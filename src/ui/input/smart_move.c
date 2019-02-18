@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 19:18:56 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 19:19:56 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:11:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 int	inp_movelw(t_inp_buff *buff, char *sym)
 {

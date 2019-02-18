@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 17:30:00 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:08:49 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 static void	set_shlvl(void)
 {
@@ -54,7 +52,7 @@ int			init_shell(char **env)
 	g_shell.last_ret = 0;
 	g_shell.inp_state = S_GEN;
 	g_shell.const_input = NULL;
-	if ((g_shell.environ = init_environment(env)) == 0)
+	if ((g_shell.environ = init_environment(env)) == NULL)
 		return (-1);
 	set_shlvl();
 	if (setup_terminal() != 0 || init_history() != 0)

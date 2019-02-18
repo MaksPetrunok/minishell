@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 02:32:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 17:39:06 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:08:58 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 static void	free_child_list(void)
 {

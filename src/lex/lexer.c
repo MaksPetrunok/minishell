@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 11:52:36 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 09:50:40 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 	return (0);
 }
 
+/*
 static char *get_type(enum e_tkn_type type)
 {
 	switch (type)
@@ -231,17 +232,18 @@ static void	debug_tknlist(t_token *lst)
 		lst = lst->next;
 	}
 }
+*/
 
 void	update_const_inp(char *str)
 {
 	char	*tmp;
 
-	if (g_shell.const_inp == NULL)
-		g_shell.const_inp = str;
+	if (g_shell.const_input == NULL)
+		g_shell.const_input = str;
 	else
 	{
-		tmp = g_shell.const_inp;
-		g_shell.const_inp = ft_strjoin(g_shell.const_inp, str);
+		tmp = g_shell.const_input;
+		g_shell.const_input = ft_strjoin3(g_shell.const_input, "\n", str);
 		free((void *)tmp);
 	}
 }
@@ -267,7 +269,7 @@ ft_printf("--------------------- DEBUG: start tokenizing -----------------------
 	{
 		update_const_inp(input);
 		
-		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
+//		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
 		tknlst_free(token);
 		return (NULL);
 	}

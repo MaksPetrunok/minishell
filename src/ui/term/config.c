@@ -6,13 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:57:56 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/27 17:47:21 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/18 11:11:30 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	g_shell;
 
 static int	initialize(void)
 {
