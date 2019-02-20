@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/18 14:36:16 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 13:30:33 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "lexer.h"
 # include "parser.h"
 # include "exec.h"
+# include "ast.h"
 # include "autocomp.h"
 # include "cursor.h"
 # include "history.h"

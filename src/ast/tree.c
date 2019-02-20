@@ -6,11 +6,26 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 10:50:49 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 13:32:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
+
+static t_exec_node	exec_node[6] =
+{
+	[COMMAND] = &exec_wait,
+	[PIPE] = &pipeline,
+	[AND] = &log_and,
+	[OR] = &log_or,
+	[SEMI] = &semicolon,
+	[NEWLINE] = &semicolon
+};
+
+int	execute_tree(t_ast *root)
+{
+	return (exec_node[root->type](root));
+}
 
 void		free_tree(t_ast *root)
 {

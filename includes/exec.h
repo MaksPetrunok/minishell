@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/15 16:56:36 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 13:29:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,9 @@
 
 #include "parser.h"
 
-/*
-** ast.c
-*/
-int	execute_tree(t_ast *root);
 
-typedef int			(*t_exec_func)(t_ast *node);
+//typedef int			(*t_exec_func)(t_ast *node);
+
 
 /*
 ** tkn_add.c

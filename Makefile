@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/18 15:47:17 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/20 13:37:21 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)lex/ \
 			$(OBJ_DIR)parser/ \
 			$(OBJ_DIR)exec/ \
+			$(OBJ_DIR)ast/ \
 			$(OBJ_DIR)shell/ \
 			$(OBJ_DIR)sig/ \
 			$(OBJ_DIR)ui/ \
@@ -45,9 +46,12 @@ MAIN_FILES = main.c \
 			exec/tkn_add.c \
 			exec/expand_str.c \
 			exec/execute.c \
-			exec/tree.c \
-			exec/exec_tree.c \
+			exec/exec_cmd.c \
+			\
 			err/err.c \
+			\
+			ast/tree.c \
+			ast/exec_node.c \
 			\
 			sig/signal.c \
 			\

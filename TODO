@@ -1,7 +1,15 @@
 +1. Manage quotes (', ", `) (and \n):
 2. Assignments.
 3. Command execution.
+	- prepare command for execution
+		- assign all variables from T_ASSIGN tokens
+		- make array of words for launching process
+		- make redirection preparation
+	- launch command with redirection
 4. Pipes.
+	- for each node:
+		- if right node = PIPE, out_fd = do_pipe(node->right)
+		- else
 5. > >> <.
 +6. << (heredoc).
 7. && ||.

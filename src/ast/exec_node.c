@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_func.c                                        :+:      :+:    :+:   */
+/*   exec_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/27 17:12:03 by mpetruno         ###   ########.fr       */
+/*   Created: 2019/02/20 12:48:04 by mpetruno          #+#    #+#             */
+/*   Updated: 2019/02/20 13:33:23 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
-int	assign_var(t_exec_tree *node)
+int	pipeline(t_ast *node)
 {
-	ft_printf("Assign var: %s\n", node->left->tkn->data);
+	(void)node;
 	return (0);
 }
 
-int	eval_logic(t_exec_tree *node)
+int	log_and(t_ast *node)
 {
-	ft_printf("Assign var: %s\n", node->left->tkn->data);
+	(void)node;
 	return (0);
 }
 
-int	exec_wait(t_exec_tree *node)
+int	log_or(t_ast *node)
 {
-	ft_printf("Assign var: %s\n", node->left->tkn->data);
+	(void)node;
 	return (0);
 }
 
-int	exec_no_wait(t_exec_tree *node)
+int	semicolon(t_ast *node)
 {
-	ft_printf("Assign var: %s\n", node->left->tkn->data);
+	(void)node;
 	return (0);
 }
