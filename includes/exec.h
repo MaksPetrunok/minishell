@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 13:29:56 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 18:59:45 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ int					expand_token(t_token *tkn);
 int					expand_str(t_token **tkn, char **input);
 
 /*
+** get_argv.c
+*/
+char				**get_arg_vector(t_token *lst);
+
+/*
 ** exec_func.c
 */
-int					assign_var(t_ast *node);
 int					eval_logic(t_ast *node);
 int					exec_wait(t_ast *node);
 int					exec_no_wait(t_ast *node);

@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/20 13:37:21 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/20 19:00:07 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ MAIN_FILES = main.c \
 			exec/expand_str.c \
 			exec/execute.c \
 			exec/exec_cmd.c \
+			exec/get_argv.c \
 			\
 			err/err.c \
 			\

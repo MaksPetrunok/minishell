@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 13:55:27 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 14:11:13 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_exec_node	exec_node[6] =
 
 int	execute_tree(t_ast *root)
 {
+	ft_printf("Executing node\n");
 	return (exec_node[root->type](root));
 }
 

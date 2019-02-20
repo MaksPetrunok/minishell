@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 09:38:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 16:35:47 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_shell
 	struct termios	*term_default;
 	enum e_state	inp_state;	// input state
 	char			*const_input;	// constant buffer
+	int				is_fork;
 	int				run;
 	int				canonical;
 	int				last_ret;
