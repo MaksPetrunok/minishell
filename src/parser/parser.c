@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 17:59:31 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 14:07:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,16 @@ static enum e_ntype	type_trans(enum e_tkn_type type)
 
 t_token	*get_next(enum e_ntype type, t_token *lst)
 {
-	while (lst && type_trans(lst->type) != type)
+	t_token	*delim;
+
+	delim = NULL;
+	while (lst)
+	{
+		if (type_trans(lst->type) == type)
+			delim = lst;
 		lst = lst->next;
-	return (lst);
+	}
+	return (delim);
 }
 
 static void	print_tokens(t_token *tkn)
@@ -175,8 +182,8 @@ int		split_node(t_ast *node, t_token *delim)
 		ft_dprintf(2, "syntax error near token '%s'\n", token_to_str(delim));
 		return (0);
 	}
-	if ((node->left = make_node(node->type - 1, node->tkn_lst)) == NULL ||
-		(node->right = make_node(node->type, delim->next)) == NULL)
+	if ((node->left = make_node(node->type, node->tkn_lst)) == NULL ||
+		(node->right = make_node(node->type - 1, delim->next)) == NULL)
 	{
 		ft_dprintf(2, "allocation error\n");
 		return (0);

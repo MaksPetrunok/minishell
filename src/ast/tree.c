@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 13:32:53 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 13:55:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static t_exec_node	exec_node[6] =
 {
 	[COMMAND] = &exec_wait,
 	[PIPE] = &pipeline,
-	[AND] = &log_and,
-	[OR] = &log_or,
+	[AND] = &logic,
+	[OR] = &logic,
 	[SEMI] = &semicolon,
 	[NEWLINE] = &semicolon
 };

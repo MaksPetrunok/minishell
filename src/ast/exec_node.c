@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 12:48:04 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 13:33:23 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/20 13:58:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,24 @@
 int	pipeline(t_ast *node)
 {
 	(void)node;
+
 	return (0);
 }
 
-int	log_and(t_ast *node)
+int	logic(t_ast *node)
 {
-	(void)node;
-	return (0);
-}
-
-int	log_or(t_ast *node)
-{
-	(void)node;
-	return (0);
+	execute_tree(node->left);
+	if ((g_shell.last_ret == 0 && node->type == AND) ||
+		(g_shell.last_ret != 0 && node->type == OR))
+		execute_tree(node->right);
+	return (1);
 }
 
 int	semicolon(t_ast *node)
 {
-	(void)node;
-	return (0);
+	if (node->left)
+		execute_tree(node->left);
+	if (node->right)
+		execute_tree(node->right);
+	return (1);
 }
