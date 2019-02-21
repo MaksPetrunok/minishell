@@ -1,3 +1,6 @@
+S/F: ls > << file
+exec_wait_pipe - if function is builtin - do not fork
+
 +1. Manage quotes (', ", `) (and \n):
 2. Assignments.
 3. Command execution.

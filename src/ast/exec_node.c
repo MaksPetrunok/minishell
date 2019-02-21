@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 12:48:04 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 17:37:52 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/21 20:06:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	pipe_to(t_ast *node, int *fd, int *parent_fd)
 		close(parent_fd[1]);
 		return ((int)pid);
 	}
-	// input fd[0]
-	// output parent_fd[1]
 	close(fd[1]);
 	close(parent_fd[0]);
 	dup2(fd[0], 0);
@@ -87,41 +85,22 @@ int	pipeline(t_ast *node)
 {
 	int	fd[2];
 
-ft_printf("ACCOMPLISHING PIPELINE\n");
 	pipe(fd);
 	if (node->left->type == PIPE)
 		pipe_recursive(node->left, fd);
 	else
 		pipe_from(node->left, fd);
 //-----------------------
+/*
 ft_printf("============= READING PIPE ======================\n");
 char c;
 while(read(fd[0], &c, 1))
 	write(1, &c, 1);
 ft_printf("============= READING PIPE ======================\n");
+*/
 //-----------------------
 
-	exec_wait(node->right);
-	// pipeline(node)
-	// pipe(fd)
-	// if left:
-	// - cmd:
-	// 		fork left with 1->fd[1]
-	// 		don't wait
-	// - pipe:
-	// 		pipe_recursive(node->left)
-	// fork node->right with 0->fd[0]
-	// wait node->right
-
-	//pipe_recursive(node)
-	// pipe(fd)
-	// if left:
-	// - cmd:
-	// 		fork left with 1->fd[1]
-	// - pipe:
-	// 		pipe_recursive(node->left)
-	// fork right with 0->fd[0]
-	// don't wait left and right
+	exec_wait_pipe(node->right, fd);
 	return (0);
 }
 

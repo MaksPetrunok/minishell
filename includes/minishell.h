@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 13:30:33 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/21 18:54:57 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "cursor.h"
 # include "history.h"
 
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
