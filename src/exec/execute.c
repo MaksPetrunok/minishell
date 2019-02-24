@@ -68,7 +68,13 @@ static char	*get_exec_path(const char *name)
 void	launch_process(char **av, t_env *env)
 {
 	char	*cmd;
+	t_func	builtin;
 
+	if ((builtin = get_builtin(*av)) != NULL)
+	{
+		builtin(av);
+		return ;
+	}
 	cmd = get_exec_path(av[0]);
 	if (cmd && *av && **av)
 	{

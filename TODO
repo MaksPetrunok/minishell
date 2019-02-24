@@ -1,3 +1,7 @@
+Function launch_builtin - perform output redirection and launch built in in current shell
+
+
+
 S/F: ls > << file
 exec_wait_pipe - if function is builtin - do not fork
 

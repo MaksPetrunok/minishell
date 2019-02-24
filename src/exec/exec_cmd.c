@@ -15,6 +15,14 @@
 int	exec_cmd(t_ast *node)
 {
 	(void)node;
+/*
+1. Check if builtin should be executed:
+- if yes:
+	make copy of fds 0, 1, 2 using dup()
+	perform redirections
+- if no:
+
+*/ 	
 	return (0);
 }
 
