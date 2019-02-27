@@ -1,5 +1,6 @@
-Function launch_builtin - perform output redirection and launch built in in current shell
-
+Make function to execute as subfunction of env if it launches new command,
+either builtin or not.
+Implement execute functions for pipe
 
 
 S/F: ls > << file

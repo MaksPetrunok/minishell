@@ -53,6 +53,9 @@ int			init_shell(char **env)
 	g_shell.is_fork = 0;
 	g_shell.inp_state = S_GEN;
 	g_shell.const_input = NULL;
+	g_shell.io_backup[0] = -1;
+	g_shell.io_backup[1] = -1;
+	g_shell.io_backup[2] = -1;
 	if ((g_shell.environ = init_environment(env)) == NULL)
 		return (-1);
 	set_shlvl();

@@ -32,6 +32,7 @@ typedef struct		s_shell
 	struct termios	*term_default;
 	enum e_state	inp_state;	// input state
 	char			*const_input;	// constant buffer
+	int				io_backup[3];
 	int				is_fork;
 	int				run;
 	int				canonical;

@@ -48,6 +48,7 @@ MAIN_FILES = main.c \
 			exec/execute.c \
 			exec/exec_cmd.c \
 			exec/get_argv.c \
+			exec/redirect.c \
 			\
 			err/err.c \
 			\

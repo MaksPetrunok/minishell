@@ -26,7 +26,7 @@ int		process_input(char *input)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
 
-	ft_printf("INPUT: %s<<<\n", input);
+//	ft_printf("INPUT: %s<<<\n", input);
 
 	run = 1;
 	root = NULL;

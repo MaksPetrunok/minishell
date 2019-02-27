@@ -53,8 +53,6 @@ void	tknlst_free(t_token *lst);
 void	arr_free(void **av);
 void	env_free(t_env *env);
 
-int		execute(char **av, t_env *env);
-
 void	setup_signals(void);
 void	sh_sigint_handler(int sig);
 

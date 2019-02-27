@@ -107,30 +107,33 @@ static int		iterate(char *input, t_token *token, enum e_state *st)
 }
 
 
-int	expand_token(t_token *tkn)
+static void	expand_token(t_token *tkn)
 {
 	enum e_state	st;
 	char			*tmp;
 
-//ft_printf("\nExpanding TOKEN: %s\n", tkn->data);
 	tmp = tkn->data;
 	tkn->size = ft_strlen(tmp);
 	tkn->complete = 0;
 	if ((tkn->data = malloc(tkn->size + 1)) == NULL)
 	{
 		tkn->data = tmp;
-		ft_dprintf(2, "allocation error\n");
-		return (0);
+		ft_dprintf(2, "allocation error during expansion token '%s'\n", tmp);
+		return ;
 	}
 	*(tkn->data) = '\0';
 	tkn->pos = 0;
 	st = S_GEN;
 	if (iterate(tmp, tkn, &st) == -1)
-	{
 		ft_dprintf(2, "error during parameters expansion in: %s\n", tmp);
-		free((void *)tmp);
-		return (0);
-	}
 	free((void *)tmp);
-	return (1);
+}
+
+void	expand_tokens(t_token *lst)
+{
+	while (lst)
+	{
+		expand_token(lst);
+		lst = lst->next;
+	}
 }

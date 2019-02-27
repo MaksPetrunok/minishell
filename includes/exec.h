@@ -22,6 +22,8 @@
 ** execute.c
 */
 void				launch_process(char **av, t_env *env);
+int					execute(char **av, t_env *env);
+int					execute_redir(char **av, t_env *env, char **io);
 
 /*
 ** tkn_add.c
@@ -31,7 +33,7 @@ int					tkn_add(t_token **tkn, char **inp);
 /*
 ** expansion.c
 */
-int					expand_token(t_token *tkn);
+void				expand_tokens(t_token *tkn);
 
 /*
 ** expand_str.c
@@ -41,7 +43,12 @@ int					expand_str(t_token **tkn, char **input);
 /*
 ** get_argv.c
 */
-char				**get_arg_vector(t_token *lst);
+char				**get_arg_vector(t_token *lst, char ***redir_lst);
+
+/*
+** redirect.c
+*/
+void				redirect_io(char **io);
 
 /*
 ** exec_func.c

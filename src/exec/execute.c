@@ -98,6 +98,35 @@ int			execute(char **av, t_env *env)
 
 	if ((child = fork()) == 0)
 	{
+		// closing file descriptors g_shell.io_backup
+		launch_process(av, env);
+		exit(127);
+	}
+	else if (child < 0)
+	{
+		ft_dprintf(2, "%s: failed to launch new process '%s'\n",
+												SHELL_NAME, av[0]);
+		return (-1);
+	}
+	else
+	{
+		add_child_process(child);
+	}
+	waitpid(child, &status, 0);
+	g_shell.last_ret = WEXITSTATUS(status);
+	finish_child_processes();
+	switch_term_to(g_shell.term_typing);
+	return (1);
+}
+
+int			execute_redir(char **av, t_env *env, char **io)
+{
+	pid_t	child;
+	int		status;
+
+	if ((child = fork()) == 0)
+	{
+		redirect_io(io);
 		launch_process(av, env);
 		exit(127);
 	}

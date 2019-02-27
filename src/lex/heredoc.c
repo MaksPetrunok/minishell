@@ -90,7 +90,7 @@ int	open_heredocs(t_token *lst)
 			// if it is heredoc redir and next token is not word - report error
 			if (!lst->next || lst->next->type != T_WORD)
 			{
-				ft_dprintf(2, "syntax error after token '%s'\n", lst->data);
+				ft_dprintf(2, "syntax error after the token '%s'\n", lst->data);
 				return (0);
 			}
 			// if it's not possible to combine tokens into heredoc

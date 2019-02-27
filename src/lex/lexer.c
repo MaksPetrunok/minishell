@@ -12,28 +12,6 @@
 
 #include "minishell.h"
 
-/*
- * Tokens:
- * NEWLINE
- * IO_NUMBER (I/O redirection: pipe, >, <, >> or <<)
- * WORD
- * ASSIGN (variable assignment - only if it is first token, or there is preceeding NEWLINE
- * AND
- * OR
- */
-
-/*
- * States: S_GEN - general (inside word)
- *         S_WSP - whitespace (between words) // not needed? close token upon witespace and go further
- *         S_IOR - I/O redirection (after > or <)
- *         S_SQT - single quote
- *         S_DQT - double quote
- *         S_ESC - escape sequense
- *         S_LOG - logical operator? (after | or &) check if it's pipe, &, && or ||
- */
-
-// Add hash # recognition for comments handling
-
 static t_state_trans	g_fsm_table[5][13] =
 {
 	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
@@ -242,7 +220,7 @@ t_token			*tokenize(char *input)
 
 	if (!input)
 		return (0);
-ft_printf("--------------------- DEBUG: start tokenizing -----------------------\n");
+//ft_printf("--------------------- DEBUG: start tokenizing -----------------------\n");
 	token = 0;
 	st = S_GEN;
 	if (iterate(input, &token, &st) == -1)
@@ -260,9 +238,11 @@ ft_printf("--------------------- DEBUG: start tokenizing -----------------------
 		tknlst_free(token);
 		return (NULL);
 	}
+
+if (0)
 	debug_tknlist(token); // for debug
 	//exit(0);              // for debug
-	ft_printf("========== END LEXER ===============\n");
+//	ft_printf("========== END LEXER ===============\n");
 	return (token);
 }
 

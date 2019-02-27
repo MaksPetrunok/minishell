@@ -34,117 +34,59 @@ static int		tknlst_size(t_token *lst)
 	return (count);
 }
 
-#define IS_WR(X) ((X & S_IRWXU) == S_IWUSR)
-#define IS_RD(X) ((X & S_IRWXU) == S_IRUSR)
-
-static int		check_fd(int fd, char io)
+static int	allocate_arrays(char ***av, char ***redir_lst, int size)
 {
-	struct stat	fst;
-
-	if (fstat(fd, &fst) == -1)
-		return (-1);
-	if ((io == '<' && !IS_RD(fst.st_mode)) ||
-		(io == '>' && !IS_WR(fst.st_mode)))
-		return (-1);
-	else
-		return (fd);
-}
-
-static int		get_fd(char *rd, t_token *src)
-{
-	int	fd;
-
-	expand_token(src);
-	if (ft_strequ(rd, "<"))
-		fd = open(src->data, O_RDONLY);
-	else if (ft_strequ(rd, ">"))
-		fd = open(src->data, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	else if (ft_strequ(rd, ">>"))
-		fd = open(src->data, O_APPEND | O_CREAT, 0666);
-	else if (ft_strequ(rd, ">&") || ft_strequ(rd, "<&"))
+	if ((*av = malloc(sizeof(char **) * size)) == NULL ||
+		(*redir_lst = malloc(sizeof(char **) * size)) == NULL)
 	{
-		if (ft_isnumeric(src->data))
-			fd = check_fd(ft_atoi(src->data), *rd);
-		else
-			fd = open(src->data, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		free((void *)(*av));
+		free((void *)(*redir_lst));
+		ft_dprintf(2, "allocation error\n");
+		return (0);
 	}
-	else
-		fd = 0;
-	if (fd == -1)
-		ft_dprintf(2, "cannot open %s\n", src->data);
-	return (fd);
+	return (1);
 }
 
-static void		perform_redirection(int	fd, char *rd, t_token *src)
+static void	add_redirection(t_token *io, char ***redir, int *index)
 {
-	int	pipe_fd[2];
-	int	dst_fd;
-
-	if ((dst_fd = get_fd(rd, src)) < 0)
+	if (!io || io->data == NULL || io->next == NULL || io->next->data == NULL)
+	{
+		ft_dprintf(2, "cannot parse io redirection\n");
 		return ;
-	if (ft_strequ(rd, ">") || ft_strequ(rd, ">>") || ft_strequ(rd, "<"))
-		dup2(dst_fd, fd);
-	else if (ft_strequ(rd, ">&") || ft_strequ(rd, "<&"))
-	{
-		if (ft_strequ(src->data, "-"))
-			close(dst_fd);
-		else
-			dup2(dst_fd, fd);
 	}
-	else
-	{
-		pipe(pipe_fd);
-		dup2(pipe_fd[0], 0);
-		close(pipe_fd[0]);
-		ft_dprintf(pipe_fd[1], "%s", src->data);
-		close(pipe_fd[1]);
-	}
+	*(*redir + *index) = io->data;
+	*index += 1;
+	*(*redir + *index) = io->next->data;
+	*index += 1;
 }
 
-
-static t_token	*redirect(t_token *io)
-{
-	char	*redir;
-	int		fd_ref;
-
-	if (ft_isdigit(io->data[0]))
-		fd_ref = ft_atoi(io->data);
-	else if (io->data[0] == '<')
-		fd_ref = 0;
-	else
-		fd_ref = 1;
-	redir = io->data;
-	while (ft_isdigit(*redir))
-		redir++;
-	perform_redirection(fd_ref, redir, io->next);
-
-	// do io redirection here
-	return (io->next);
-}
-
-
-char	**get_arg_vector(t_token *lst)
+// if no arguments for av available - free av and redir_lst
+// redir lst consists of sequense of T_IO_NUM->T_WORD->T_IO_NUM-T_WORD...
+char	**get_arg_vector(t_token *lst, char ***redir_lst)
 {
 	char	**av;
-	int		index;
+	int		index_av;
+	int		index_rd;
 
-	if ((av = malloc(sizeof(char **) * (tknlst_size(lst)) + 1)) == NULL)
-	{
-		ft_dprintf(2, "allocation error\n");
+	expand_tokens(lst);
+	if (allocate_arrays(&av, redir_lst, tknlst_size(lst) + 1) == 0)
 		return (NULL);
-	}
-	index = 0;
+	index_av = 0;
+	index_rd = 0;
 	while (lst)
 	{
-		expand_token(lst);
 		if (lst->type == T_ASSIGN)
 			assign_var(lst->data);
 		else if (lst->type == T_IO_NUM)
-			lst = redirect(lst);
+			add_redirection(lst, redir_lst, &index_rd);
 		else
-			av[index++] = lst->data;
-		lst = lst->next;
+			av[index_av++] = lst->data;
+		if (lst->type == T_IO_NUM)
+			lst = lst->next->next;
+		else
+			lst = lst->next;
 	}
-	av[index] = NULL;
+	av[index_av] = NULL;
+	*(*redir_lst + index_rd) = NULL;
 	return (av);
 }
