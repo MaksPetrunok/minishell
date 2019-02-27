@@ -89,24 +89,25 @@ env: if command is builtin - run builtin
 		free((void *)redir_lst);
 		return (1);
 	}
+/*
 for(int i=0; av[i] != NULL; i++)
 ft_printf("av[%d] = %s\n", i, av[i]);
 for(int i=0; redir_lst[i] != NULL; i++)
 ft_printf("redir[%d] = %s\n", i, redir_lst[i]);
+*/
 	if ((bf = get_builtin(*av)) != 0)
 	{
 		if (backup_stdio())
 		{
-			// redirect io
 			redirect_io(redir_lst);
 			res = bf(av);
 			restore_stdio();
 		}
 	}
 	else
-	{
 		res = execute_redir(av, g_shell.environ, redir_lst);
-	}
+	free((void *)av);
+	free((void *)redir_lst);
 	return (res);
 }
 
