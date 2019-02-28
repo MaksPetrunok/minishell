@@ -100,12 +100,12 @@ static void		redirect(int fd, char *rd, char *src)
 	{
 		if (ft_strequ(src, "-"))
 		{
-ft_printf("Closing %d\n", fd);
+//ft_printf("Closing %d\n", fd);
 			close(fd);
 		}
 		else 
 		{
-ft_printf("Duplicate %d as %d\n", dst_fd, fd);
+//ft_printf("Duplicate %d as %d\n", dst_fd, fd);
 			if (fstat(fd, &st) == 0)
 				dup2(dst_fd, fd);
 			else

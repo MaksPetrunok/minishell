@@ -43,7 +43,7 @@ static int	append_hd(t_token *hd, t_token *t, char *delim)
 			start->next = get_next_token(get_next_token(t));
 			to = t->src;
 			
-			hd->data = (from != to) ? ft_substr(from + 1, to) : ft_strnew(0);
+			hd->data = (from != to) ? ft_substr(from + 1, to + 1) : ft_strnew(0);
 			return (1);
 		}
 		t = get_next_token(t);
