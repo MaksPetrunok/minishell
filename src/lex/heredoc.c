@@ -85,18 +85,18 @@ int	open_heredocs(t_token *lst)
 	while (lst)
 	{
 		// check if current token is heredoc redirection
-		if (lst->type == T_IO_NUM && ft_strstr(lst->data, "<<"))
+		if (lst->type == T_IO_NUM)
 		{
 			// if it is heredoc redir and next token is not word - report error
 			if (!lst->next || lst->next->type != T_WORD)
 			{
-				ft_dprintf(2, "syntax error after the token '%s'\n", lst->data);
-				return (0);
+				ft_dprintf(2, "syntax error after token '%s'\n", lst->data);
+				return (-1);
 			}
 			// if it's not possible to combine tokens into heredoc
 			// continue input with prompt "heredoc>"
 			// otherwise continue opening other heredocs
-			if (!move_hd_into(lst->next))
+			if (ft_strstr(lst->data, "<<") && !move_hd_into(lst->next))
 				return (0);
 		}
 		lst = lst->next;

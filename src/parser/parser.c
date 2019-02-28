@@ -111,7 +111,6 @@ int		build_tree_from(t_ast *node)
 		return (1);
 	if (node->type == COMMAND)
 		return (check_cmd(node->tkn_lst));
-
 	while (node->tkn_lst && node->tkn_lst->type == T_NEWLINE)
 		node->tkn_lst = skip_token(node->tkn_lst);
 	if ((delim = get_next(node->type, node->tkn_lst)) == NULL)
@@ -222,15 +221,11 @@ t_ast	*parse(t_token *lst)
 
 	if (!lst || (root = make_node(NEWLINE, lst)) == NULL)
 		return (NULL);
-	build_tree_from(root);
-	return (root);
-	/*
+	if (build_tree_from(root))
+		return (root);
 	else
 	{
-		ft_printf("----------- freeing tree on error -------------\n");
 		free_tree(root);
-		ft_printf("----------- freeing tree on error /-------------\n");
 		return (NULL);
 	}
-	*/
 }

@@ -37,7 +37,8 @@
 # include <termcap.h>
 # include <term.h>
 
-# define SHELL_NAME	"SmashMyBashUp"
+//# define SHELL_NAME	"SmashMyBashUp"
+# define SHELL_NAME	"zbsh"
 # define UNUSED	__attribute__((unused))
 
 extern t_shell	g_shell;

@@ -253,9 +253,9 @@ void			tknlst_free(t_token *lst)
 	while (lst)
 	{
 		tmp = lst->next;
-ft_printf("> Freeing: %s\n", lst->data);
+//ft_printf("> Freeing: %s\n", lst->data);
 		free((void *)(lst->data));
-ft_printf("> Token: %p\n", lst);
+//ft_printf("> Token: %p\n", lst);
 		free((void *)lst);
 		lst = tmp;
 	}

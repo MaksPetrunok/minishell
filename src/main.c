@@ -19,6 +19,7 @@ int		process_input(char *input)
 	t_token	*tkn_lst;
 	t_ast	*root;
 	int		run;
+	int		hd_status;
 
 	g_shell.run = 1;
 
@@ -30,20 +31,24 @@ int		process_input(char *input)
 
 	run = 1;
 	root = NULL;
-	if (open_heredocs(tkn_lst))
+	if ((hd_status = open_heredocs(tkn_lst)) > 0)
 	{
 		if ((root = parse(tkn_lst)) != NULL)
 			run = execute_tree(root); // return proper value
 	}
-	else
+	else if (hd_status == 0)
 	{
 		g_shell.const_input = ft_strdup(input);
 		g_shell.inp_state = S_HD;
 		tknlst_free(tkn_lst);
 	}
+	else
+	{
+		g_shell.inp_state = S_GEN;
+		tknlst_free(tkn_lst);
+	}
 	free_tree(root);
-	root = NULL;
-	tkn_lst = NULL;
+	//tkn_lst = NULL;
 	ft_printf("-----------------------------------------------------------\n");
 	system("leaks minishell");
 	ft_printf("-----------------------------------------------------------\n");
