@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 20:20:19 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/28 15:01:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		process_input(char *input)
 	free_tree(root);
 	//tkn_lst = NULL;
 	ft_printf("-----------------------------------------------------------\n");
-	system("leaks minishell");
+	system("leaks -quiet minishell");
 	ft_printf("-----------------------------------------------------------\n");
 	return (run);
 }

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 13:08:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/21 20:14:25 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/28 16:56:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,62 +53,29 @@ static void	restore_stdio(void)
 // executes single command (without pipeline)
 int	exec_cmd(t_ast *node)
 {
-/*
-1. get_arg_vector(redir)
-	expand_tokens
-	accomplish assignments
-	returns vector of command and command arguments only
-	writes required redirections to redir
-2. if get_arg_vector returned NULL as command vector - free redir and return
-3. if *av - builtin:
-	- duplicate fds 0, 1, 2
-	- perform redirection
-	- execute builtin
-	-restore fds 0,1,2
-
-4. if *av - not builtin:
-	- fork new process
-	- perform redirections
-	- execve new process
-
-env: if command is builtin - run builtin
-		else fork run specific command, closing stdio duplicate fds
-	
-	
-*/
-
 	t_func	bf;
 	char	**av;
 	char	**redir_lst;
-	int		res;
+	int		run;
 
 	redir_lst = NULL;
-	if ((av = get_arg_vector(node->tkn_lst, &redir_lst)) == NULL || *av == NULL)
-	{
-		free((void *)av);
-		free((void *)redir_lst);
-		return (1);
-	}
-/*
-for(int i=0; av[i] != NULL; i++)
-ft_printf("av[%d] = %s\n", i, av[i]);
-for(int i=0; redir_lst[i] != NULL; i++)
-ft_printf("redir[%d] = %s\n", i, redir_lst[i]);
-*/
+	run = 1;
+	if ((av = get_arg_vector(node->tkn_lst, &redir_lst)) == NULL)
+		return (0);
 	if ((bf = get_builtin(*av)) != 0)
 	{
 		if (backup_stdio())
 		{
 			redirect_io(redir_lst);
-			res = bf(av);
+			run = bf(av);
 			restore_stdio();
 		}
 	}
 	else
-		res = execute_redir(av, g_shell.environ, redir_lst);
+		run = execute_redir(av, g_shell.environ, redir_lst);
 	free((void *)av);
 	free((void *)redir_lst);
-	return (res);
+	return (run);
 }
 
 int	exec_wait_pipe(t_ast *node, int *fd)

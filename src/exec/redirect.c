@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 18:34:03 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/21 19:30:07 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/28 16:58:26 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ static int		get_fd(char *rd, char *src)
 		fd = 0;
 	if (fd == -1)
 		ft_dprintf(2, "cannot open %s\n", src);
-	else //
-	ft_printf("FD=%d\n", fd);
 	return (fd);
 }
 

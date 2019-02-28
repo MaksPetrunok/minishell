@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 18:34:03 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/21 19:30:07 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/28 16:56:28 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,30 @@ static void		assign_var(char *str)
 	set_var(str, delim + 1, g_shell.environ);
 }
 
-static int		tknlst_size(t_token *lst)
+static void	free_arrays(char ***av, char ***redir_lst)
 {
-	int	count;
-
-	count = 0;
-	while(lst)
-	{
-		count++;
-		lst = lst->next;
-	}
-	return (count);
+	free((void *)(*av));
+	free((void *)(*redir_lst));
+	*av = NULL;
+	*redir_lst = NULL;
 }
 
-static int	allocate_arrays(char ***av, char ***redir_lst, int size)
+static int	allocate_arrays(char ***av, char ***redir_lst, t_token *lst)
 {
+	int	size;
+
+	size = 1;
+	while(lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	if (size == 1)
+	{
+		*av = NULL;
+		*redir_lst = NULL;
+		return (0);
+	}
 	if ((*av = malloc(sizeof(char **) * size)) == NULL ||
 		(*redir_lst = malloc(sizeof(char **) * size)) == NULL)
 	{
@@ -47,17 +56,22 @@ static int	allocate_arrays(char ***av, char ***redir_lst, int size)
 	return (1);
 }
 
-static void	add_redirection(t_token *io, char ***redir, int *index)
+static t_token	*add_redirection(t_token *io, char ***redir, int *index)
 {
-	if (!io || io->data == NULL || io->next == NULL || io->next->data == NULL)
+	if (io->data == NULL || io->next == NULL || io->next->data == NULL)
 	{
 		ft_dprintf(2, "cannot parse io redirection\n");
-		return ;
+		if (io->next == NULL)
+			return (io);
+		else
+			return (io->next);
 	}
 	*(*redir + *index) = io->data;
 	*index += 1;
 	*(*redir + *index) = io->next->data;
 	*index += 1;
+	*(*redir + *index) = NULL;
+	return (io->next);
 }
 
 // if no arguments for av available - free av and redir_lst
@@ -69,7 +83,7 @@ char	**get_arg_vector(t_token *lst, char ***redir_lst)
 	int		index_rd;
 
 	expand_tokens(lst);
-	if (allocate_arrays(&av, redir_lst, tknlst_size(lst) + 1) == 0)
+	if (allocate_arrays(&av, redir_lst, lst) == 0)
 		return (NULL);
 	index_av = 0;
 	index_rd = 0;
@@ -78,14 +92,13 @@ char	**get_arg_vector(t_token *lst, char ***redir_lst)
 		if (lst->type == T_ASSIGN)
 			assign_var(lst->data);
 		else if (lst->type == T_IO_NUM)
-			add_redirection(lst, redir_lst, &index_rd);
+			lst = add_redirection(lst, redir_lst, &index_rd);
 		else
 			av[index_av++] = lst->data;
-		if (lst->type == T_IO_NUM)
-			lst = lst->next->next;
-		else
-			lst = lst->next;
+		lst = lst->next;
 	}
+	if (index_av == 0)
+		free_arrays(&av, redir_lst);
 	av[index_av] = NULL;
 	*(*redir_lst + index_rd) = NULL;
 	return (av);
