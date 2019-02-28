@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 19:19:19 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 14:07:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/28 19:04:01 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ t_token	*get_next(enum e_ntype type, t_token *lst)
 	return (delim);
 }
 
+/*
 static void	print_tokens(t_token *tkn)
 {
 	while (tkn)
@@ -170,7 +171,7 @@ static void	print_tokens(t_token *tkn)
 	}
 	ft_putstr("\n");
 }
-
+*/
 // returns 1 upon successfull subtree creation (recursively)
 // returns 0 on error (syntax, allocation, etc)
 int		split_node(t_ast *node, t_token *delim)
@@ -190,9 +191,11 @@ int		split_node(t_ast *node, t_token *delim)
 	delim->prev->next = NULL;
 	delim->next = NULL;
 	node->tkn_lst = delim;
+/*
 ft_printf("NODE: "); print_tokens(node->tkn_lst); //
 ft_printf("   L: "); print_tokens(node->left->tkn_lst); //
 ft_printf("   R: "); print_tokens(node->right->tkn_lst); //
+*/
 	return (build_tree_from(node->left) &&
 			build_tree_from(node->right));
 }

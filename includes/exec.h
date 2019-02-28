@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 14:59:45 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/02/28 18:20:31 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ char				**get_arg_vector(t_token *lst, char ***redir_lst);
 ** redirect.c
 */
 void				redirect_io(char **io);
+
+/*
+** io_backup.c
+*/
+int					backup_stdio(void);
+void				restore_stdio(void);
 
 /*
 ** exec_func.c

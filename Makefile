@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/20 19:00:07 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/02/28 18:21:55 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ MAIN_FILES = main.c \
 			exec/exec_cmd.c \
 			exec/get_argv.c \
 			exec/redirect.c \
+			exec/io_backup.c \
 			\
 			err/err.c \
 			\
