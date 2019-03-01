@@ -65,12 +65,12 @@ static int	launch_util(char **av, t_env **env)
 	return (0);
 }
 
-int			builtin_env(char **av)
+int			builtin_env(char **av, t_env *e)
 {
 	t_env	*env;
 	int		i;
 
-	if ((env = init_environment(g_shell.environ->av)) == NULL)
+	if ((env = init_environment(e->av)) == NULL)
 	{
 		ft_dprintf(2, "env: cannot allocate environment copy\n");
 		return (1);

@@ -28,7 +28,7 @@ int	exec_cmd(t_ast *node)
 		if (backup_stdio())
 		{
 			redirect_io(redir_lst);
-			run = bf(av);
+			run = bf(av, g_shell.environ);
 			restore_stdio();
 		}
 	}

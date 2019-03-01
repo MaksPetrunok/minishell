@@ -27,8 +27,9 @@ static int	is_number(char *str)
 	return (1);
 }
 
-int			builtin_exit(char **arg)
+int			builtin_exit(char **arg, t_env *env)
 {
+	(void)env;
 	if (arg[1] != NULL)
 	{
 		if (arg[2] != NULL)

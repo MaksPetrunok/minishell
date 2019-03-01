@@ -72,7 +72,7 @@ void	launch_process(char **av, t_env *env)
 
 	if ((builtin = get_builtin(*av)) != NULL)
 	{
-		builtin(av);
+		builtin(av, env);
 		return ;
 	}
 	cmd = get_exec_path(av[0]);
@@ -98,7 +98,6 @@ int			execute(char **av, t_env *env)
 
 	if ((child = fork()) == 0)
 	{
-		// closing file descriptors g_shell.io_backup
 		launch_process(av, env);
 		exit(127);
 	}

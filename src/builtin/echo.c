@@ -22,12 +22,13 @@ static int	append_newline(char **av)
 	return (1);
 }
 
-int			builtin_echo(char **av)
+int			builtin_echo(char **av, t_env *env)
 {
 	int	append_nl;
 	int	i;
 	int	size;
 
+	(void)env;
 	size = ft_arrsize((void **)av);
 	append_nl = append_newline(av);
 	if (append_nl)

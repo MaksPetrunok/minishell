@@ -21,14 +21,14 @@ static int	wrong_name_msg(char *expr)
 	return (ft_dprintf(2, "setenv: not and identifier: %s\n", expr));
 }
 
-int			builtin_setenv(char **av)
+int			builtin_setenv(char **av, t_env *env)
 {
 	int		size;
 	char	*ptr;
 	int		err;
 
 	if (av[1] == 0)
-		return (builtin_env(av));
+		return (builtin_env(av, env));
 	err = 0;
 	size = ft_arrsize((void **)av);
 	if (!ft_isalpha(av[1][0]) && av[1][0] != '_')
@@ -39,12 +39,12 @@ int			builtin_setenv(char **av)
 		if (size > 2)
 			err = ft_dprintf(2, "setenv: too many arguments\n");
 		else
-			set_var(av[1], ptr + 1, g_shell.environ);
+			set_var(av[1], ptr + 1, env);
 	}
 	else if (size > 3)
 		err = ft_dprintf(2, "setenv: too many arguments\n");
 	else
-		set_var(av[1], av[2], g_shell.environ);
+		set_var(av[1], av[2], env);
 	g_shell.last_ret = err ? 1 : 0;
 	return (1);
 }

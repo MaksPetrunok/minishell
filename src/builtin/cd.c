@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-static char	*get_path(char *arg)
+static char	*get_path(char *arg, t_env *env)
 {
 	char	*path;
 
 	path = NULL;
 	if (!arg || ft_strcmp(arg, "--") == 0)
-		path = get_var("HOME", g_shell.environ);
+		path = get_var("HOME", env);
 	else if (ft_strcmp(arg, "-") == 0)
-		path = get_var("OLDPWD", g_shell.environ);
+		path = get_var("OLDPWD", env);
 	else if (access(arg, F_OK) == 0)
 		path = arg;
 	return (path);
@@ -35,11 +35,11 @@ static int	is_dir(char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-static int	try_cd(char *dir)
+static int	try_cd(char *dir, t_env *env)
 {
 	char	*path;
 
-	if ((path = get_path(dir)) == 0)
+	if ((path = get_path(dir, env)) == 0)
 	{
 		if (dir == NULL || ft_strequ(dir, "--") || ft_strequ(dir, "~"))
 			ft_putstr_fd("cd: HOME not set\n", 2);
@@ -64,11 +64,12 @@ static int	try_cd(char *dir)
 	return (0);
 }
 
-int			builtin_cd(char **av)
+int			builtin_cd(char **av, t_env *env)
 {
 	char	cwd[4100];
 	char	new_dir[4100];
 
+	
 	getcwd(cwd, 4100);
 	if (ft_arrsize((void **)av) > 2)
 	{
@@ -76,14 +77,14 @@ int			builtin_cd(char **av)
 		g_shell.last_ret = 1;
 		return (1);
 	}
-	if (try_cd(av[1]))
+	if (try_cd(av[1], env))
 	{
-		set_var("OLDPWD", cwd, g_shell.environ);
+		set_var("OLDPWD", cwd, env);
 		g_shell.last_ret = 0;
 	}
 	else
 		g_shell.last_ret = 1;
 	getcwd(new_dir, 4100);
-	set_var("PWD", new_dir, g_shell.environ);
+	set_var("PWD", new_dir, env);
 	return (1);
 }

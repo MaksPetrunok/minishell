@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-int	builtin_pwd(char __attribute__((unused)) **av)
+int	builtin_pwd(char __attribute__((unused)) **av,
+				t_env __attribute__((unused)) *env)
 {
 	char	cwd[4100];
 

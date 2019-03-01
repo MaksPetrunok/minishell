@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtin_unsetenv(char **av)
+int	builtin_unsetenv(char **av, t_env *env)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int	builtin_unsetenv(char **av)
 	}
 	i = 1;
 	while (av[i] != 0)
-		unset_var(av[i++], g_shell.environ);
+		unset_var(av[i++], env);
 	g_shell.last_ret = 0;
 	return (1);
 }
