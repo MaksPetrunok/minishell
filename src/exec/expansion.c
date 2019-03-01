@@ -88,24 +88,21 @@ static int		iterate(char *input, t_token *token, enum e_state *st)
 	enum e_signal	sig;
 	t_lex_func		do_action;
 
-//ft_printf("\nExpanding string: %s\n", input);
 	while (*input)
 	{
-//		ft_printf("Reading token input: %c\n", *input);
 		sig = get_signal(*input);
 		if ((do_action = g_fsm_table[*st][sig].func) != 0)
 			if (do_action(&token, &input) < 0)
 			{
-				ft_dprintf(2, "%s: error while parsing input\n",
-														SHELL_NAME);
+				ft_dprintf(2, "%s: error while parsing input\n", SHELL_NAME);
 				return (-1);
 			}
 		*st = g_fsm_table[*st][sig].state;
-		input++;
+		if (*input)
+			input++;
 	}
 	return (0);
 }
-
 
 static void	expand_token(t_token *tkn)
 {

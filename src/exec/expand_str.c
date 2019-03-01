@@ -68,7 +68,7 @@ int	open_var(t_token *tkn, char *name)
 	free((void *)(tkn->data));
 	tkn->data = join;
 	tkn->pos = ft_strlen(join);
-	tkn->size = ft_strlen(join);
+	tkn->size = tkn->pos;
 	if (*name == '?' || *name == '$')
 		free((void *)str);
 	return (0);
@@ -92,10 +92,8 @@ int	expand_var(t_token *tkn, char **inp)
 		}
 		i = 0;
 		while (ft_isalnum(**inp) || **inp == '_')
-		{
-			name[i++] = **inp;
-			*inp += 1;
-		}
+			name[i++] = *(*inp)++;
+		*inp -= 1;
 	}
 	ret = open_var(tkn, name);
 	if (name != *inp)
