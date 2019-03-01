@@ -97,9 +97,9 @@ char	**get_arg_vector(t_token *lst, char ***redir_lst)
 			av[index_av++] = lst->data;
 		lst = lst->next;
 	}
-	if (index_av == 0)
-		free_arrays(&av, redir_lst);
 	av[index_av] = NULL;
 	*(*redir_lst + index_rd) = NULL;
+	if (index_av == 0)
+		free_arrays(&av, redir_lst);
 	return (av);
 }

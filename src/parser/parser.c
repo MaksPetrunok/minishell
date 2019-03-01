@@ -104,6 +104,22 @@ int		check_cmd(t_token *tkn)
 	return (1);
 }
 
+static enum e_ntype	type_trans(enum e_tkn_type type)
+{
+	if (type == T_NEWLINE)
+		return NEWLINE;
+	else if (type == T_SEMI)
+		return SEMI;
+	else if (type == T_OR)
+		return OR;
+	else if (type == T_AND)
+		return AND;
+	else if (type == T_PIPE)
+		return PIPE;
+	else
+		return COMMAND;
+}
+
 int		build_tree_from(t_ast *node)
 {
 	t_token	*delim;
@@ -126,40 +142,11 @@ int		build_tree_from(t_ast *node)
 		return (build_tree_from(node));
 	}
 	else
-		return (split_node(node, delim));
-}
-
-
-static enum e_ntype	type_trans(enum e_tkn_type type)
-{
-	if (type == T_NEWLINE)
-		return NEWLINE;
-	else if (type == T_SEMI)
-		return SEMI;
-	else if (type == T_OR)
-		return OR;
-	else if (type == T_AND)
-		return AND;
-	else if (type == T_PIPE)
-		return PIPE;
-	else
-		return COMMAND;
-}
-
-t_token	*get_next(enum e_ntype type, t_token *lst)
-{
-	t_token	*delim;
-
-	delim = NULL;
-	while (lst)
 	{
-		if (type_trans(lst->type) == type)
-			delim = lst;
-		lst = lst->next;
+		node->type = type_trans(delim->type);
+		return (split_node(node, delim));
 	}
-	return (delim);
 }
-
 /*
 static void	print_tokens(t_token *tkn)
 {
@@ -172,6 +159,24 @@ static void	print_tokens(t_token *tkn)
 	ft_putstr("\n");
 }
 */
+t_token	*get_next(enum e_ntype type, t_token *lst)
+{
+	t_token	*delim;
+
+	delim = NULL;
+	while (lst)
+	{
+		if (type_trans(lst->type) == type ||
+			((lst->type == T_OR || lst->type == T_AND) &&
+			(type == OR || type == AND)))
+			delim = lst;
+		lst = lst->next;
+	}
+	return (delim);
+}
+
+
+
 // returns 1 upon successfull subtree creation (recursively)
 // returns 0 on error (syntax, allocation, etc)
 int		split_node(t_ast *node, t_token *delim)

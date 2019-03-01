@@ -43,5 +43,6 @@ int			builtin_exit(char **arg, t_env *env)
 		ft_dprintf(2, "exit: numeric argument expected\n");
 		return (1);
 	}
+	exit(0);
 	return (0);
 }

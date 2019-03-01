@@ -1,91 +1,19 @@
-Make function to execute as subfunction of env if it launches new command,
-either builtin or not.
-Implement execute functions for pipe
+Bonuses:
++1. Path rights
 
-
-S/F: ls > << file
-exec_wait_pipe - if function is builtin - do not fork
-
-+1. Manage quotes (', ", `) (and \n):
-2. Assignments.
-3. Command execution.
-	- prepare command for execution
-		- assign all variables from T_ASSIGN tokens
-		- make array of words for launching process
-		- make redirection preparation
-	- launch command with redirection
-4. Pipes.
-	- for each node:
-		- if right node = PIPE, out_fd = do_pipe(node->right)
-		- else
-5. > >> <.
-+6. << (heredoc).
-7. && ||.
-8. History search.
-9. Execution from file.
-10. Subshell expansion.
-
-
-Add input state field to g_shell (S_SQT, S_DQT, S_BQT, S_GEN).
-Add cont inp buff to g_shell.
-
-
-00. MANAGE QUOTES on several lines.
-
-0. Add support of local variables.
-	(add export builtin to make local variable environment variable)
-
-1. Make function which iterates over tokens in COMMAND node and:
-	- if there is T_ASSIGN tokens - assign corresponding variables
-	- makes argument array from T_WORD tokens
-	- makes redirection list from T_IO_NUM + T_WORD tokens
-
-2. If there is no words in argument array - skip redirectioin.
-3. Else accomplish all redirection in specified sequense (!) and try to launch new process from args.
-
-4. Make function which performs expansions.
-
-5. Handle && ||.
-
-6. Handle backquotes.
-
-7. Add token line numeration for advanced error handling (useful for running script from file).
-
-
-Command graammar:
-
-complete_command		: command_redir
-						| assign command_redir
-
-command_redir			: command
-						| redir
-						| command_redir command
-						| command_redir	redir
-
-assign					: assign T_ASSIGN
-						| T_ASSIGN
-
-redir					: redir redir_num
-						| redir_num
-
-redir_num				: T_IO_NUM T_WORD
-
-command					: command T_WORD
-						| T_WORD
-
-1. Path rights
-
-2. Autocompletion
++2. Autocompletion
 
 3. Ctrl+R history search
 
 4. Hash-table for binaries
 
 5. Other
-5.1. Local variable or assignment to PATH with VAR=Value
-5.2. && ||
+~5.1. Local variable or assignment to PATH with VAR=Value
++5.2. && ||
 5.3. Reading instructions from file
-5.4. Accomplish instructions in sub-shell?
+5.4. Accomplish instructions in sub-shell? (expansion for `` or $() )
 5.5. export builtin
 5.6. comment support
 5.7. help
+5.8. Add token line numeration for advanced error handling (useful for running script from file).
+

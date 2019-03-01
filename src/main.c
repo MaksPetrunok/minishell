@@ -49,9 +49,11 @@ int		process_input(char *input)
 	}
 	free_tree(root);
 	//tkn_lst = NULL;
+/*
 	ft_printf("-----------------------------------------------------------\n");
 	system("leaks -quiet minishell");
 	ft_printf("-----------------------------------------------------------\n");
+*/
 	return (run);
 }
 

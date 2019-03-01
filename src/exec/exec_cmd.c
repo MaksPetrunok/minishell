@@ -22,7 +22,7 @@ int	exec_cmd(t_ast *node)
 	redir_lst = NULL;
 	run = 1;
 	if ((av = get_arg_vector(node->tkn_lst, &redir_lst)) == NULL)
-		return (0);
+		return (1);
 	if ((bf = get_builtin(*av)) != 0)
 	{
 		if (backup_stdio())

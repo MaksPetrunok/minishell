@@ -67,16 +67,6 @@ int	pipe_recursive(t_ast *node, int *pipe_fd)
 		pipe_recursive(node->left, fd);
 	else
 		pipe_from(node->left, fd);
-// Debug: read from pipe
-//-----------------------
-/*
-ft_printf("\n");
-char c;
-while(read(fd[0], &c, 1))
-	write(1, &c, 1);
-ft_printf("\n");
-*/
-//-----------------------
 	pipe_to(node->right, fd, pipe_fd);
 	return (1);
 }
@@ -90,16 +80,6 @@ int	pipeline(t_ast *node)
 		pipe_recursive(node->left, fd);
 	else
 		pipe_from(node->left, fd);
-//-----------------------
-/*
-ft_printf("============= READING PIPE ======================\n");
-char c;
-while(read(fd[0], &c, 1))
-	write(1, &c, 1);
-ft_printf("============= READING PIPE ======================\n");
-*/
-//-----------------------
-
 	exec_wait_pipe(node->right, fd);
 	return (1);
 }
