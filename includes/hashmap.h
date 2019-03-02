@@ -13,10 +13,7 @@
 #ifndef HASHMAP_H
 # define HASHMAP_H
 
-# include <stdlib.h>
 # include "libft.h"
-
-# define HMAP_SIZE	1024
 
 typedef struct	s_hment t_hment;
 
@@ -31,13 +28,13 @@ struct			s_hment
 typedef struct	s_hashmap
 {
 	int			size;
-	t_hment		*list[HMAP_SIZE];
+	t_hment		**list;
 }				t_hashmap;
 
 /*
 ** hashmap.c
 */
-t_hashmap		*init_hashmap(void);
+t_hashmap		*init_hashmap(int size);
 char			*hmap_get(const char *key, t_hashmap *hmap);
 int				hmap_set(const char *key, const char *val, t_hashmap *hmap);
 int				hmap_del(const char *key, t_hashmap *hmap);

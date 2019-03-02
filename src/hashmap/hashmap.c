@@ -12,16 +12,21 @@
 
 #include "hashmap.h"
 
-t_hashmap	*init_hashmap(void)
+t_hashmap	*init_hashmap(int size)
 {
 	t_hashmap	*map;
 	int			i;
 
 	if ((map = malloc(sizeof(t_hashmap))) == NULL)
 		return (NULL);
-	map->size = HMAP_SIZE;
+	if ((map->list = malloc(sizeof(t_hment) * size)) == NULL)
+	{
+		free((void *)map);
+		return (NULL);
+	}
+	map->size = size;
 	i = 0;
-	while (i < HMAP_SIZE)
+	while (i < size)
 		map->list[i++] = NULL;
 	return (map);
 }
@@ -33,7 +38,7 @@ char	*hmap_get(const char *key, t_hashmap *hmap)
 
 	if (!key || !hmap)
 		return (NULL);
-	index = hash(key) % HMAP_SIZE;
+	index = hash(key) % hmap->size;
 	lst = hmap->list[index];
 	while (lst)
 	{
@@ -51,7 +56,7 @@ int		hmap_set(const char *key, const char *val, t_hashmap *hmap)
 
 	if (!key || !val || !hmap)
 		return (0);
-	index = hash(key) % HMAP_SIZE;
+	index = hash(key) % hmap->size;
 	ent = hmap->list[index];
 	while (ent)
 	{
@@ -80,7 +85,7 @@ int		hmap_del(const char *key, t_hashmap *hmap)
 
 	if (!key || !hmap)
 		return (0);
-	index = hash(key) % HMAP_SIZE;
+	index = hash(key) % hmap->size;
 	lst = hmap->list[index];
 	while (lst)
 	{
@@ -103,7 +108,7 @@ void	free_hashmap(t_hashmap *map)
 	t_hment *tmp;
 
 	i = 0;
-	while (i < HMAP_SIZE)
+	while (i < map->size)
 	{
 		e = map->list[i];
 		while (e) {
@@ -115,5 +120,6 @@ void	free_hashmap(t_hashmap *map)
 		}
 		i++;
 	}
+	free((void *)(map->list));
 	free((void *)map);
 }

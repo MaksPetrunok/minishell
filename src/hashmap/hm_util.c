@@ -58,7 +58,7 @@ void			del_hmentry(t_hment *ent)
 
 void	hmap_print(t_hashmap *hmap)
 {
-	for (int i=0; i<HMAP_SIZE; i++)
+	for (int i = 0; i < hmap->size; i++)
 	{
 		if (hmap->list[i] == NULL)
 			continue ;
