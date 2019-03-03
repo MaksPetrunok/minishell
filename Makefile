@@ -87,6 +87,7 @@ MAIN_FILES = main.c \
 			ui/input/copy.c \
 			ui/input/cut.c \
 			ui/input/paste.c \
+			ui/input/eof.c \
 			\
 			ui/history/history.c \
 			ui/history/navigate.c \

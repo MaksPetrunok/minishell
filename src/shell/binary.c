@@ -55,7 +55,7 @@ void	upd_binary_lst(void)
 		return ;
 	}
 	i = 0;
-ft_printf("Updating binary table\n"); // debug
+//ft_printf("Updating binary table\n"); // debug
 	while (dirs[i])
 		fill_binary(dirs[i++]);
 	free((void *)dirs);

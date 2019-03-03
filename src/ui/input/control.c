@@ -26,6 +26,7 @@ static t_key	g_table[KEY_NUM] = {
 	{K_SH_END, &inp_end},
 	{K_SH_PGUP, &inp_up},
 	{K_SH_PGDOWN, &inp_down},
+	{K_CTRL_D, &inp_eof},
 
 	{K_CTRL_A, &inp_copy_all},
 	{K_CTRL_X, &inp_cut_all},

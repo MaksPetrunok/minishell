@@ -61,6 +61,8 @@ char	*combine_input(char *inp)
 {
 	char	*tmp;
 
+if (g_shell.inp_state != S_GEN)
+ft_printf("--- NOT SGEN ---\n");
 	if (g_shell.const_input == NULL)
 		return (inp);
 	tmp = ft_strjoin3(g_shell.const_input, "\n", inp);

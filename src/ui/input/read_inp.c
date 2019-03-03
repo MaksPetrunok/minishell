@@ -80,8 +80,12 @@ static void			read_input(t_inp_buff *buff, int fd)
 		while (i <= SYM_SIZE)
 			sym[i++] = '\0';
 		read_symbol(sym, fd);
-		if (ft_strequ(sym, K_RETURN))
+		if (ft_strequ(sym, K_RETURN) ||
+			(ft_strequ(sym, K_CTRL_D) && g_shell.inp_state != S_GEN)) // rm?
+		{
+			g_shell.inp_state = ft_strequ(sym, K_CTRL_D) ? S_GEN : g_shell.inp_state; // rm?
 			break ;
+		}
 		else if (*sym && (*sym < 32 || *sym == 127))
 			inp_control(buff, sym);
 		else if (*sym)

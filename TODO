@@ -1,3 +1,8 @@
+Ctrl+D - (eof.c) - handle in lexer/parser
+Free all shell_struct in exit_shell()
+
+
+
 Bonuses:
 +1. Path rights
 
