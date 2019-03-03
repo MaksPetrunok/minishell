@@ -26,6 +26,7 @@ LIB = $(LIB_DIR)libft.a
 
 DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)$(BUILTIN_DIR) \
+			$(OBJ_DIR)hashmap/ \
 			$(OBJ_DIR)env/ \
 			$(OBJ_DIR)err/ \
 			$(OBJ_DIR)lex/ \
@@ -42,6 +43,10 @@ DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)ui/autocmp/
 
 MAIN_FILES = main.c \
+			\
+			hashmap/hashmap.c \
+			hashmap/hm_util.c \
+			\
 			exec/expansion.c \
 			exec/tkn_add.c \
 			exec/expand_str.c \
@@ -69,6 +74,7 @@ MAIN_FILES = main.c \
 			\
 			shell/shell.c \
 			shell/shell_exit.c \
+			shell/binary.c \
 			\
 			ui/input/buffer.c \
 			ui/input/read_inp.c \

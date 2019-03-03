@@ -92,6 +92,7 @@ void	sh_loop(void)
 	run = 1;
 	while (run)
 	{
+		upd_binary_lst();
 		show_prompt();
 		if (get_input(&input, 0) > 0)
 		{

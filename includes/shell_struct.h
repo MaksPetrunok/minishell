@@ -18,6 +18,7 @@
 # include "environ.h"
 # include "cursor.h"
 # include "history.h"
+# include "hashmap.h"
 # include "lexer.h"
 # include <sys/ioctl.h>
 
@@ -33,6 +34,8 @@ typedef struct		s_shell
 	enum e_state	inp_state;	// input state
 	char			*const_input;	// constant buffer
 	int				io_backup[3];
+	unsigned long	path_hash;
+	t_hashmap		*binary;
 	int				is_fork;
 	int				run;
 	int				canonical;
@@ -65,5 +68,10 @@ void				free_terminals(void);
 */
 int					finish_child_processes(void);
 int					add_child_process(pid_t pid);
+
+/*
+** binary.c
+*/
+void				upd_binary_lst(void);
 
 #endif

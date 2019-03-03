@@ -45,8 +45,21 @@ int			add_child_process(pid_t pid)
 	return (0);
 }
 
-int			init_shell(char **env)
+unsigned long	get_path_hash(void)
 {
+	char	*path;
+
+	path = get_var("PATH", g_shell.environ);
+	if (path == NULL)
+		return (0);
+	else
+		return (hash(path));
+}
+
+static void	init_fields(void)
+{
+	g_shell.binary = NULL;
+	g_shell.path_hash = 0;
 	g_shell.childs = NULL;
 	g_shell.input = NULL;
 	g_shell.last_ret = 0;
@@ -56,17 +69,24 @@ int			init_shell(char **env)
 	g_shell.io_backup[0] = -1;
 	g_shell.io_backup[1] = -1;
 	g_shell.io_backup[2] = -1;
+}
+
+int			init_shell(char **env)
+{
+	init_fields();
 	if ((g_shell.environ = init_environment(env)) == NULL)
 		return (-1);
 	set_shlvl();
+	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
+		return (-1);
+	upd_binary_lst();
 	if (setup_terminal() != 0 || init_history() != 0)
 	{
+		free_hashmap(g_shell.binary);
 		env_free(g_shell.environ);
 		return (-1);
 	}
 	init_cursor();
-	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
-		return (-1);
 	setup_signals();
 	g_shell.clipboard = NULL;
 	return (0);

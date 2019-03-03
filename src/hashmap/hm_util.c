@@ -58,10 +58,13 @@ void			del_hmentry(t_hment *ent)
 
 void	hmap_print(t_hashmap *hmap)
 {
+	int	count_emp = 0;
 	for (int i = 0; i < hmap->size; i++)
 	{
-		if (hmap->list[i] == NULL)
+		if (hmap->list[i] == NULL) {
+			count_emp++;
 			continue ;
+		}
 		ft_printf("%d:", i);
 		t_hment *ent = hmap->list[i];
 		while (ent) {
@@ -70,4 +73,5 @@ void	hmap_print(t_hashmap *hmap)
 		}
 		ft_printf("\n");
 	}
+	ft_printf("Empty buckets: %d\n", count_emp);
 }

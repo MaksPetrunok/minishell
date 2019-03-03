@@ -107,6 +107,8 @@ void	free_hashmap(t_hashmap *map)
 	t_hment	*e;
 	t_hment *tmp;
 
+	if (map == NULL)
+		return ;
 	i = 0;
 	while (i < map->size)
 	{

@@ -15,6 +15,7 @@
 
 # include "shell_struct.h"
 # include "libft.h"
+# include "hashmap.h"
 # include "input.h"
 # include "environ.h"
 # include "err.h"
@@ -39,12 +40,12 @@
 
 //# define SHELL_NAME	"SmashMyBashUp"
 # define SHELL_NAME	"zbsh"
+# define BINARY_HASHMAP_SIZE 2048
 # define UNUSED	__attribute__((unused))
 
 extern t_shell	g_shell;
 
 void	show_prompt(void);
-//char	**parse_cmd(t_token **tkn);
 
 /*
 ** Freeing allocated data.

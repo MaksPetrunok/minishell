@@ -18,6 +18,8 @@ static char	*search_path(const char *name, char *path)
 	char	**dirs;
 	char	*ret;
 
+	if ((ret = hmap_get(name, g_shell.binary)) != 0 && access(ret, F_OK) == 0)
+		return (ft_strdup(ret));
 	if ((dirs = ft_strsplit(path, ':')) == 0)
 		return (0);
 	dirs_ref = dirs;
@@ -81,7 +83,7 @@ void	launch_process(char **av, t_env *env)
 		if (access(cmd, X_OK) == 0)
 		{
 			execve(cmd, av, env->av);
-			ft_dprintf(2, "%s: %s: Failed to launch the command\n",
+			ft_dprintf(2, "%s: %s: command not found\n",
 													SHELL_NAME, *av);
 		}
 		else
