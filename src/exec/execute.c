@@ -116,7 +116,6 @@ int			execute(char **av, t_env *env)
 	waitpid(child, &status, 0);
 	g_shell.last_ret = WEXITSTATUS(status);
 	finish_child_processes();
-	switch_term_to(g_shell.term_typing);
 	return (1);
 }
 
@@ -144,6 +143,5 @@ int			execute_redir(char **av, t_env *env, char **io)
 	waitpid(child, &status, 0);
 	g_shell.last_ret = WEXITSTATUS(status);
 	finish_child_processes();
-	switch_term_to(g_shell.term_typing);
 	return (1);
 }

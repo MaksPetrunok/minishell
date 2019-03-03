@@ -98,6 +98,7 @@ void	sh_loop(void)
 		{
 			if ((input = combine_input(input)) != NULL)
 				run = process_input(input);
+//			switch_term_to(g_shell.term_typing);
 		}
 		else
 		{

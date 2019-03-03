@@ -64,6 +64,7 @@ int	exec_wait_pipe(t_ast *node, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
+	finish_child_processes();
 	g_shell.last_ret = WEXITSTATUS(status);
 
 //	ft_printf("WAIT: %s, pid=%d\n", node->tkn_lst->data, getpid());
