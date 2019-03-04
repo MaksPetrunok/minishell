@@ -16,7 +16,7 @@ static t_state_trans	g_fsm_table[5][13] =
 {
 	[S_GEN][CH_GEN] = {S_GEN, &tkn_append},
 	[S_GEN][CH_NLN] = {S_GEN, &tkn_newline},
-	[S_GEN][CH_SCL] = {S_GEN, &tkn_newline}, // semicolon
+	[S_GEN][CH_SCL] = {S_GEN, &tkn_newline},
 	[S_GEN][CH_ESC] = {S_GEN, &tkn_escape},
 	[S_GEN][CH_SQT] = {S_SQT, &tkn_append},
 	[S_GEN][CH_DQT] = {S_DQT, &tkn_append},
@@ -31,6 +31,7 @@ static t_state_trans	g_fsm_table[5][13] =
 	[S_SQT][CH_GEN] = {S_SQT, &tkn_append},
 	[S_SQT][CH_NLN] = {S_SQT, &tkn_append},
 	[S_SQT][CH_ESC] = {S_SQT, &tkn_append},
+	[S_SQT][CH_SCL] = {S_SQT, &tkn_append},
 	[S_SQT][CH_SQT] = {S_GEN, &tkn_append},
 	[S_SQT][CH_DQT] = {S_SQT, &tkn_append},
 	[S_SQT][CH_BQT] = {S_SQT, &tkn_append},
@@ -44,6 +45,7 @@ static t_state_trans	g_fsm_table[5][13] =
 	[S_DQT][CH_GEN] = {S_DQT, &tkn_append},
 	[S_DQT][CH_NLN] = {S_DQT, &tkn_append},
 	[S_DQT][CH_ESC] = {S_DQT, &tkn_escape},
+	[S_DQT][CH_SCL] = {S_DQT, &tkn_append},
 	[S_DQT][CH_SQT] = {S_DQT, &tkn_append},
 	[S_DQT][CH_DQT] = {S_GEN, &tkn_append},
 	[S_DQT][CH_BQT] = {S_DQT, &tkn_append},
@@ -57,6 +59,7 @@ static t_state_trans	g_fsm_table[5][13] =
 	[S_BQT][CH_GEN] = {S_BQT, &tkn_append},
 	[S_BQT][CH_NLN] = {S_BQT, &tkn_append},
 	[S_BQT][CH_ESC] = {S_BQT, &tkn_append},
+	[S_BQT][CH_SCL] = {S_BQT, &tkn_append},
 	[S_BQT][CH_SQT] = {S_BQT, &tkn_append},
 	[S_BQT][CH_DQT] = {S_BQT, &tkn_append},
 	[S_BQT][CH_BQT] = {S_GEN, &tkn_append},
@@ -185,7 +188,6 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 	return (0);
 }
 
-
 static char *get_type(enum e_tkn_type type)
 {
 	switch (type)
@@ -241,7 +243,6 @@ t_token			*tokenize(char *input)
 
 if (0)
 	debug_tknlist(token); // for debug
-	//exit(0);              // for debug
 //	ft_printf("========== END LEXER ===============\n");
 	return (token);
 }

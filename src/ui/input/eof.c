@@ -14,7 +14,6 @@
 
 int	inp_eof(t_inp_buff *buff, char *sym)
 {
-	(void)sym;
 	if (g_shell.const_input == NULL && buff->data[0] == NULL)
 	{
 		write(1, "\n", 1);
@@ -24,11 +23,19 @@ int	inp_eof(t_inp_buff *buff, char *sym)
 	else if (g_shell.const_input == NULL)
 	{
 		if (buff->pos < buff->len)
-			// return ( delete charaacter)
+			return (inp_delete(buff, sym));
 		return (inp_tab(buff, sym));
 	}
-	if (buff->data[0] == NULL)
-		// append Ctrl+D character and handle later in lexer
-		;
+	if (g_shell.inp_state != S_GEN && g_shell.input->len == 0)
+	{
+		free((void *)(g_shell.const_input));
+		g_shell.inp_state = S_GEN;
+		g_shell.input->data[0] = NULL;
+		g_shell.input->pos = 0;
+		g_shell.input->len = 0;
+		g_shell.const_input = NULL;
+		write(2, "\nunexpected EOF token\n", 22);
+		return (0);
+	}
 	return (1);
 }

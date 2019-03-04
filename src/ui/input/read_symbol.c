@@ -28,8 +28,6 @@ void	read_symbol(char *buff, int fd)
 		if (!is_control(buff))
 			*buff = '\0';
 	}
-	else if (*buff > 31)
-		return ;
 	else if ((*buff >> 5) == 0b110)
 		read(fd, buff + 1, 1);
 	else if ((*buff >> 4) == 0b1110)

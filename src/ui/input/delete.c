@@ -36,7 +36,7 @@ int			inp_backsp(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
 	if (buff->pos == 0)
-		return (0);
+		return (1);
 	buff->pos--;
 	cur_mv_left();
 	inp_delete(buff, sym);
@@ -49,7 +49,7 @@ int			inp_delete(t_inp_buff *buff, char *sym)
 
 	(void)sym;
 	if (buff->pos == buff->len)
-		return (0);
+		return (1);
 	free((void *)(buff->data[buff->pos]));
 	i = buff->pos;
 	while (i < buff->len)

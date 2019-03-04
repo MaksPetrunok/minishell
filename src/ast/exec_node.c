@@ -97,7 +97,7 @@ int	semicolon(t_ast *node)
 {
 	if (node->left)
 		execute_tree(node->left);
-	if (node->right)
+	if (node->right && node->right->tkn_lst)
 		execute_tree(node->right);
 	return (1);
 }

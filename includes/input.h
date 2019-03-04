@@ -126,5 +126,6 @@ int				inp_ignore(t_inp_buff *buff, char *sym);
 
 void			read_symbol(char *buff, int fd);
 int				get_input(char **str, int fd);
+void			inp_buff_free(t_inp_buff *buff);
 
 #endif
