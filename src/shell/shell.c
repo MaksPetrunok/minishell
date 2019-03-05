@@ -69,6 +69,7 @@ static void	init_fields(void)
 	g_shell.io_backup[0] = -1;
 	g_shell.io_backup[1] = -1;
 	g_shell.io_backup[2] = -1;
+	g_shell.isearch = 0;
 }
 
 int			init_shell(char **env)

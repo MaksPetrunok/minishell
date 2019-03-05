@@ -45,6 +45,11 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 {
 	int	i;
 
+	if (g_shell.isearch)
+	{
+//ft_printf("Wrong insertion\n");
+		return (inp_isearch(buff, sym));
+	}
 	if (buff->len >= buff->size - 1)
 		if (!increase_buff(buff))
 		{

@@ -91,6 +91,7 @@ MAIN_FILES = main.c \
 			\
 			ui/history/history.c \
 			ui/history/navigate.c \
+			ui/history/search.c \
 			\
 			ui/autocmp/autocomp.c \
 			ui/autocmp/print_options.c \

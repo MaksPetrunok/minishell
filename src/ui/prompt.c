@@ -28,7 +28,10 @@ static int	print_prompt()
 
 	cwd[0] = '\0';
 	is_wd = getcwd(cwd, 5000);
-	if (g_shell.inp_state != S_GEN && g_shell.inp_state != S_HSH)
+	if (g_shell.isearch)
+		return (ft_printf(" (%sreverse-i-search:'%s')\n",
+			g_shell.history->iter ? "" : "failed ", g_shell.srch_req));
+	else if (g_shell.inp_state != S_GEN && g_shell.inp_state != S_HSH)
 		return (ft_printf("%s", qprompt[g_shell.inp_state]));
 	else if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
 	{

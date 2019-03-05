@@ -35,6 +35,8 @@ static void	refresh_inp(t_inp_buff *buff)
 int			inp_backsp(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
+	if (g_shell.isearch)
+		return (inp_isearch(buff, sym));
 	if (buff->pos == 0)
 		return (1);
 	buff->pos--;

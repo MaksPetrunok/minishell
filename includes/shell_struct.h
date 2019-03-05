@@ -48,6 +48,8 @@ typedef struct		s_shell
 	t_history		*history;
 	t_list			*childs;
 	char			*clipboard;
+	int				isearch;
+	char			srch_req[1024];
 }					t_shell;
 
 /*

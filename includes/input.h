@@ -58,7 +58,7 @@
 
 
 
-# define KEY_NUM			22
+# define KEY_NUM			23
 
 # define INP_FD				0
 # define INP_BUFF_SIZE		8
@@ -120,7 +120,7 @@ int				inp_mover(t_inp_buff *buff, char *sym);
 int				inp_delete(t_inp_buff *buff, char *sym);
 int				inp_backsp(t_inp_buff *buff, char *sym);
 int				inp_tab(t_inp_buff *buff, char *sym);
-//int				inp_autocomp(t_inp_buff *buff, char *sym);
+int				inp_isearch(t_inp_buff *buff, char *sym);
 
 int				inp_ignore(t_inp_buff *buff, char *sym);
 

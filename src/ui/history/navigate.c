@@ -24,10 +24,13 @@ static void	free_buff_data(t_inp_buff *buff)
 	buff->data[0] = NULL;
 }
 
-static int	update_input(t_inp_buff *buff, char *str)
+int			update_input(t_inp_buff *buff, char *str)
 {
 	char	sym[2];
+	int		isearch;
 
+	isearch = g_shell.isearch;
+	g_shell.isearch = 0;
 	move_cursor(0, g_shell.positions.prompt.row);
 	tconf("cd");
 	show_prompt();
@@ -38,13 +41,14 @@ static int	update_input(t_inp_buff *buff, char *str)
 		*sym = *str++;
 		inp_insert(buff, sym);
 	}
+	g_shell.isearch = isearch;
 	return (1);
 }
 
 int			inp_hist_prev(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
-//ft_printf("HISTORY PREV\n");
+	g_shell.isearch = 0;
 	if (g_shell.history->stack == NULL)
 		return (0);
 	if (g_shell.history->tmp && g_shell.history->iter->next == NULL)
@@ -69,6 +73,7 @@ int			inp_hist_prev(t_inp_buff *buff, char *sym)
 int			inp_hist_next(t_inp_buff *buff, char *sym)
 {
 	(void)sym;
+	g_shell.isearch = 0;
 	if (g_shell.history->stack == NULL || g_shell.history->tmp == NULL)
 		return (0);
 	if (g_shell.history->iter->prev == NULL)

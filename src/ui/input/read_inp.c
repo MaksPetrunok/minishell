@@ -73,7 +73,6 @@ static void			read_input(t_inp_buff *buff, int fd)
 	char	sym[SYM_SIZE + 1];
 	int		i;
 
-	i = 0;
 	while (1)
 	{
 		i = 0;
@@ -90,6 +89,7 @@ static void			read_input(t_inp_buff *buff, int fd)
 		else if (*sym)
 			inp_insert(buff, sym);
 	}
+	g_shell.isearch = 0;
 	inp_end(buff, 0);
 	clear_from_cursor(buff);
 	switch_term_to(g_shell.term_default);

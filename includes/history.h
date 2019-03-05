@@ -34,5 +34,6 @@ void	free_history(void);
 int		history_add(char *cmd);
 int		inp_hist_prev(t_inp_buff *buff, char *sym);
 int		inp_hist_next(t_inp_buff *buff, char *sym);
+int		update_input(t_inp_buff *buff, char *sym);
 
 #endif
