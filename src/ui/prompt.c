@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:18:53 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 16:19:55 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:10:02 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*qprompt[6] =
+static char	*g_qprompt[6] =
 {
 	[S_SQT] = "quote> ",
 	[S_DQT] = "dquote> ",
@@ -20,7 +20,7 @@ static char	*qprompt[6] =
 	[S_HD] = "heredoc> "
 };
 
-static int	print_prompt()
+static int	print_prompt(void)
 {
 	char	*tmp;
 	char	cwd[5000];
@@ -32,7 +32,7 @@ static int	print_prompt()
 		return (ft_printf(" (%sreverse-i-search:'%s')\n",
 			g_shell.history->iter ? "" : "failed ", g_shell.srch_req));
 	else if (g_shell.inp_state != S_GEN && g_shell.inp_state != S_HSH)
-		return (ft_printf("%s", qprompt[g_shell.inp_state]));
+		return (ft_printf("%s", g_qprompt[g_shell.inp_state]));
 	else if ((tmp = get_var("HOME", g_shell.environ)) == 0 || *tmp == '\0')
 	{
 		if (!is_wd)
@@ -49,7 +49,7 @@ static int	print_prompt()
 			SHELL_NAME, cwd) - 13);
 }
 
-void	show_prompt(void)
+void		show_prompt(void)
 {
 	int		len;
 

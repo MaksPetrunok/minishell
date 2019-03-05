@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:26:31 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 19:27:20 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:11:34 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,8 @@ static enum e_signal	get_signal(char c)
 {
 	if (c == '\\')
 		return (CH_ESC);
-	else if (c == '\'')
-		return (CH_SQT);
-	else if (c == '\"')
-		return (CH_DQT);
+	else if (c == '\'' || c == '\"')
+		return (c == '\'' ? CH_SQT : CH_DQT);
 	else if (c == '`')
 		return (CH_BQT);
 	else if (c == '$')
@@ -111,54 +109,11 @@ static enum e_signal	get_signal(char c)
 		return (CH_HSH);
 	else if (c == '=')
 		return (CH_EQU);
-	else 
+	else
 		return (CH_GEN);
 }
 
-static void		connect_tokens(t_token *prev, t_token *new)
-{
-	if (prev != NULL)
-	{
-		prev->next = new;
-		tkn_complete(&prev, 0);
-		new->prev = prev;
-	}
-	else
-		new->prev = NULL;
-}
-
-/*
-** Initiates new empty token with 'size' bytes allocated for data.
-*/
-
-t_token			*init_token(int size, t_token *prev)
-{
-	t_token	*tkn;
-
-	if ((tkn = malloc(sizeof(t_token))) == NULL)
-		return (NULL);
-	connect_tokens(prev, tkn);
-	if (size > 0)
-	{
-		if ((tkn->data = malloc(size + 1)) == NULL)
-		{
-			free((void *)tkn);
-			report_error(ERR_MALLOC);
-			return (NULL);
-		}
-		*(tkn->data) = '\0';
-	}
-	else
-		tkn->data = NULL;
-	tkn->pos = 0;
-	tkn->complete = 0;
-	tkn->type = -1;
-	tkn->next = NULL;
-	tkn->src = NULL;
-	return (tkn);
-}
-
-static int		iterate(char *input, t_token **lst, enum e_state *st)
+static int				iterate(char *input, t_token **lst, enum e_state *st)
 {
 	t_token			*head;
 	t_token			*token;
@@ -174,8 +129,7 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 			if (do_action(&token, &input) < 0)
 			{
 				tknlst_free(head);
-				ft_dprintf(2, "%s: error while parsing input\n",
-														SHELL_NAME);
+				ft_dprintf(2, "%s: error while parsing input\n", SHELL_NAME);
 				return (-1);
 			}
 		head = (!head && token) ? token : head;
@@ -188,75 +142,38 @@ static int		iterate(char *input, t_token **lst, enum e_state *st)
 	return (0);
 }
 
-static char *get_type(enum e_tkn_type type)
-{
-	switch (type)
-	{
-		case T_WORD: 	return "WORD"; break;
-		case T_IO_NUM: 	return " I/O"; break;
-		case T_ASSIGN: 	return "ASSI"; break;
-		case T_AND: 	return " AND"; break;
-		case T_OR:		return "  OR"; break;
-		case T_AMP:		return " AMP"; break;
-		case T_PIPE:	return "PIPE"; break;
-		case T_NEWLINE: return " N/L"; break;
-		case T_SEMI:	return "SEMI"; break;
-		default:		return "!N/A";
-	}
-}
-
-static void	debug_tknlist(t_token *lst)
-{
-	while (lst)
-	{
-		ft_printf("%s: %s\n", get_type(lst->type), lst->data);
-		lst = lst->next;
-	}
-}
-
-
-t_token			*tokenize(char *input)
+t_token					*tokenize(char *input)
 {
 	t_token			*token;
 	enum e_state	st;
 
 	if (!input)
 		return (0);
-//ft_printf("--------------------- DEBUG: start tokenizing -----------------------\n");
 	token = 0;
 	st = S_GEN;
 	if (iterate(input, &token, &st) == -1)
 	{
-		ft_printf("debug: NULL returned.\n"); // for debug
-		exit(0);                              // for debug
-		return (0);
+		tknlst_free(token);
+		return (NULL);
 	}
 	g_shell.inp_state = st;
 	if (st == S_SQT || st == S_DQT || st == S_BQT)
 	{
 		g_shell.const_input = ft_strdup(input);
-		
-//		ft_dprintf(2, "%s: parsing error - unmatched quotes found\n", SHELL_NAME);
 		tknlst_free(token);
 		return (NULL);
 	}
-
-if (0)
-	debug_tknlist(token); // for debug
-//	ft_printf("========== END LEXER ===============\n");
 	return (token);
 }
 
-void			tknlst_free(t_token *lst)
+void					tknlst_free(t_token *lst)
 {
 	t_token	*tmp;
 
 	while (lst)
 	{
 		tmp = lst->next;
-//ft_printf("> Freeing: %s\n", lst->data);
 		free((void *)(lst->data));
-//ft_printf("> Token: %p\n", lst);
 		free((void *)lst);
 		lst = tmp;
 	}

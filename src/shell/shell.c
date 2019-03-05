@@ -6,13 +6,13 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 16:18:21 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:09:09 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	set_shlvl(void)
+static void		set_shlvl(void)
 {
 	char	*lvl_str;
 	int		lvl;
@@ -32,7 +32,7 @@ static void	set_shlvl(void)
 	free((void *)lvl_str);
 }
 
-int			add_child_process(pid_t pid)
+int				add_child_process(pid_t pid)
 {
 	t_list		*elem;
 	t_process	process;
@@ -56,7 +56,7 @@ unsigned long	get_path_hash(void)
 		return (hash(path));
 }
 
-static void	init_fields(void)
+static void		init_fields(void)
 {
 	g_shell.binary = NULL;
 	g_shell.path_hash = 0;
@@ -72,7 +72,7 @@ static void	init_fields(void)
 	g_shell.isearch = 0;
 }
 
-int			init_shell(char **env)
+int				init_shell(char **env)
 {
 	init_fields();
 	if ((g_shell.environ = init_environment(env)) == NULL)

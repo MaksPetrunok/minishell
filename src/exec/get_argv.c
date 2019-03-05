@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 18:34:03 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 16:56:28 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:28:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void		assign_var(char *str)
 	set_var(str, delim + 1, g_shell.environ);
 }
 
-static void	free_arrays(char ***av, char ***redir_lst)
+static void		free_arrays(char ***av, char ***redir_lst)
 {
 	free((void *)(*av));
 	free((void *)(*redir_lst));
@@ -29,12 +29,12 @@ static void	free_arrays(char ***av, char ***redir_lst)
 	*redir_lst = NULL;
 }
 
-static int	allocate_arrays(char ***av, char ***redir_lst, t_token *lst)
+static int		allocate_arrays(char ***av, char ***redir_lst, t_token *lst)
 {
 	int	size;
 
 	size = 1;
-	while(lst)
+	while (lst)
 	{
 		size++;
 		lst = lst->next;
@@ -74,9 +74,7 @@ static t_token	*add_redirection(t_token *io, char ***redir, int *index)
 	return (io->next);
 }
 
-// if no arguments for av available - free av and redir_lst
-// redir lst consists of sequense of T_IO_NUM->T_WORD->T_IO_NUM-T_WORD...
-char	**get_arg_vector(t_token *lst, char ***redir_lst)
+char			**get_arg_vector(t_token *lst, char ***redir_lst)
 {
 	char	**av;
 	int		index_av;

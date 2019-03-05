@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 16:36:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:28:23 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	fill_binary(char *dir)
 	free((void *)dir);
 }
 
-void	upd_binary_lst(void)
+void		upd_binary_lst(void)
 {
 	char	*path;
 	char	**dirs;
@@ -55,7 +55,6 @@ void	upd_binary_lst(void)
 		return ;
 	}
 	i = 0;
-//ft_printf("Updating binary table\n"); // debug
 	while (dirs[i])
 		fill_binary(dirs[i++]);
 	free((void *)dirs);

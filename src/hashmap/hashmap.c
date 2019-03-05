@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 15:01:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:25:46 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_hashmap	*init_hashmap(int size)
 	return (map);
 }
 
-char	*hmap_get(const char *key, t_hashmap *hmap)
+char		*hmap_get(const char *key, t_hashmap *hmap)
 {
 	int		index;
 	t_hment	*lst;
@@ -49,9 +49,9 @@ char	*hmap_get(const char *key, t_hashmap *hmap)
 	return (NULL);
 }
 
-int		hmap_set(const char *key, const char *val, t_hashmap *hmap)
+int			hmap_set(const char *key, const char *val, t_hashmap *hmap)
 {
-	int	index;
+	int		index;
 	t_hment	*ent;
 
 	if (!key || !val || !hmap)
@@ -78,9 +78,9 @@ int		hmap_set(const char *key, const char *val, t_hashmap *hmap)
 	return (1);
 }
 
-int		hmap_del(const char *key, t_hashmap *hmap)
+int			hmap_del(const char *key, t_hashmap *hmap)
 {
-	int	index;
+	int		index;
 	t_hment	*lst;
 
 	if (!key || !hmap)
@@ -101,7 +101,7 @@ int		hmap_del(const char *key, t_hashmap *hmap)
 	return (0);
 }
 
-void	free_hashmap(t_hashmap *map)
+void		free_hashmap(t_hashmap *map)
 {
 	int		i;
 	t_hment	*e;
@@ -113,7 +113,8 @@ void	free_hashmap(t_hashmap *map)
 	while (i < map->size)
 	{
 		e = map->list[i];
-		while (e) {
+		while (e)
+		{
 			free((void *)(e->key));
 			free((void *)(e->value));
 			tmp = e;

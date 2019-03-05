@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 13:08:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 19:02:30 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:54:37 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	exec_cmd(t_ast *node)
 	return (run);
 }
 
-// executes last command in pipeline and waits for result
 int	exec_wait_pipe(t_ast *node, int *fd)
 {
 	pid_t	pid;
@@ -66,18 +65,13 @@ int	exec_wait_pipe(t_ast *node, int *fd)
 	waitpid(pid, &status, 0);
 	finish_child_processes();
 	g_shell.last_ret = WEXITSTATUS(status);
-
-//	ft_printf("WAIT: %s, pid=%d\n", node->tkn_lst->data, getpid());
 	return (1);
 }
 
-// executes commands in pipeline except last and doesn't wait process
 int	exec_no_wait(t_ast *node)
 {
 	char	**av;
 	char	**redir_lst;
-
-//	ft_dprintf(2, "NO WAIT: %s, pid=%d\n", node->tkn_lst->data, getpid());
 
 	if ((av = get_arg_vector(node->tkn_lst, &redir_lst)) == NULL)
 		exit(1);

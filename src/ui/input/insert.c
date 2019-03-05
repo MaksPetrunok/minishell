@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 14:17:50 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:10:36 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:07:52 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int			inp_insert(t_inp_buff *buff, char *sym)
 
 	if (g_shell.isearch)
 	{
-//ft_printf("Wrong insertion\n");
 		return (inp_isearch(buff, sym));
 	}
 	if (buff->len >= buff->size - 1)

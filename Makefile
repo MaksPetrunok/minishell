@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/03/05 15:50:44 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/05 18:57:48 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ DIR_LST = $(OBJ_DIR) \
 			$(OBJ_DIR)ui/autocmp/
 
 MAIN_FILES = main.c \
+			 main_aux.c \
 			\
 			hashmap/hashmap.c \
 			hashmap/hm_util.c \
@@ -60,6 +61,7 @@ MAIN_FILES = main.c \
 			\
 			ast/tree.c \
 			ast/exec_node.c \
+			ast/exec_pipe.c \
 			\
 			sig/signal.c \
 			\
@@ -67,10 +69,13 @@ MAIN_FILES = main.c \
 			env/environ_util.c \
 			\
 			lex/lexer.c \
-			lex/lexer_util.c \
+			lex/util_1.c \
+			lex/util_2.c \
+			lex/util_3.c \
 			lex/heredoc.c \
 			\
 			parser/parser.c \
+			parser/util.c \
 			\
 			shell/shell.c \
 			shell/shell_exit.c \

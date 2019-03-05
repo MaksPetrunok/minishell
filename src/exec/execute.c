@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:39:33 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/21 19:35:54 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:53:33 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*get_exec_path(const char *name)
 	return (ret);
 }
 
-void	launch_process(char **av, t_env *env)
+void		launch_process(char **av, t_env *env)
 {
 	char	*cmd;
 	t_func	builtin;

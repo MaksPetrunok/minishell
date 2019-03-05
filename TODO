@@ -1,4 +1,4 @@
-Handle Segfault signal?
+Do help.
 
 Bonuses:
 +1. Path rights
@@ -18,7 +18,7 @@ if path found in hash table but does not exist - look at PATH dirs.
 5. Other
 ~5.1. Local variable or assignment to PATH with VAR=Value
 +5.2. && ||
-5.3. Reading instructions from file
++5.3. Reading instructions from file
 5.4. Accomplish instructions in sub-shell? (expansion for `` or $() )
 5.5. export builtin
 +5.6. comment support

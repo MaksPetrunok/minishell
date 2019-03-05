@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 09:44:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/06 20:07:13 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:08:39 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,24 @@
 # define K_DEL			"\x1b\x5b\x33\x7e"
 
 # define K_CTRL_R		"\x12"
-//history
 # define K_UP			"\x1b\x5b\x41"
 # define K_DOWN			"\x1b\x5b\x42"
-//move by word
 # define K_SH_RIGHT		"\x1b\x5b\x31\x3b\x32\x43"
 # define K_SH_LEFT		"\x1b\x5b\x31\x3b\x32\x44"
 
-//move to the begining of a line
 # define K_SH_HOME		"\x1b\x5b\x48"
-//move to the end of line
 # define K_SH_END		"\x1b\x5b\x46"
-//move cursor up/down for multi-line string
 # define K_SH_PGUP		"\x1b\x5b\x35\x7e"
 # define K_SH_PGDOWN	"\x1b\x5b\x36\x7e"
 
-//copy to LEFT/RIGHT from cursor
-//# define K_ALT_RIGHT	"\x1b\x66"
-//# define K_ALT_LEFT		"\x1b\x62"
-
-//copy forward/backward from cursor
 # define K_CTRL_B		"\x2"
 # define K_CTRL_F		"\x6"
 
-//cut the line before cursor position
 # define K_CTRL_U		"\x15"
-//cut the line from cursor position to right
 # define K_CTRL_K		"\x0b"
-//copy all to clipboard
 # define K_CTRL_A		"\x01"
-//cut all to clipboard
 # define K_CTRL_X		"\x18"
-//paste from clipboard
 # define K_CTRL_P		"\x10"
-
-
 
 # define KEY_NUM			23
 
@@ -95,8 +78,6 @@ int				is_control(char *str);
 
 char			*inp_to_str(char **inp);
 int				increase_buff(t_inp_buff *buff);
-
-//void refresh(t_inp_buff *buff, int ins_len);
 
 int				inp_paste(t_inp_buff *buff, char *sym);
 int				inp_copy_all(t_inp_buff *buff, char *sym);

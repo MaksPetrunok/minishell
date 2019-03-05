@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 14:34:06 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 20:14:43 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:22:11 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_token		*get_next_token(t_token *tkn)
 	return (tmp);
 }
 
-static int	append_hd(t_token *hd, t_token *t, char *delim)
+static int			append_hd(t_token *hd, t_token *t, char *delim)
 {
 	t_token	*start;
 	char	*from;
@@ -42,8 +42,8 @@ static int	append_hd(t_token *hd, t_token *t, char *delim)
 		{
 			start->next = get_next_token(get_next_token(t));
 			to = t->src;
-			
-			hd->data = (from != to) ? ft_substr(from + 1, to + 1) : ft_strnew(0);
+			hd->data = (from != to) ?
+				ft_substr(from + 1, to + 1) : ft_strnew(0);
 			return (1);
 		}
 		t = get_next_token(t);
@@ -51,7 +51,7 @@ static int	append_hd(t_token *hd, t_token *t, char *delim)
 	return (0);
 }
 
-static int	move_hd_into(t_token *tkn)
+static int			move_hd_into(t_token *tkn)
 {
 	char	*delim;
 	t_token	*start;
@@ -65,7 +65,7 @@ static int	move_hd_into(t_token *tkn)
 	start = tkn;
 	while (start)
 		if (start->next && start->next->type == T_NEWLINE)
-			break;
+			break ;
 		else
 			start = start->next;
 	if (start == NULL)
@@ -80,22 +80,17 @@ static int	move_hd_into(t_token *tkn)
 	return (ret);
 }
 
-int	open_heredocs(t_token *lst)
+int					open_heredocs(t_token *lst)
 {
 	while (lst)
 	{
-		// check if current token is heredoc redirection
 		if (lst->type == T_IO_NUM)
 		{
-			// if it is heredoc redir and next token is not word - report error
 			if (!lst->next || lst->next->type != T_WORD)
 			{
 				ft_dprintf(2, "syntax error after token '%s'\n", lst->data);
 				return (-1);
 			}
-			// if it's not possible to combine tokens into heredoc
-			// continue input with prompt "heredoc>"
-			// otherwise continue opening other heredocs
 			if (ft_strstr(lst->data, "<<") && !move_hd_into(lst->next))
 				return (0);
 		}

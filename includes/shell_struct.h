@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 16:16:28 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:04:31 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct		s_shell
 {
 	struct termios	*term_typing;
 	struct termios	*term_default;
-	enum e_state	inp_state;	// input state
-	char			*const_input;	// constant buffer
+	enum e_state	inp_state;
+	char			*const_input;
 	int				io_backup[3];
 	unsigned long	path_hash;
 	t_hashmap		*binary;

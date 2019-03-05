@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/10 20:40:18 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/01/04 16:16:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:13:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void	insert(t_list *new, t_list **alst, t_list **iter, t_list **prev)
 		(*prev)->next = new;
 }
 
-int	ft_lstinsuniq(t_list **alst, t_list *new, int (*sort)(void *, void*))
+int			ft_lstinsuniq(t_list **alst, t_list *new,
+										int (*sort)(void *, void*))
 {
 	t_list	*iter;
 	t_list	*prev;

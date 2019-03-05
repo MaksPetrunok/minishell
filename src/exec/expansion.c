@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 09:18:16 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 17:02:32 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:53:00 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static enum e_signal	get_signal(char c)
 		return (CH_SQT);
 	else if (c == '\"')
 		return (CH_DQT);
-	else if (c == '$' || c == '~') // || c == '`')
+	else if (c == '$' || c == '~')
 		return (CH_EXP);
-	else 
+	else
 		return (CH_GEN);
 }
 
@@ -51,7 +51,7 @@ static enum e_signal	get_signal(char c)
 ** Initiates new empty token with 'size' bytes allocated for data.
 */
 
-static int		iterate(char *input, t_token *token, enum e_state *st)
+static int				iterate(char *input, t_token *token, enum e_state *st)
 {
 	enum e_signal	sig;
 	t_lex_func		do_action;
@@ -72,7 +72,7 @@ static int		iterate(char *input, t_token *token, enum e_state *st)
 	return (0);
 }
 
-static void	expand_token(t_token *tkn)
+static void				expand_token(t_token *tkn)
 {
 	enum e_state	st;
 	char			*tmp;
@@ -94,7 +94,7 @@ static void	expand_token(t_token *tkn)
 	free((void *)tmp);
 }
 
-void	expand_tokens(t_token *lst)
+void					expand_tokens(t_token *lst)
 {
 	while (lst)
 	{

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 15:27:58 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:26:56 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,7 @@ void	exit_safely(int __attribute__((unused)) sig)
 
 void	stp_handler(int __attribute__((unused)) sig)
 {
-// just debug function
-move_cursor(0,0);
-	ft_printf("prompt  (%d, %d) \n",
-		g_shell.positions.prompt.col, g_shell.positions.prompt.row);
-	ft_printf("cmd     (%d, %d) \n",
-		g_shell.positions.cmd.col, g_shell.positions.cmd.row);
-	ft_printf("current (%d, %d) \n",
-		g_shell.positions.current.col, g_shell.positions.current.row);
-	ft_printf("buff.pos=%d ", g_shell.input->pos);
-move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
+	(void)sig;
 }
 
 void	sh_sigint_handler(int __attribute__((unused)) sig)
@@ -78,7 +69,7 @@ void	sh_sigint_handler(int __attribute__((unused)) sig)
 void	setup_signals(void)
 {
 	signal(SIGINT, &sh_sigint_handler);
-	signal(SIGTSTP, &stp_handler); //should child processignore SIGSTP?
+	signal(SIGTSTP, &stp_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, &exit_safely);
 	signal(SIGHUP, &exit_safely);

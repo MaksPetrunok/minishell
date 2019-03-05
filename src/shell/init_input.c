@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 15:41:06 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 16:33:50 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:14:46 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static int	set_input(char *path)
 {
 	int	fd;
 
+	if (path == NULL || access(path, F_OK))
+	{
+		ft_dprintf(2, "%s: file '%s' not found\n", SHELL_NAME, path);
+		free((void *)path);
+		return (0);
+	}
 	if ((fd = open(path, O_RDONLY)) == -1)
 	{
 		free((void *)path);
@@ -32,7 +38,7 @@ static int	set_input(char *path)
 	return (1);
 }
 
-int	init_input(int ac, char **av)
+int			init_input(int ac, char **av)
 {
 	char	*path;
 	char	cwd[4100];
@@ -53,12 +59,6 @@ int	init_input(int ac, char **av)
 		path = ft_strdup(av[1]);
 	else
 		path = ft_strjoin3(cwd, "/", av[1]);
-	if (path == NULL || access(path, F_OK))
-	{
-		ft_dprintf(2, "%s: file '%s' not found\n", SHELL_NAME, path);
-		free((void *)path);
-		return (0);
-	}
 	if (!set_input(path))
 		return (0);
 	return (1);

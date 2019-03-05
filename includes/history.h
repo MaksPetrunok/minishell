@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 15:46:28 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/28 15:46:30 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:10:16 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 typedef struct s_dlist	t_dlist;
 
-struct		s_dlist
+struct			s_dlist
 {
-	char	*str;
-	t_dlist	*prev;
-	t_dlist	*next;
+	char		*str;
+	t_dlist		*prev;
+	t_dlist		*next;
 };
 
 typedef struct	s_history
@@ -29,11 +29,11 @@ typedef struct	s_history
 	char		*tmp;
 }				t_history;
 
-int		init_history(void);
-void	free_history(void);
-int		history_add(char *cmd);
-int		inp_hist_prev(t_inp_buff *buff, char *sym);
-int		inp_hist_next(t_inp_buff *buff, char *sym);
-int		update_input(t_inp_buff *buff, char *sym);
+int				init_history(void);
+void			free_history(void);
+int				history_add(char *cmd);
+int				inp_hist_prev(t_inp_buff *buff, char *sym);
+int				inp_hist_next(t_inp_buff *buff, char *sym);
+int				update_input(t_inp_buff *buff, char *sym);
 
 #endif

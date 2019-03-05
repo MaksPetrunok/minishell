@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/06 17:25:12 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:08:08 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 
-typedef struct	s_hment t_hment;
+typedef struct s_hment	t_hment;
 
 struct			s_hment
 {
@@ -46,7 +46,5 @@ void			free_hashmap(t_hashmap *map);
 unsigned long	hash(const char *str);
 t_hment			*new_hmentry(const char *key, const char *value);
 void			del_hmentry(t_hment *ent);
-
-void	hmap_print(t_hashmap *map); // debug ?
 
 #endif

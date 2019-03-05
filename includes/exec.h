@@ -6,17 +6,14 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 18:20:31 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:09:38 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-#include "parser.h"
-
-
-//typedef int			(*t_exec_func)(t_ast *node);
+# include "parser.h"
 
 /*
 ** execute.c

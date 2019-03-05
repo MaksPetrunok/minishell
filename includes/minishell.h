@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:54 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/21 18:54:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:09:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 # include <termcap.h>
 # include <term.h>
 
-//# define SHELL_NAME	"SmashMyBashUp"
 # define SHELL_NAME	"zbsh"
 # define BINARY_HASHMAP_SIZE 2048
 # define UNUSED	__attribute__((unused))
@@ -57,5 +56,12 @@ void	env_free(t_env *env);
 
 void	setup_signals(void);
 void	sh_sigint_handler(int sig);
+
+/*
+** main_aux.c
+*/
+int		process_input(char *input);
+char	*combine_input(char *inp);
+void	add_newline(void);
 
 #endif

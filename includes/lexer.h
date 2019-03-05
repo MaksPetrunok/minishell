@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:25:59 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 19:26:24 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:06:48 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ enum	e_signal
 enum	e_tkn_type
 {
 	T_WORD,
-	T_IO_NUM,	// auto
+	T_IO_NUM,
 	T_ASSIGN,
-	T_AND,		//auto
-	T_OR,		//auto
-	T_PIPE,		//auto
-	T_AMP,		//auto
+	T_AND,
+	T_OR,
+	T_PIPE,
+	T_AMP,
 	T_SEMI,
-	T_NEWLINE	//auto
+	T_NEWLINE
 };
 
 typedef struct s_token	t_token;
@@ -92,34 +92,19 @@ int					tkn_escdqt(t_token **tkn, char **s);
 /*
 ** heredoc.c
 */
-int	open_heredocs(t_token *lst);
-
+int					open_heredocs(t_token *lst);
 
 /*
 ** FSM transition functions:
 */
-
-// create new token and add current character as first token character
 int					tkn_create(t_token **tkn, char **s);
-// create T_NEWLINE token
 int					tkn_newline(t_token **tkn, char **s);
-//add current character to the end of current token
-//if **tkn marked as complete (tkn->complete == 1), initiate new token
 int					tkn_append(t_token **tkn, char **s);
-// depending on curent status opens escape sequense:
-// S_GEN : |  &  ;  <  >  (  )  $  `  \  "  '  <space> \t \n #
-// S_DQT : $   `   "   \   \t \n
 int					tkn_escape(t_token **tkn, char **s);
-
-// find all characters related to expansion and add them to token
 int					tkn_expans(t_token **tkn, char **s);
-// find all characters related i/o redirection and add to token
 int					tkn_ionumb(t_token **tkn, char **s);
 int					tkn_complete(t_token **tkn, char **s);
-// check if it is logical operator (&& or ||), pipe(|) or single &
-// delimit current tkn, create new corresponding token and delimit it as well
 int					tkn_logic(t_token **tkn, char **s);
-// check if it is valid variable assignment and make corresponding token
 int					tkn_assign(t_token **tkn, char **s);
 
 #endif

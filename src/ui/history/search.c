@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 16:45:00 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 15:04:10 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:08:18 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	reset_search(void)
 	g_shell.history->iter = g_shell.history->stack;
 }
 
-int	inp_isearch(t_inp_buff *buff, char *sym)
+int			inp_isearch(t_inp_buff *buff, char *sym)
 {
 	char		*result;
 
@@ -56,4 +56,3 @@ int	inp_isearch(t_inp_buff *buff, char *sym)
 	show_prompt();
 	return (1);
 }
-
