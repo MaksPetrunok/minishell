@@ -1,4 +1,4 @@
-Welcome to zbsh shell!
+       Welcome to zbsh shell!
 
 Shell syntax supports the following command delimiters:
 ; - commands executed in order they are written,
