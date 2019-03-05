@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2018/12/13 19:48:42 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:54:27 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char		**get_builtin_list(char **list)
 	list[i++] = "setenv";
 	list[i++] = "unsetenv";
 	list[i++] = "echo";
+	list[i++] = "help";
 	list[i] = 0;
 	return (list);
 }
@@ -41,6 +42,7 @@ static void	set_builtin_funcs(t_func *list)
 	list[i++] = &builtin_setenv;
 	list[i++] = &builtin_unsetenv;
 	list[i++] = &builtin_echo;
+	list[i++] = &builtin_help;
 }
 
 static int	get_builtin_index(const char *s)

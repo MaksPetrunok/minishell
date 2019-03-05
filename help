@@ -1,0 +1,34 @@
+Welcome to zbsh shell!
+
+Shell syntax supports the following command delimiters:
+; - commands executed in order they are written,
+| - pipeline redirects output of command to the input of next command,
+|| - logical or,
+&& - logical and.
+
+Text followed after unquoted '#' considered as a comment.
+
+The following I/O redirections supported: >, <, >>, <<.
+
+To stop running process, or clear input command - use Ctrl+C.
+
+Shell has the following builtin functions:
+	echo, pwd, cd, env, setenv, unsetenv, exit.
+To see builtin command usage use the following syntax:
+help [builtin name]
+
+Input editing shortcuts:
+Shift + Page Up   - move cursor up one line,
+Shift + Page Down - move cursor down one line,
+Shift + Left      - move cursor left by one word,
+Shift + Right     - move cursor right by one word,
+Shift + Home      - move cursor to the begining of the line,
+Shift + End       - move cursor to the end of the line,
+Ctrl + A - copy all the line to clipboard,
+Ctrl + B - copy the line before cursor to clipboard,
+Ctrl + F - copy the line from cursor to the end to clipboard,
+Ctrl + X - cut all the line to clipboard,
+Ctrl + U - cut the line before cursor to clipboard,
+Ctrl + K - cut the line from cursor to the end to clipboard,
+Ctrl + P - paste from clipboard,
+TAB      - launch autocompletion.

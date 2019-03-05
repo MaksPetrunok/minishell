@@ -1,5 +1,3 @@
-Do help.
-
 Bonuses:
 +1. Path rights
 
@@ -22,6 +20,6 @@ if path found in hash table but does not exist - look at PATH dirs.
 5.4. Accomplish instructions in sub-shell? (expansion for `` or $() )
 5.5. export builtin
 +5.6. comment support
-5.7. help
++5.7. help
 5.8. Add token line numeration for advanced error handling (useful for running script from file).
 

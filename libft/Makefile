@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/18 19:56:14 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/05 19:25:25 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,15 +129,8 @@ $(NAME): $(OBJ_LIST)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)$(FT_PRINTF_DIR) #new line
-	@$(CC) $(FLAGS) -I $(INC_DIR) -c $^ -o $@
-
-#IS THIS NECESSARY??
-#$(OBJ_DIR)$(FT_PRINTF_DIR)%.o: $(SRC_DIR)$(FT_PRINTF_DIR)%.c
-#	@mkdir -p $(OBJ_DIR)
-#	@mkdir -p $(OBJ_DIR)$(FT_PRINTF_DIR)
-#	@$(CC) $(FLAGS) -I $(INC_DIR) -c $^ -o $@
-#	@echo "FILE FROM PRINTF COMPILED"
+	@mkdir -p $(OBJ_DIR)$(FT_PRINTF_DIR)
+	$(CC) $(FLAGS) -I $(INC_DIR) -c $^ -o $@
 
 clean:
 	@echo "$(NAME): Cleaning object files... "

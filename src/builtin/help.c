@@ -6,32 +6,32 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 15:01:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 20:25:29 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    *usage[10] =
+int	builtin_help(char **av, t_env *env)
 {
-    US_CD,
-    US_ECHO,
-    US_SETENV,
-    US_UNSETENV,
-    US_ENV,
-    US_EXIT,
-    US_UI
-};
-
-Shell syntax supports the following command delimiters:
-; - commands executed in order they are written,
-| - pipeline redirects output of command to the input of next command,
-|| - logical or,
-&& - logical and.
-The following I/O redirections supported: >, <, >>, <<.
-To stop running process, or clear input command - use Ctrl+C.
-Shell supports the following builtin functions: echo, pwd, cd, env, setenv, unsetenv, exit.
-To see builtin command usage use the following syntax:
-help [builtin name].
-To see input editing hotkeys type
-help ui
+	(void)env;
+	if (av[1] == NULL)
+		ft_printf("%s\n", HELP);
+	else if (ft_strequ(av[1], "cd"))
+		ft_printf("%s\n", US_CD);
+	else if (ft_strequ(av[1], "echo"))
+		ft_printf("%s\n", US_ECHO);
+	else if (ft_strequ(av[1], "setenv"))
+		ft_printf("%s\n", US_SETENV);
+	else if (ft_strequ(av[1], "unsetenv"))
+		ft_printf("%s\n", US_UNSETENV);
+	else if (ft_strequ(av[1], "env"))
+		ft_printf("%s\n", US_ENV);
+	else if (ft_strequ(av[1], "exit"))
+		ft_printf("%s\n", US_EXIT);
+	else if (ft_strequ(av[1], "ui"))
+		ft_printf("%s\n", US_UI);
+	else
+		ft_dprintf(2, "help: no entry found\n");
+	return (1);
+}

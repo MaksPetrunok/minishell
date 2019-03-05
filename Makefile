@@ -6,11 +6,11 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/03/05 18:57:48 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/05 19:52:30 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = 21sh
 
 CC = gcc
 
@@ -122,7 +122,8 @@ BUILTIN = builtin.c \
 			env.c \
 			setenv.c \
 			unsetenv.c \
-			echo.c
+			echo.c \
+			help.c
 
 SRC_LIST = $(MAIN_FILES) \
 			$(addprefix $(BUILTIN_DIR), $(BUILTIN))
@@ -136,13 +137,13 @@ $(NAME): $(LIB) $(DIR_LST) $(OBJ_LIST)
 	@echo "$(NAME) - Done."
 
 $(LIB):
-	@make -C $(LIB_DIR) all --silent
+	@make -C $(LIB_DIR) all
 
 $(DIR_LST):
 	@mkdir -p $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
+	$(CC) $(FLAGS) -I $(INC_DIR) -I $(LIB_INC_DIR) -c $^ -o $@
 
 
 clean:
