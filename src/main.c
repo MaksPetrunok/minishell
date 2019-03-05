@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/28 15:01:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:44:37 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ int		process_input(char *input)
 
 	g_shell.run = 1;
 
-	if (!g_shell.canonical)
+	if (!g_shell.canonical && g_shell.interactive)
 		write(1, "\n", 1);
 	tkn_lst = tokenize(input);
 
 //	ft_printf("INPUT: %s<<<\n", input);
 
+	
 	run = 1;
 	root = NULL;
 	if ((hd_status = open_heredocs(tkn_lst)) > 0)
@@ -90,7 +91,7 @@ void	sh_loop(void)
 	int		run;
 
 	run = 1;
-	while (run)
+	while (run) 
 	{
 		upd_binary_lst();
 		show_prompt();
@@ -98,14 +99,14 @@ void	sh_loop(void)
 		{
 			if ((input = combine_input(input)) != NULL)
 				run = process_input(input);
-//			switch_term_to(g_shell.term_typing);
 		}
-		else
+		else if (g_shell.interactive)
 		{
 			if (g_shell.inp_state == S_HD)
 				append_newline();
 			write(1, "\n", 1);
 		}
+		run = g_shell.interactive || *input;
 		free((void *)input);
 	}
 }
@@ -114,6 +115,8 @@ int		main(int ac, char **av, char **ev)
 {
 	(void)av;
 	(void)ac;
+	if (!init_input(ac, av))
+		return (1);
 	if (init_shell(ev) != 0)
 	{
 		ft_dprintf(2, "cannot launch shell, failed to allocate memory\n");

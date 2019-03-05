@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 20:10:49 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 16:36:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:18:21 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ int			init_shell(char **env)
 	if ((g_shell.environ = init_environment(env)) == NULL)
 		return (-1);
 	set_shlvl();
+	upd_binary_lst();
+	if (!g_shell.interactive)
+		return (0);
 	if (ioctl(0, TIOCGWINSZ, &(g_shell.winsize)) == -1)
 		return (-1);
-	upd_binary_lst();
 	if (setup_terminal() != 0 || init_history() != 0)
 	{
 		free_hashmap(g_shell.binary);

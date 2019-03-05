@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 02:32:57 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:08:58 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:35:06 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,14 @@ void		free_history(void)
 void		exit_shell(void)
 {
 	finish_child_processes();
-	if (switch_term_to(g_shell.term_default) == -1)
+	if (g_shell.interactive && switch_term_to(g_shell.term_default) == -1)
 		ft_dprintf(2, "%s: unable restore terminal settings\n", SHELL_NAME);
 	free_child_list();
+	env_free(g_shell.environ);
+	free_hashmap(g_shell.binary);
+	free((void *)(g_shell.clipboard));
+	if (!g_shell.interactive)
+		return ;
 	free_history();
 	free_terminals();
-	env_free(g_shell.environ);
-	free((void *)(g_shell.clipboard));
 }

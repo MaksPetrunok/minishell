@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/25 18:27:37 by mpetruno          #+#    #+#              #
-#    Updated: 2019/02/28 18:21:55 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/05 15:50:44 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ MAIN_FILES = main.c \
 			shell/shell.c \
 			shell/shell_exit.c \
 			shell/binary.c \
+			shell/init_input.c \
 			\
 			ui/input/buffer.c \
 			ui/input/read_inp.c \

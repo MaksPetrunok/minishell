@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 13:52:12 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:10:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:21:39 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int					get_input(char **inp_str, int fd)
 	t_inp_buff	*inp_buff;
 	int			len;
 
-	if (g_shell.canonical)
+	if (g_shell.canonical || !g_shell.interactive)
 		return (get_next_line(fd, inp_str));
 	if ((inp_buff = init_inp_buff()) == NULL)
 	{

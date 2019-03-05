@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 11:55:26 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:07:57 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:55:31 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	expand_tilde(t_token *tkn)
 	tkn->data = tmp;
 	return (0);
 }
-
+/*
 int	expand_ss_to(char delim, t_token *tkn, char **inp)
 {
 	char	*end;
@@ -46,7 +46,7 @@ int	expand_ss_to(char delim, t_token *tkn, char **inp)
 ft_printf("debug> expand_ss_to: %s\n", *inp);
 	return (0);
 }
-
+*/
 int	open_var(t_token *tkn, char *name)
 {
 	char	*str;
@@ -105,21 +105,21 @@ int	expand_str(t_token **tkn, char **inp)
 {
 	if (**inp == '~')
 		return (expand_tilde(*tkn));
-	else if (**inp == '`')
-	{
-		*inp += 1;
-		return (expand_ss_to('`', *tkn, inp));
-	}
+//	else if (**inp == '`')
+//	{
+//		*inp += 1;
+//		return (expand_ss_to('`', *tkn, inp));
+//	}
 	else if (**inp == '$' && *(*inp + 1) == '\0')
 	{
 		tkn_add(tkn, inp);
 		return (0);
 	}
-	else if (**inp == '$' && *(*inp + 1) == '(')
-	{
-		*inp += 2;
-		return (expand_ss_to(')', *tkn, inp));
-	}
+//	else if (**inp == '$' && *(*inp + 1) == '(')
+//	{
+///		*inp += 2;
+//		return (expand_ss_to(')', *tkn, inp));
+//	}
 	else if (**inp == '$')
 	{
 		*inp += 1;

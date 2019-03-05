@@ -1,5 +1,3 @@
-Free all shell_struct in exit_shell()
-
 Handle Segfault signal?
 
 Bonuses:

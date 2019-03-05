@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 07:04:27 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/20 16:35:47 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:16:28 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct		s_shell
 	t_list			*childs;
 	char			*clipboard;
 	int				isearch;
+	int				interactive;
 	char			srch_req[1024];
 }					t_shell;
 
@@ -75,5 +76,10 @@ int					add_child_process(pid_t pid);
 ** binary.c
 */
 void				upd_binary_lst(void);
+
+/*
+** init_input.c
+*/
+int					init_input(int ac, char **av);
 
 #endif

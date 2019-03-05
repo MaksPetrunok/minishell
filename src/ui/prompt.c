@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 13:18:53 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 15:50:48 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:19:55 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	show_prompt(void)
 {
 	int		len;
 
+	if (!g_shell.interactive)
+		return ;
 	switch_term_to(g_shell.term_typing);
 	set_cursor(&(g_shell.positions.prompt));
 	tconf("cd");

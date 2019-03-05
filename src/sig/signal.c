@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 18:40:01 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 13:40:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 15:27:58 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ move_cursor(g_shell.positions.current.col, g_shell.positions.current.row);
 
 void	sh_sigint_handler(int __attribute__((unused)) sig)
 {
+	if (sig == SIGSEGV)
+	{
+		exit_shell();
+		ft_dprintf(2, "\n%s: unexpected error\n", SHELL_NAME);
+		exit(1);
+	}
 	if (g_shell.input != NULL)
 	{
 		while (g_shell.input->len >= 0)
@@ -77,4 +83,5 @@ void	setup_signals(void)
 	signal(SIGTERM, &exit_safely);
 	signal(SIGHUP, &exit_safely);
 	signal(SIGWINCH, &win_size_handler);
+	signal(SIGSEGV, &sh_sigint_handler);
 }

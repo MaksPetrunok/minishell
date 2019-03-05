@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 19:57:56 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:11:30 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:30:24 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	set_terminal_db(void)
 	static int	shell_initiation = 1;
 	char		*name;
 
+	if (!g_shell.interactive)
+		return (1);
 	name = get_var("TERM", g_shell.environ);
 	if (name == 0 || !isatty(0) || tgetent(0, name) != 1)
 	{

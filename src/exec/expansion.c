@@ -6,43 +6,11 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 09:18:16 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 13:26:51 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:02:32 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * 1. Set tkn size to data length.
- * 2. Maloc data as lengh + 1 bytes and set to ""
- * 3. Use FSM to open quotes and perform expansions.
- *
- * Read characters while not $ or ~.
- * - if ~ found:
- *   - replace ~ with \0 in original string
- *   - tmp = ft_strjoin3(str, expand_tilda(), str + 2), check if segfaults possible
- *   - free original string and set tmp instead
- * - if $ found - 
- * Tokens:
- * NEWLINE
- * IO_NUMBER (I/O redirection: pipe, >, <, >> or <<)
- * WORD
- * ASSIGN (variable assignment - only if it is first token, or there is preceeding NEWLINE
- * AND
- * OR
- */
-
-/*
- * States: S_GEN - general (inside word)
- *         S_WSP - whitespace (between words) // not needed? close token upon witespace and go further
- *         S_IOR - I/O redirection (after > or <)
- *         S_SQT - single quote
- *         S_DQT - double quote
- *         S_ESC - escape sequense
- *         S_LOG - logical operator? (after | or &) check if it's pipe, &, && or ||
- */
-
-// Add hash # recognition for comments handling
 
 static t_state_trans	g_fsm_table[4][12] =
 {
@@ -73,7 +41,7 @@ static enum e_signal	get_signal(char c)
 		return (CH_SQT);
 	else if (c == '\"')
 		return (CH_DQT);
-	else if (c == '$' || c == '~' || c == '`')
+	else if (c == '$' || c == '~') // || c == '`')
 		return (CH_EXP);
 	else 
 		return (CH_GEN);

@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 16:45:00 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/02/18 11:10:03 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/05 15:04:10 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	inp_isearch(t_inp_buff *buff, char *sym)
 	else if (g_shell.isearch && *sym == 0x12 && g_shell.history->iter != NULL)
 		g_shell.history->iter = g_shell.history->iter->next;
 	else if (g_shell.isearch && *sym == 0x7f)
+	{
 		g_shell.srch_req[ft_strlen(g_shell.srch_req) - 1] = '\0';
+		g_shell.history->iter = g_shell.history->stack;
+	}
 	else if (g_shell.isearch && *sym != 0x12 &&
 		ft_strlen(g_shell.srch_req) < 1020)
 		g_shell.srch_req[ft_strlen(g_shell.srch_req)] = *sym;
