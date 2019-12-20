@@ -4,7 +4,7 @@ A command line interface as project at 42School.
 
 ## Installing
 
-To compile this project termcap library installed on your computer will be required.
+To compile this project termcap library installed on your computer will be required on Linux.
 For example on Ubuntu termcap library may be added using
 ```
 sudo apt-get install libncurses5-dev
