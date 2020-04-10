@@ -1,6 +1,6 @@
 # 21sh | minishell
 
-A command line interface as project at 42School.
+A command line interpreter as project at 42School.
 
 ## Installing
 
